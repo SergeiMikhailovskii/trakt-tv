@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.mikhailovskii.trakttv;
 
 public class User {
 
@@ -19,7 +19,7 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
+    void setPassword(String password) {
         this.password = password;
     }
 
@@ -27,7 +27,7 @@ public class User {
         return token;
     }
 
-    public void setToken(String token) {
+    void setToken(String token) {
         this.token = token;
     }
 
@@ -35,7 +35,7 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
+    void setUsername(String username) {
         this.username = username;
     }
 

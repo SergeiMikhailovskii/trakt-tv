@@ -4,4 +4,6 @@
     <string name="password">Password</string>
     <string name="log_in_with_facebook">Log in with facebook</string>
     <string name="enter">Enter</string>
+    <string name="facebook_app_id">634172213715592</string>
+    <string name="fb_login_protocol_scheme">fb634172213715592</string>
 </resources>

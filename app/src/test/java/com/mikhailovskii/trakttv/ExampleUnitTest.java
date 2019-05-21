@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.mikhailovskii.trakttv;
 
 import org.junit.Test;
 
