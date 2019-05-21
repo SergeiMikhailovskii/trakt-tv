@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 public class LoginPresenter implements LoginContract.LoginPresenter {
 
@@ -26,10 +25,8 @@ public class LoginPresenter implements LoginContract.LoginPresenter {
         String login = bundle.getString(MainActivity.LOGIN);
         String password = bundle.getString(MainActivity.PASSWORD);
         SharedPreferences sharedPreferences = mainActivity.getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString(MainActivity.LOGIN, login);
-        sharedPreferences.edit().putString(MainActivity.PASSWORD, password);
-        sharedPreferences.edit().apply();
-
+        sharedPreferences.edit().putString(MainActivity.LOGIN, login).apply();
+        sharedPreferences.edit().putString(MainActivity.PASSWORD, password).apply();
     }
 
     @Override
