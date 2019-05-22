@@ -7,6 +7,7 @@ public interface LoginContract {
     interface LoginView{
 
         void onLoggedIn();
+
         void onLoginFailed();
 
     }
@@ -14,8 +15,11 @@ public interface LoginContract {
     interface LoginPresenter{
 
         void attachView(LoginActivity loginActivity);
+
         void detachView();
+
         void emailLogin(Bundle bundle);
+
         void facebookLogin();
 
     }
