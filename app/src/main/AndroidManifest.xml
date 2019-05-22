@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
-        <activity android:name="com.mikhailovskii.trakttv.LoginActivity">
+        <activity android:name="com.mikhailovskii.trakttv.ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,7 +22,7 @@
         </activity>
 
         <activity
-            android:name="com.mikhailovskii.trakttv.MainActivity"
+            android:name="com.mikhailovskii.trakttv.ui.main.MainActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

@@ -1,4 +1,4 @@
-package com.mikhailovskii.trakttv;
+package com.mikhailovskii.trakttv.ui.login;
 
 import android.os.Bundle;
 

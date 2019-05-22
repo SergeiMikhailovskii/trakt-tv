@@ -1,4 +1,4 @@
-package com.mikhailovskii.trakttv;
+package com.mikhailovskii.trakttv.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.mikhailovskii.trakttv.ui.main.MainActivity;
+import com.mikhailovskii.trakttv.R;
 
 import java.util.Collections;
 

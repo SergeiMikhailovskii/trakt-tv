@@ -1,4 +1,4 @@
-package com.mikhailovskii.trakttv;
+package com.mikhailovskii.trakttv.ui.login;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

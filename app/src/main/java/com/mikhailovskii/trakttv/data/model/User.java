@@ -20,7 +20,7 @@ public class User {
         return password;
     }
 
-    void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -28,7 +28,7 @@ public class User {
         return token;
     }
 
-    void setToken(String token) {
+    public void setToken(String token) {
         this.token = token;
     }
 
@@ -36,7 +36,7 @@ public class User {
         return username;
     }
 
-    void setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
