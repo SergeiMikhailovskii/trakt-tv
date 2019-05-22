@@ -13,7 +13,7 @@ public interface LoginContract {
 
     interface LoginPresenter{
 
-        void attachView(MainActivity mainActivity);
+        void attachView(LoginActivity loginActivity);
         void detachView();
         void emailLogin(Bundle bundle);
         void facebookLogin();

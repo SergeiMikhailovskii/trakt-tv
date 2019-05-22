@@ -1,4 +1,4 @@
-package com.mikhailovskii.trakttv;
+package com.mikhailovskii.trakttv.data.model;
 
 public class User {
 
@@ -7,6 +7,7 @@ public class User {
     private String token;
     private String username;
 
+    // todo add annotations
     public String getEmail() {
         return email;
     }
