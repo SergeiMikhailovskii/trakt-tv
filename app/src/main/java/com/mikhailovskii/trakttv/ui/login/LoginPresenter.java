@@ -7,27 +7,18 @@ import android.os.Bundle;
 
 import com.facebook.AccessToken;
 import com.mikhailovskii.trakttv.data.model.User;
+import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 
 import java.util.Objects;
 
-public class LoginPresenter implements LoginContract.LoginPresenter {
+public class LoginPresenter extends BasePresenter<LoginContract.LoginView>
+        implements LoginContract.LoginPresenter {
 
-    private LoginActivity loginActivity;
     private User user;
-    private final String PREFERENCES = "Preferences";
+    // private final String PREFERENCES = "Preferences";
 
-    LoginPresenter(){
+    LoginPresenter() {
         user = new User();
-    }
-
-    @Override
-    public void attachView(LoginActivity loginActivity) {
-        this.loginActivity = loginActivity;
-    }
-
-    @Override
-    public void detachView() {
-        this.loginActivity = null;
     }
 
     @SuppressLint("CommitPrefEdits")
@@ -37,10 +28,13 @@ public class LoginPresenter implements LoginContract.LoginPresenter {
         String password = bundle.getString(LoginActivity.PASSWORD);
         user.setUsername(login);
         user.setPassword(password);
-        SharedPreferences sharedPreferences = loginActivity.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString(LoginActivity.LOGIN, login).apply();
-        sharedPreferences.edit().putString(LoginActivity.PASSWORD, password).apply();
-        loginActivity.onLoggedIn();
+
+        // todo insert context
+//        SharedPreferences sharedPreferences = view.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+//        sharedPreferences.edit().putString(LoginActivity.LOGIN, login).apply();
+//        sharedPreferences.edit().putString(LoginActivity.PASSWORD, password).apply();
+
+        view.onLoggedIn();
     }
 
     @Override
@@ -48,9 +42,9 @@ public class LoginPresenter implements LoginContract.LoginPresenter {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         String token = Objects.requireNonNull(accessToken).getToken();
         user.setToken(token);
-        SharedPreferences sharedPreferences = loginActivity.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        String TOKEN = "Token";
-        sharedPreferences.edit().putString(TOKEN, token).apply();
+//        SharedPreferences sharedPreferences = loginActivity.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+//        String TOKEN = "Token";
+//        sharedPreferences.edit().putString(TOKEN, token).apply();
     }
 
 }

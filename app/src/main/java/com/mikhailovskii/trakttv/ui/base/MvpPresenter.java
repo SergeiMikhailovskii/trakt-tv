@@ -1,9 +1,9 @@
 package com.mikhailovskii.trakttv.ui.base;
 
 
-public interface MvpPresenter {
+public interface MvpPresenter<View> {
 
-    void attachView();
+    void attachView(View view);
 
     void detachView();
 

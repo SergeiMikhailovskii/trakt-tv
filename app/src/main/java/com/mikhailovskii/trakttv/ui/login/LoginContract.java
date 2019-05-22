@@ -2,9 +2,12 @@ package com.mikhailovskii.trakttv.ui.login;
 
 import android.os.Bundle;
 
+import com.mikhailovskii.trakttv.ui.base.MvpPresenter;
+import com.mikhailovskii.trakttv.ui.base.MvpView;
+
 public interface LoginContract {
 
-    interface LoginView{
+    interface LoginView extends MvpView {
 
         void onLoggedIn();
 
@@ -12,11 +15,7 @@ public interface LoginContract {
 
     }
 
-    interface LoginPresenter{
-
-        void attachView(LoginActivity loginActivity);
-
-        void detachView();
+    interface LoginPresenter extends MvpPresenter<LoginView> {
 
         void emailLogin(Bundle bundle);
 

@@ -17,7 +17,8 @@ import com.mikhailovskii.trakttv.R;
 
 import java.util.Collections;
 
-public class LoginActivity extends AppCompatActivity implements LoginContract.LoginView {
+public class LoginActivity extends AppCompatActivity
+        implements LoginContract.LoginView {
 
     private static final String EMAIL = "email";
     public static final String LOGIN = "Login";
@@ -33,8 +34,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        init();
         mLoginPresenter.attachView(this);
+        init();
     }
 
     @Override
@@ -58,6 +59,18 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Lo
     @Override
     public void onLoginFailed() {
         Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showMessage(String message) {
+    }
+
+    @Override
+    public void showEmptyState(Boolean value) {
+    }
+
+    @Override
+    public void showLoadingIndicator(Boolean value) {
     }
 
     private void init() {
