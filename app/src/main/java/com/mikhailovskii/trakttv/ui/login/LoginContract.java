@@ -17,9 +17,7 @@ public interface LoginContract {
 
     interface LoginPresenter extends MvpPresenter<LoginView> {
 
-        void emailLogin(Bundle bundle);
-
-        void facebookLogin();
+        void saveUserData(Bundle bundle);
 
     }
 

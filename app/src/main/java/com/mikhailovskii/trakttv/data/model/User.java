@@ -7,6 +7,13 @@ public class User {
     private String token;
     private String username;
 
+    public User(String email, String password, String token, String username) {
+        this.email = email;
+        this.password = password;
+        this.token = token;
+        this.username = username;
+    }
+
     // todo add annotations
     public String getEmail() {
         return email;

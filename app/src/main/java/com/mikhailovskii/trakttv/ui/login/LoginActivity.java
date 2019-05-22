@@ -12,8 +12,8 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.mikhailovskii.trakttv.ui.main.MainActivity;
 import com.mikhailovskii.trakttv.R;
+import com.mikhailovskii.trakttv.ui.main.MainActivity;
 
 import java.util.Collections;
 
@@ -21,87 +21,53 @@ public class LoginActivity extends AppCompatActivity
         implements LoginContract.LoginView {
 
     private static final String EMAIL = "email";
-    public static final String LOGIN = "Login";
-    public static final String PASSWORD = "Password";
+
+    public static final String EXTRA_LOGIN = "EXTRA_LOGIN";
+    public static final String EXTRA_PASSWORD = "EXTRA_PASSWORD";
+    public static final String EXTRA_TOKEN = "EXTRA_TOKEN";
+    public static final String EXTRA_EMAIL = "EXTRA_EMAIL";
 
     private EditText mLoginEdit;
     private EditText mPasswordEdit;
     private LoginButton mFacebookButton;
-    private CallbackManager callbackManager;
-    private LoginPresenter mLoginPresenter;
+    private Button mLoginButton;
+
+    private CallbackManager mCallbackManager;
+    private LoginPresenter mPresenter = new LoginPresenter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mLoginPresenter.attachView(this);
-        init();
-    }
+        mPresenter.attachView(this);
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mLoginPresenter.detachView();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onLoggedIn() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onLoginFailed() {
-        Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showMessage(String message) {
-    }
-
-    @Override
-    public void showEmptyState(Boolean value) {
-    }
-
-    @Override
-    public void showLoadingIndicator(Boolean value) {
-    }
-
-    private void init() {
-        callbackManager = CallbackManager.Factory.create();
+        // Find views
         mLoginEdit = findViewById(R.id.login_edit);
         mPasswordEdit = findViewById(R.id.password_edit);
         mFacebookButton = findViewById(R.id.facebook_button);
-        Button mLoginButton = findViewById(R.id.login);
+        mLoginButton = findViewById(R.id.login);
 
-        facebookButtonInit();
+        // Handle login button
+        mLoginButton.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(EXTRA_LOGIN, mLoginEdit.getText().toString());
+            bundle.putString(EXTRA_PASSWORD, mPasswordEdit.getText().toString());
 
-        mLoginPresenter = new LoginPresenter();
+            mPresenter.saveUserData(bundle);
+        });
 
-        mLoginButton.setOnClickListener(v -> onLoginClick());
-
-    }
-
-    private void onLoginClick() {
-        Bundle bundle = new Bundle();
-        bundle.putString(LOGIN, mLoginEdit.getText().toString());
-        bundle.putString(PASSWORD, mPasswordEdit.getText().toString());
-        mLoginPresenter.emailLogin(bundle);
-    }
-
-    private void facebookButtonInit() {
+        // Facebook logic
+        mCallbackManager = CallbackManager.Factory.create();
         mFacebookButton.setReadPermissions(Collections.singletonList(EMAIL));
-        mFacebookButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        mFacebookButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                mLoginPresenter.facebookLogin();
-                onLoggedIn();
+                Bundle bundle = new Bundle();
+                bundle.putString(EXTRA_TOKEN, loginResult.getAccessToken().getToken());
+                // todo also get email from FACEBOOK
+                bundle.putString(EXTRA_EMAIL, null);
+
+                mPresenter.saveUserData(bundle);
             }
 
             @Override
@@ -114,6 +80,45 @@ public class LoginActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.detachView();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onLoggedIn() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onLoginFailed() {
+        // todo move UI strings in String file
+        Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showEmptyState(Boolean value) {
+
+    }
+
+    @Override
+    public void showLoadingIndicator(Boolean value) {
+
     }
 
 }
