@@ -20,7 +20,7 @@ import java.util.Collections;
 public class LoginActivity extends AppCompatActivity
         implements LoginContract.LoginView {
 
-    private static final String EMAIL = "email";
+    private static final String FB_EMAIL_PERMISSION = "email";
 
     public static final String EXTRA_LOGIN = "EXTRA_LOGIN";
     public static final String EXTRA_PASSWORD = "EXTRA_PASSWORD";
@@ -58,26 +58,27 @@ public class LoginActivity extends AppCompatActivity
 
         // Facebook logic
         mCallbackManager = CallbackManager.Factory.create();
-        mFacebookButton.setReadPermissions(Collections.singletonList(EMAIL));
+        mFacebookButton.setReadPermissions(Collections.singletonList(FB_EMAIL_PERMISSION));
         mFacebookButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Bundle bundle = new Bundle();
                 bundle.putString(EXTRA_TOKEN, loginResult.getAccessToken().getToken());
-                // todo also get email from FACEBOOK
-                bundle.putString(EXTRA_EMAIL, null);
+                bundle.putString(EXTRA_EMAIL, null); // todo also get email from FACEBOOK
 
                 mPresenter.saveUserData(bundle);
             }
 
             @Override
             public void onCancel() {
-                Toast.makeText(getApplicationContext(), "Request Cancelled", Toast.LENGTH_SHORT).show();
+                // todo move UI strings into String file
+                Toast.makeText(getApplicationContext(), "Login with FB cancelled", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException error) {
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                // todo move UI strings into String file
+                Toast.makeText(getApplicationContext(), "Failed to login with FB", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -102,7 +103,7 @@ public class LoginActivity extends AppCompatActivity
 
     @Override
     public void onLoginFailed() {
-        // todo move UI strings in String file
+        // todo move UI strings into String file
         Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_SHORT).show();
     }
 
