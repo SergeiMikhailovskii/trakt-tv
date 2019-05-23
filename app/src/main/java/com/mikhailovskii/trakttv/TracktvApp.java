@@ -2,6 +2,7 @@ package com.mikhailovskii.trakttv;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 public class TracktvApp extends Application {
 
@@ -13,6 +14,7 @@ public class TracktvApp extends Application {
         sAppContext = getApplicationContext();
     }
 
+    @NonNull
     public static Context getAppContext() {
         return sAppContext;
     }

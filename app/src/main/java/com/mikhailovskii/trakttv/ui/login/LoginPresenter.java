@@ -1,6 +1,7 @@
 package com.mikhailovskii.trakttv.ui.login;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.mikhailovskii.trakttv.TracktvApp;
 import com.mikhailovskii.trakttv.data.model.User;
@@ -11,7 +12,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView>
         implements LoginContract.LoginPresenter {
 
     @Override
-    public void saveUserData(Bundle bundle) {
+    public void saveUserData(@NonNull Bundle bundle) {
         String login = bundle.getString(LoginActivity.EXTRA_LOGIN);
         String password = bundle.getString(LoginActivity.EXTRA_PASSWORD);
         User user = new User(null, password, null, login);

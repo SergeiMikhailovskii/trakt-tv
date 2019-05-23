@@ -7,6 +7,7 @@ public class User {
     private String token;
     private String username;
 
+    // todo always add constructor into model
     public User(String email, String password, String token, String username) {
         this.email = email;
         this.password = password;

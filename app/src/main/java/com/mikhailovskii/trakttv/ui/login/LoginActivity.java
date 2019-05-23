@@ -2,6 +2,8 @@ package com.mikhailovskii.trakttv.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,7 +38,7 @@ public class LoginActivity extends AppCompatActivity
     private LoginPresenter mPresenter = new LoginPresenter();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mPresenter.attachView(this);
@@ -108,17 +110,17 @@ public class LoginActivity extends AppCompatActivity
     }
 
     @Override
-    public void showMessage(String message) {
+    public void showMessage(@NonNull String message) {
 
     }
 
     @Override
-    public void showEmptyState(Boolean value) {
+    public void showEmptyState(@NonNull Boolean value) {
 
     }
 
     @Override
-    public void showLoadingIndicator(Boolean value) {
+    public void showLoadingIndicator(@NonNull Boolean value) {
 
     }
 
