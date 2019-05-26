@@ -1,13 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/movies"
-
         android:icon="@drawable/ic_list"
         android:title="@string/movie" />
 
     <item
         android:id="@+id/favorites"
-        android:icon="@drawable/ic_list"
+        android:icon="@drawable/ic_favorite"
         android:title="@string/favorites" />
 
     <item

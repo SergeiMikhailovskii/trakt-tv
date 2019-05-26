@@ -13,9 +13,14 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView>
 
     @Override
     public void saveUserData(@NonNull Bundle bundle) {
+
         String login = bundle.getString(LoginActivity.EXTRA_LOGIN);
         String password = bundle.getString(LoginActivity.EXTRA_PASSWORD);
-        User user = new User(null, password, null, login);
+        String email = bundle.getString(LoginActivity.EXTRA_EMAIL);
+        String id = bundle.getString(LoginActivity.EXTRA_ID);
+        String token = bundle.getString(LoginActivity.EXTRA_TOKEN);
+
+        User user = new User(email, password, token, login, id);
 
         Preference.getInstance(TracktvApp.getAppContext()).setUser(user);
 

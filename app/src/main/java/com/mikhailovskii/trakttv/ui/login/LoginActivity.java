@@ -12,22 +12,28 @@ import android.widget.Toast;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.ui.main.MainActivity;
+
+import org.json.JSONException;
 
 import java.util.Collections;
 
 public class LoginActivity extends AppCompatActivity
         implements LoginContract.LoginView {
 
-    private static final String FB_EMAIL_PERMISSION = "email";
-
     public static final String EXTRA_LOGIN = "EXTRA_LOGIN";
     public static final String EXTRA_PASSWORD = "EXTRA_PASSWORD";
     public static final String EXTRA_TOKEN = "EXTRA_TOKEN";
     public static final String EXTRA_EMAIL = "EXTRA_EMAIL";
+    public static final String EXTRA_ID = "EXTRA_ID";
+
+    private static final String FB_EMAIL_PERMISSION = "email";
+    private static final String FB_ID_PERMISSION = "id";
 
     private EditText mLoginEdit;
     private EditText mPasswordEdit;
@@ -64,23 +70,44 @@ public class LoginActivity extends AppCompatActivity
         mFacebookButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
+                final String[] email = new String[1];
+                final String[] id = new String[1];
+
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        (object, response) -> {
+                            GraphResponse response1 = response;
+                            try {
+                                email[0] = object.getString(FB_EMAIL_PERMISSION);
+                                id[0] = object.getString(FB_ID_PERMISSION);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            response.getRawResponse();
+                        });
+
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,email");
+                request.setParameters(parameters);
+                request.executeAsync();
+
                 Bundle bundle = new Bundle();
                 bundle.putString(EXTRA_TOKEN, loginResult.getAccessToken().getToken());
-                bundle.putString(EXTRA_EMAIL, null); // todo also get email from FACEBOOK
+                bundle.putString(EXTRA_EMAIL, email[0]);
+                bundle.putString(EXTRA_ID, id[0]);
 
                 mPresenter.saveUserData(bundle);
             }
 
             @Override
             public void onCancel() {
-                // todo move UI strings into String file
-                Toast.makeText(getApplicationContext(), "Login with FB cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.login_fb_cancelled), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException error) {
-                // todo move UI strings into String file
-                Toast.makeText(getApplicationContext(), "Failed to login with FB", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.failed_fb_login), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -105,8 +132,7 @@ public class LoginActivity extends AppCompatActivity
 
     @Override
     public void onLoginFailed() {
-        // todo move UI strings into String file
-        Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
     }
 
     @Override
