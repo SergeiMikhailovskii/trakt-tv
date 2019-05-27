@@ -9,19 +9,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.ui.main.MainActivity;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.util.Collections;
+
 
 public class LoginActivity extends AppCompatActivity
         implements LoginContract.LoginView {
@@ -66,7 +67,7 @@ public class LoginActivity extends AppCompatActivity
 
         // Facebook logic
         mCallbackManager = CallbackManager.Factory.create();
-        mFacebookButton.setReadPermissions(Collections.singletonList(FB_EMAIL_PERMISSION));
+        mFacebookButton.setPermissions(FB_EMAIL_PERMISSION);
         mFacebookButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -75,12 +76,18 @@ public class LoginActivity extends AppCompatActivity
                 final String[] id = new String[1];
 
                 GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
+                        AccessToken.getCurrentAccessToken(),
                         (object, response) -> {
-                            GraphResponse response1 = response;
                             try {
-                                email[0] = object.getString(FB_EMAIL_PERMISSION);
-                                id[0] = object.getString(FB_ID_PERMISSION);
+                                if (response.getJSONObject() != null) {
+                                    JSONObject data = response.getJSONObject();
+                                    if (data.has(FB_EMAIL_PERMISSION)) {
+                                        email[0] = response.getJSONObject().getString(FB_EMAIL_PERMISSION);
+                                    }
+                                    if (data.has(FB_ID_PERMISSION)) {
+                                        id[0] = response.getJSONObject().getString(FB_ID_PERMISSION);
+                                    }
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -88,7 +95,7 @@ public class LoginActivity extends AppCompatActivity
                         });
 
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,email");
+                parameters.putString("fields",FB_EMAIL_PERMISSION);
                 request.setParameters(parameters);
                 request.executeAsync();
 

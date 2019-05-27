@@ -16,6 +16,7 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.ProfileView>
     @Override
     public void logOut() {
         Preference.getInstance(TracktvApp.getAppContext()).setUser(null);
-        view.onLogOut();
+        view.onLogOutSuccess();
     }
+
 }

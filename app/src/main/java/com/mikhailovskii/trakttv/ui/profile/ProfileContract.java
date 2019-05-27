@@ -8,7 +8,9 @@ public interface ProfileContract {
 
     interface ProfileView extends MvpView{
 
-        void onLogOut();
+        void onLogOutSuccess();
+
+        void onUserDataLoaded();
 
     }
 

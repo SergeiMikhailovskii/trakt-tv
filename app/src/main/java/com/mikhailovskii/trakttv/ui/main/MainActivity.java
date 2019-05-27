@@ -40,10 +40,12 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
-            fragmentTransaction.replace(R.id.fragments, Objects.requireNonNull(fragment));
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            fragmentTransaction.commit();
+            if (fragment != null) {
+                fragmentTransaction.replace(R.id.fragments, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                fragmentTransaction.commit();
+            }
 
             return false;
         });
