@@ -71,22 +71,27 @@ public class LoginActivity extends AppCompatActivity
         mFacebookButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
-                final String[] email = new String[1];
-                final String[] id = new String[1];
-
                 GraphRequest request = GraphRequest.newMeRequest(
                         AccessToken.getCurrentAccessToken(),
                         (object, response) -> {
                             try {
                                 if (response.getJSONObject() != null) {
                                     JSONObject data = response.getJSONObject();
+                                    String email = null;
+                                    String id = null;
                                     if (data.has(FB_EMAIL_PERMISSION)) {
-                                        email[0] = response.getJSONObject().getString(FB_EMAIL_PERMISSION);
+                                        email = response.getJSONObject().getString(FB_EMAIL_PERMISSION);
                                     }
                                     if (data.has(FB_ID_PERMISSION)) {
-                                        id[0] = response.getJSONObject().getString(FB_ID_PERMISSION);
+                                        id = response.getJSONObject().getString(FB_ID_PERMISSION);
                                     }
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString(EXTRA_TOKEN, loginResult.getAccessToken().getToken());
+                                    bundle.putString(EXTRA_EMAIL, email);
+                                    bundle.putString(EXTRA_ID, id);
+
+                                    mPresenter.saveUserData(bundle);
+
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -98,13 +103,6 @@ public class LoginActivity extends AppCompatActivity
                 parameters.putString("fields",FB_EMAIL_PERMISSION);
                 request.setParameters(parameters);
                 request.executeAsync();
-
-                Bundle bundle = new Bundle();
-                bundle.putString(EXTRA_TOKEN, loginResult.getAccessToken().getToken());
-                bundle.putString(EXTRA_EMAIL, email[0]);
-                bundle.putString(EXTRA_ID, id[0]);
-
-                mPresenter.saveUserData(bundle);
             }
 
             @Override
