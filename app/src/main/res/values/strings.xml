@@ -14,7 +14,8 @@
     <string name="failed_fb_login">Failed to login with FB</string>
     <string name="login_failed">Login failed!</string>
     <string name="log_out">Log out</string>
-    <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
     <string name="id">ID</string>
     <string name="email">Email</string>
+
+
 </resources>
