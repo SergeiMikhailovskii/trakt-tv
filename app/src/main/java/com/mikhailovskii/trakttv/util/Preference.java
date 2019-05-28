@@ -1,5 +1,6 @@
 package com.mikhailovskii.trakttv.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -16,6 +17,7 @@ public class Preference {
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
 
+    @SuppressLint("CommitPrefEdits")
     private Preference(Context context) {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         mEditor = mSharedPreferences.edit();
@@ -30,13 +32,12 @@ public class Preference {
     }
 
     public void setUser(@Nullable User user) {
-        mEditor.putString(PREF_USER, new Gson().toJson(user));
-        mEditor.commit();
+        mEditor.putString(PREF_USER, new Gson().toJson(user)).commit();
     }
 
     @Nullable
-    public String getUser() {
-        return new Gson().toJson(mSharedPreferences.getString(PREF_USER, null));
+    public User getUser() {
+        return new Gson().fromJson(mSharedPreferences.getString(PREF_USER, null), User.class);
     }
 
 }
