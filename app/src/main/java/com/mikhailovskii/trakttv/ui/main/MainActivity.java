@@ -6,12 +6,10 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.ui.profile.ProfileFragment;
 
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 

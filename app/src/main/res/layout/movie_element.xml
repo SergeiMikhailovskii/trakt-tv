@@ -17,7 +17,7 @@
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/showname_textview"
+        android:id="@+id/moviename_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -32,6 +32,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@id/icon_imageview"
-        app:layout_constraintTop_toTopOf="@id/showname_textview" />
+        app:layout_constraintTop_toTopOf="@id/moviename_textview" />
 
 </android.support.constraint.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.mikhailovskii.trakttv.ui.list;
+package com.mikhailovskii.trakttv.ui.movies_list;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mikhailovskii.trakttv.R;
 
 import java.util.List;
@@ -21,10 +22,13 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
 
     private OnItemClickListener<Movie> onItemClickListener;
 
+    private Context context;
 
-    public MoviesRecyclerAdapter(List<Movie> moviesList, Context context){
+
+    public MoviesRecyclerAdapter(List<Movie> moviesList, Context context) {
         this.moviesList = moviesList;
         layoutInflater = LayoutInflater.from(context);
+        this.context = context;
     }
 
     @NonNull
@@ -35,19 +39,22 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
 
         viewHolder.itemView.setOnClickListener(v -> {
             int position = viewHolder.getAdapterPosition();
-            if (position!=RecyclerView.NO_POSITION){
-
+            if (position != RecyclerView.NO_POSITION) {
+                fireItemClicked(position, moviesList.get(position));
             }
         });
-
-
 
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-
+        Movie movie = moviesList.get(i);
+        Glide.with(context)
+                .load(movie.getIconUrl())
+                .into(viewHolder.mIconImageView);
+        viewHolder.mMottoTextView.setText(movie.getMotto());
+        viewHolder.mMovieNameTextView.setText(movie.getName());
     }
 
 
@@ -56,27 +63,37 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
         return moviesList.size();
     }
 
+    private void fireItemClicked(int position, Movie movie) {
+        if (onItemClickListener != null) {
+            onItemClickListener.onItemClicked(position, movie);
+        }
+    }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    public void setOnItemClickListener(OnItemClickListener<Movie> listener){
+        onItemClickListener = listener;
+    }
+
+
+    public interface OnItemClickListener<T> {
+        void onItemClicked(int position, T item);
+    }
+
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView mIconImageView;
-        public TextView mShowNametextView;
+        public TextView mMovieNameTextView;
         public TextView mMottoTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mIconImageView = itemView.findViewById(R.id.icon_imageview);
-            mShowNametextView = itemView.findViewById(R.id.showname_textview);
+            mMovieNameTextView = itemView.findViewById(R.id.moviename_textview);
             mMottoTextView = itemView.findViewById(R.id.motto_textview);
 
         }
 
-    }
-
-
-    public interface OnItemClickListener<T>{
-        void onItemClicked(int position, T item);
     }
 
 }

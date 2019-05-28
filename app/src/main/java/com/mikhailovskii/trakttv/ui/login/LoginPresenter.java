@@ -7,7 +7,7 @@ import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
-import com.mikhailovskii.trakttv.TracktvApp;
+import com.mikhailovskii.trakttv.TraktTvApp;
 import com.mikhailovskii.trakttv.data.model.User;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 import com.mikhailovskii.trakttv.util.Preference;
@@ -40,7 +40,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView>
 
         User user = new User(email, password, token, login, id, avatar);
 
-        Preference.getInstance(TracktvApp.getAppContext()).setUser(user);
+        Preference.getInstance(TraktTvApp.getAppContext()).setUser(user);
 
         view.onLoggedIn();
     }

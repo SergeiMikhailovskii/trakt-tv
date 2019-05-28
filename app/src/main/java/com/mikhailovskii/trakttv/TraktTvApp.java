@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-public class TracktvApp extends Application {
+public class TraktTvApp extends Application {
 
     private static Context sAppContext;
 
