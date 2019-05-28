@@ -8,14 +8,12 @@
 
     <ImageView
         android:id="@+id/avatar"
-        android:layout_width="@dimen/avatar_width"
-        android:layout_height="@dimen/avatar_height"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_marginTop="@dimen/base_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/description_textview"

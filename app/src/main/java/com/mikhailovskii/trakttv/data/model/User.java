@@ -9,13 +9,15 @@ public class User {
     private String token;
     private String username;
     private String id;
+    private String avatar;
 
-    public User(String email, String password, String token, String username, String id) {
+    public User(String email, String password, String token, String username, String id, String avatar) {
         this.email = email;
         this.password = password;
         this.token = token;
         this.username = username;
         this.id = id;
+        this.avatar = avatar;
     }
 
     @NonNull
@@ -63,4 +65,12 @@ public class User {
         this.id = id;
     }
 
+    @NonNull
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 }

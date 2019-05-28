@@ -9,8 +9,9 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.ProfileView>
         implements ProfileContract.ProfilePresenter {
 
     @Override
-    public User getData() {
-        return Preference.getInstance(TracktvApp.getAppContext()).getUser();
+    public void getUser() {
+        User user = Preference.getInstance(TracktvApp.getAppContext()).getUser();
+        view.onUserDataLoaded(user);
     }
 
     @Override

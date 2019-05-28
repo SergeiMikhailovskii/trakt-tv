@@ -9,32 +9,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.ui.main.MainActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-
 
 public class LoginActivity extends AppCompatActivity
         implements LoginContract.LoginView {
 
-    public static final String EXTRA_LOGIN = "EXTRA_LOGIN";
-    public static final String EXTRA_PASSWORD = "EXTRA_PASSWORD";
-    public static final String EXTRA_TOKEN = "EXTRA_TOKEN";
-    public static final String EXTRA_EMAIL = "EXTRA_EMAIL";
-    public static final String EXTRA_ID = "EXTRA_ID";
-
     private static final String FB_EMAIL_PERMISSION = "email";
-    private static final String FB_ID_PERMISSION = "id";
 
     private EditText mLoginEdit;
     private EditText mPasswordEdit;
@@ -59,8 +46,8 @@ public class LoginActivity extends AppCompatActivity
         // Handle login button
         mLoginButton.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(EXTRA_LOGIN, mLoginEdit.getText().toString());
-            bundle.putString(EXTRA_PASSWORD, mPasswordEdit.getText().toString());
+            bundle.putString(LoginPresenter.EXTRA_LOGIN, mLoginEdit.getText().toString());
+            bundle.putString(LoginPresenter.EXTRA_PASSWORD, mPasswordEdit.getText().toString());
 
             mPresenter.saveUserData(bundle);
         });
@@ -71,38 +58,7 @@ public class LoginActivity extends AppCompatActivity
         mFacebookButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                GraphRequest request = GraphRequest.newMeRequest(
-                        AccessToken.getCurrentAccessToken(),
-                        (object, response) -> {
-                            try {
-                                if (response.getJSONObject() != null) {
-                                    JSONObject data = response.getJSONObject();
-                                    String email = null;
-                                    String id = null;
-                                    if (data.has(FB_EMAIL_PERMISSION)) {
-                                        email = response.getJSONObject().getString(FB_EMAIL_PERMISSION);
-                                    }
-                                    if (data.has(FB_ID_PERMISSION)) {
-                                        id = response.getJSONObject().getString(FB_ID_PERMISSION);
-                                    }
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString(EXTRA_TOKEN, loginResult.getAccessToken().getToken());
-                                    bundle.putString(EXTRA_EMAIL, email);
-                                    bundle.putString(EXTRA_ID, id);
-
-                                    mPresenter.saveUserData(bundle);
-
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            response.getRawResponse();
-                        });
-
-                Bundle parameters = new Bundle();
-                parameters.putString("fields",FB_EMAIL_PERMISSION);
-                request.setParameters(parameters);
-                request.executeAsync();
+                mPresenter.proceedWithFbLogin(loginResult);
             }
 
             @Override

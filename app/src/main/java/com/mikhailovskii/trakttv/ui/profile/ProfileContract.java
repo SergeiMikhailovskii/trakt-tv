@@ -6,17 +6,17 @@ import com.mikhailovskii.trakttv.ui.base.MvpView;
 
 public interface ProfileContract {
 
-    interface ProfileView extends MvpView{
+    interface ProfileView extends MvpView {
 
         void onLogOutSuccess();
 
-        void onUserDataLoaded();
+        void onUserDataLoaded(User user);
 
     }
 
-    interface ProfilePresenter extends MvpPresenter<ProfileView>{
+    interface ProfilePresenter extends MvpPresenter<ProfileView> {
 
-        User getData();
+        void getUser();
 
         void logOut();
 

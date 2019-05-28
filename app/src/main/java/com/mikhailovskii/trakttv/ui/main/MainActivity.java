@@ -30,12 +30,15 @@ public class MainActivity extends AppCompatActivity {
             switch (menuItem.getItemId()) {
 
                 case R.id.movies:
+                    menuItem.setChecked(true);
                     break;
 
                 case R.id.favorites:
+                    menuItem.setChecked(true);
                     break;
 
                 case R.id.profile:
+                    menuItem.setChecked(true);
                     fragment = new ProfileFragment();
                     break;
             }
