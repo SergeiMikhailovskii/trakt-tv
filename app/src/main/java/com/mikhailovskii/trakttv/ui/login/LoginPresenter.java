@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.mikhailovskii.trakttv.TracktvApp;
 import com.mikhailovskii.trakttv.data.model.User;
@@ -68,6 +69,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView>
                             bundle.putString(EXTRA_EMAIL, email);
                             bundle.putString(EXTRA_ID, id);
                             bundle.putString(EXTRA_AVATAR, "https://graph.facebook.com/v2.2/" + id + "/picture?height=120&type=normal");
+                            bundle.putString(EXTRA_LOGIN, Profile.getCurrentProfile().getName());
+
 
 
                             saveUserData(bundle);

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -27,6 +28,9 @@ public class ProfileFragment extends Fragment
 
     private Button mLogOutButton;
     private ImageView mAvatar;
+    private TextView mLoginTextView;
+    private TextView mIdTextView;
+    private TextView mEmailTextView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -38,6 +42,9 @@ public class ProfileFragment extends Fragment
         //Find views
         mLogOutButton = view.findViewById(R.id.log_out_button);
         mAvatar = view.findViewById(R.id.avatar);
+        mLoginTextView = view.findViewById(R.id.login_textview);
+        mIdTextView = view.findViewById(R.id.id_textview);
+        mEmailTextView = view.findViewById(R.id.email_textview);
 
         //Handle logout button
         mLogOutButton.setOnClickListener(v -> mProfilePresenter.logOut());
@@ -54,10 +61,15 @@ public class ProfileFragment extends Fragment
 
     @Override
     public void onUserDataLoaded(User user) {
-        Glide.with(Objects.requireNonNull(getContext())).
-                load(user.getAvatar()).
-                apply(RequestOptions.circleCropTransform()).
-                into(mAvatar);
+        Glide.with(Objects.requireNonNull(getContext()))
+                .load(user.getAvatar())
+                .error(R.drawable.ic_error_profile)
+                .apply(RequestOptions.circleCropTransform())
+                .into(mAvatar);
+
+        mEmailTextView.setText(user.getEmail());
+        mIdTextView.setText(user.getId());
+        mLoginTextView.setText(user.getUsername());
     }
 
     @Override
