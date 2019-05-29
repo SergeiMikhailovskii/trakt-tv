@@ -1,11 +1,16 @@
-package com.mikhailovskii.trakttv.ui.movies_list;
+package com.mikhailovskii.trakttv.data.model;
 
 import android.support.annotation.NonNull;
+
+import com.google.gson.annotations.SerializedName;
 
 public class Movie {
 
     private String iconUrl;
+
+    @SerializedName("Title")
     private String name;
+
     private String motto;
 
     public Movie(String iconUrl, String name, String motto) {

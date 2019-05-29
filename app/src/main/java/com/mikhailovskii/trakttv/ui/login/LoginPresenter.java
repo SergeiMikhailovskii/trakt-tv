@@ -45,6 +45,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView>
         view.onLoggedIn();
     }
 
+    @Override
     public void proceedWithFbLogin(LoginResult loginResult) {
         GraphRequest request = GraphRequest.newMeRequest(
                 AccessToken.getCurrentAccessToken(),

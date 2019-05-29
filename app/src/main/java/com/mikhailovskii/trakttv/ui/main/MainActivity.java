@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.mikhailovskii.trakttv.R;
+import com.mikhailovskii.trakttv.ui.movies_list.MoviesListFragment;
 import com.mikhailovskii.trakttv.ui.profile.ProfileFragment;
 
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.movies:
                     menuItem.setChecked(true);
+                    fragment = new MoviesListFragment();
                     break;
 
                 case R.id.favorites:
