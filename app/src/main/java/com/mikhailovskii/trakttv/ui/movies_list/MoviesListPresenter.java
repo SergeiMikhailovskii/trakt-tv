@@ -25,6 +25,20 @@ public class MoviesListPresenter extends BasePresenter<MoviesListContract.Movies
         list.add(new Movie("https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png", "Movie 3", "Motto 3"));*/
 
 
+
+/*        Call<Integer> authorizeCall = NetworkService.getInstance().getAPIService().authorize();
+        authorizeCall.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Log.i("ResCode", response.code()+"");
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+
+            }
+        });*/
+
         Call<List<MoviesListResponse>> moviesListCall = NetworkService.getInstance().getAPIService().getMovies();
         moviesListCall.enqueue(new Callback<List<MoviesListResponse>>() {
             @Override

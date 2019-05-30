@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.data.model.Movie;
