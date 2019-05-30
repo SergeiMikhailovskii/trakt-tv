@@ -21,6 +21,12 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
 
+        FragmentTransaction startTransaction = getSupportFragmentManager().beginTransaction();
+        MoviesListFragment moviesListFragment = new MoviesListFragment();
+        startTransaction.add(R.id.fragments, moviesListFragment);
+        startTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        startTransaction.commit();
+
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
 
             Fragment fragment = null;

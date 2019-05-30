@@ -8,7 +8,7 @@ public class Movie {
 
     private String iconUrl;
 
-    @SerializedName("Title")
+    @SerializedName("title")
     private String name;
 
     private String motto;
