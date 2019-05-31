@@ -68,21 +68,19 @@ public class MoviesListPresenter extends BasePresenter<MoviesListContract.Movies
             }
         });*/
 
-        Call<Integer> authorizeCall = NetworkService.getInstance().getAPIService().authorize();
-        authorizeCall.enqueue(new Callback<Integer>() {
+        Call<List<MoviesListResponse>> movies = NetworkService.getInstance().getAPIService().getMovies();
+        movies.enqueue(new Callback<List<MoviesListResponse>>() {
             @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
+            public void onResponse(Call<List<MoviesListResponse>> call, Response<List<MoviesListResponse>> response) {
                 Log.i("ResCode", response.code() + "");
                 view.onMoviesListDownloadSuccess(list);
             }
 
             @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-                Log.i("ResCode", "Download failed");
+            public void onFailure(Call<List<MoviesListResponse>> call, Throwable t) {
+
             }
         });
-
-
     }
 
     @Override
