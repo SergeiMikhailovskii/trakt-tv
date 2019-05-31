@@ -38,6 +38,8 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
                 .load(getIntent().getStringExtra(MoviesListFragment.EXTRA_IMAGE))
                 .into(mMovieImageView);
 
+        mPresenter.getExtendedInfo();
+
 
     }
 

@@ -6,17 +6,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class Movie {
 
-    private String iconUrl;
+    public String iconUrl;
 
     @SerializedName("title")
-    private String name;
+    public String name;
 
-    private String motto;
+    @SerializedName("year")
+    public String year;
 
-    public Movie(String iconUrl, String name, String motto) {
+    @SerializedName("ids")
+    public MovieIDS movieIDS;
+
+    public Movie(String iconUrl, String name, String year) {
         this.iconUrl = iconUrl;
         this.name = name;
-        this.motto = motto;
+        this.year = year;
     }
 
     @NonNull
@@ -38,12 +42,12 @@ public class Movie {
     }
 
     @NonNull
-    public String getMotto() {
-        return motto;
+    public String getYear() {
+        return year;
     }
 
-    public void setMotto(String motto) {
-        this.motto = motto;
+    public void setYear(String year) {
+        this.year = year;
     }
 
 }

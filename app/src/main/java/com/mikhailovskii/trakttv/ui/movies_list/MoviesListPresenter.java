@@ -20,9 +20,11 @@ public class MoviesListPresenter extends BasePresenter<MoviesListContract.Movies
     public void downloadMoviesList() {
         Log.i(MoviesListFragment.TAG, "In download movies list");
         List<Movie> list = new ArrayList<>();
-/*        list.add(new Movie("https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png", "Movie 1", "Motto 1"));
+/*
+        list.add(new Movie("https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png", "Movie 1", "Motto 1"));
         list.add(new Movie("https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png", "Movie 2", "Motto 2"));
-        list.add(new Movie("https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png", "Movie 3", "Motto 3"));*/
+        list.add(new Movie("https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png", "Movie 3", "Motto 3"));
+*/
 
 
 
@@ -44,6 +46,7 @@ public class MoviesListPresenter extends BasePresenter<MoviesListContract.Movies
             @Override
             public void onResponse(Call<List<MoviesListResponse>> call, Response<List<MoviesListResponse>> response) {
                 Log.i("ResCode", response.code() + "");
+                view.onMoviesListDownloadSuccess(list);
             }
 
             @Override
@@ -53,7 +56,6 @@ public class MoviesListPresenter extends BasePresenter<MoviesListContract.Movies
         });
 
 
-        view.onMoviesListDownloadSuccess(list);
 
     }
 

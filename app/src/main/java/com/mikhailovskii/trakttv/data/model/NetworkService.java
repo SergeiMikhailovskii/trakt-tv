@@ -11,6 +11,7 @@ public class NetworkService {
 
     private static NetworkService mInstance;
     private final String BASE_URL = "https://api.trakt.tv";
+
 //    private final String BASE_URL = "https://trakt.tv";
 
 

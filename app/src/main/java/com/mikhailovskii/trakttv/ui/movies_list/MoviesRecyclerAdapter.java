@@ -61,7 +61,7 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
         Glide.with(context)
                 .load(movie.getIconUrl())
                 .into(viewHolder.mIconImageView);
-        viewHolder.mMottoTextView.setText(movie.getMotto());
+        viewHolder.mMottoTextView.setText(movie.getYear());
         viewHolder.mMovieNameTextView.setText(movie.getName());
     }
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public interface APIService {
 
@@ -14,5 +15,10 @@ public interface APIService {
 
     @GET("/movies/trending")
     Call<List<MoviesListResponse>> getMovies();
+
+    @GET ("/movies/{slug}?extended=full")
+    Call<Movie> getExtendedInfo(@Path("slug") String slug);
+
+
 
 }
