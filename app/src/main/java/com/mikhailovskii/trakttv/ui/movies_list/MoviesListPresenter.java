@@ -41,7 +41,7 @@ public class MoviesListPresenter extends BasePresenter<MoviesListContract.Movies
             }
         });*/
 
-        Call<List<MoviesListResponse>> moviesListCall = NetworkService.getInstance().getAPIService().getMovies();
+/*        Call<List<MoviesListResponse>> moviesListCall = NetworkService.getInstance().getAPIService().getMovies();
         moviesListCall.enqueue(new Callback<List<MoviesListResponse>>() {
             @Override
             public void onResponse(Call<List<MoviesListResponse>> call, Response<List<MoviesListResponse>> response) {
@@ -53,8 +53,34 @@ public class MoviesListPresenter extends BasePresenter<MoviesListContract.Movies
             public void onFailure(Call<List<MoviesListResponse>> call, Throwable t) {
                 Log.i("ResCode", "Download failed");
             }
-        });
+        });*/
 
+/*        Call<Integer> getCodeCall = NetworkService.getInstance().getAPIService().getCode();
+        getCodeCall.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Log.i("ResCode", response.code() + "");
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+
+            }
+        });*/
+
+        Call<Integer> authorizeCall = NetworkService.getInstance().getAPIService().authorize();
+        authorizeCall.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Log.i("ResCode", response.code() + "");
+                view.onMoviesListDownloadSuccess(list);
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.i("ResCode", "Download failed");
+            }
+        });
 
 
     }

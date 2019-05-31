@@ -5,11 +5,11 @@ import com.mikhailovskii.trakttv.ui.base.MvpView;
 
 public interface MovieDetailContract {
 
-    interface MovieDetailView extends MvpView{
+    interface MovieDetailView extends MvpView {
         void onExtendedInfoGetSuccess();
     }
 
-    interface MovieDetailPresenter extends MvpPresenter<MovieDetailView>{
+    interface MovieDetailPresenter extends MvpPresenter<MovieDetailView> {
 
         void getExtendedInfo();
 

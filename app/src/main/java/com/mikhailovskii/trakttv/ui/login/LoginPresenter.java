@@ -73,7 +73,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView>
                             bundle.putString(EXTRA_LOGIN, Profile.getCurrentProfile().getName());
 
 
-
                             saveUserData(bundle);
 
                         }

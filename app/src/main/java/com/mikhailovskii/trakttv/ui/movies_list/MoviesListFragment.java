@@ -43,7 +43,10 @@ public class MoviesListFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         mPresenter.attachView(this);
         Log.i(TAG, "In onCreate MLF");
+
+        //Find views
         mMoviesRecycler = view.findViewById(R.id.movies_list);
+
         mMoviesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mPresenter.downloadMoviesList();
@@ -57,12 +60,15 @@ public class MoviesListFragment extends Fragment
         moviesList = movieList;
         Log.i(TAG, "in on movies list download success");
         adapter = new MoviesRecyclerAdapter(moviesList, getContext());
+
+        //Handle click on item
         adapter.setOnItemClickListener((position, item) -> {
             Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
             intent.putExtra(EXTRA_MOVIE, item.getName());
             intent.putExtra(EXTRA_IMAGE, item.getIconUrl());
             startActivity(intent);
         });
+
         mMoviesRecycler.setAdapter(adapter);
     }
 

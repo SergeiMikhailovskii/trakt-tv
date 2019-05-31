@@ -10,15 +10,18 @@ import retrofit2.http.Path;
 
 public interface APIService {
 
-/*    @GET("/authorize?response_type=code&client_id=9b36d8c0db59eff5038aea7a417d73e69aea75b41aac771816d2ef1b3109cc2f&redirect_uri=urn:ietf:wg:oauth:2.0:oob")
-    Call<Integer> authorize();*/
+    @GET("/oauth/authorize?response_type=code&client_id=a92265d647322f33c64824cbd53366ad7fe29c8f80834b770d299405ca04801b&redirect_uri=urn:ietf:wg:oauth:2.0:oob")
+    Call<Integer> authorize();
 
     @GET("/movies/trending")
     Call<List<MoviesListResponse>> getMovies();
 
-    @GET ("/movies/{slug}?extended=full")
+    @GET("/movies/{slug}?extended=full")
     Call<Movie> getExtendedInfo(@Path("slug") String slug);
 
+    //PIN: EDB775B0
+    @GET("/oauth/device/code")
+    Call<Integer> getCode();
 
 
 }
