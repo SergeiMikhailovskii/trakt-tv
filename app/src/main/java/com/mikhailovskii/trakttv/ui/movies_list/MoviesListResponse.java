@@ -6,6 +6,6 @@ import com.mikhailovskii.trakttv.data.model.Movie;
 public class MoviesListResponse {
 
     @SerializedName("movie")
-    private Movie movie;
+    public Movie movie;
 
 }

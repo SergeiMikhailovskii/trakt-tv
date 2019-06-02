@@ -2,7 +2,6 @@ package com.mikhailovskii.trakttv.ui.movie_detail;
 
 import android.util.Log;
 
-import com.mikhailovskii.trakttv.data.model.Movie;
 import com.mikhailovskii.trakttv.data.model.NetworkService;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 
@@ -15,17 +14,20 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
 
 
     @Override
-    public void getExtendedInfo() {
-        Call<Movie> extendedInfoCall = NetworkService.getInstance().getAPIService().getExtendedInfo("captain-marvel-2019");
-        extendedInfoCall.enqueue(new Callback<Movie>() {
+    public void getExtendedInfo(String slugId) {
+        Call<MovieDetailResponse> extendedInfoCall = NetworkService.getInstance().getAPIService().getExtendedInfo(slugId);
+        extendedInfoCall.enqueue(new Callback<MovieDetailResponse>() {
             @Override
-            public void onResponse(Call<Movie> call, Response<Movie> response) {
+            public void onResponse(Call<MovieDetailResponse> call, Response<MovieDetailResponse> response) {
                 Log.i("Rescode", String.valueOf(response.code()));
-                view.onExtendedInfoGetSuccess();
+
+                String overview = response.body().getOverview();
+
+                view.onExtendedInfoGetSuccess(overview);
             }
 
             @Override
-            public void onFailure(Call<Movie> call, Throwable t) {
+            public void onFailure(Call<MovieDetailResponse> call, Throwable t) {
 
             }
         });

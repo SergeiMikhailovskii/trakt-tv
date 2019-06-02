@@ -26,53 +26,20 @@ public class MoviesListPresenter extends BasePresenter<MoviesListContract.Movies
         list.add(new Movie("https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png", "Movie 3", "Motto 3"));
 */
 
-
-
-/*        Call<Integer> authorizeCall = NetworkService.getInstance().getAPIService().authorize();
-        authorizeCall.enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                Log.i("ResCode", response.code()+"");
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-
-            }
-        });*/
-
-/*        Call<List<MoviesListResponse>> moviesListCall = NetworkService.getInstance().getAPIService().getMovies();
-        moviesListCall.enqueue(new Callback<List<MoviesListResponse>>() {
-            @Override
-            public void onResponse(Call<List<MoviesListResponse>> call, Response<List<MoviesListResponse>> response) {
-                Log.i("ResCode", response.code() + "");
-                view.onMoviesListDownloadSuccess(list);
-            }
-
-            @Override
-            public void onFailure(Call<List<MoviesListResponse>> call, Throwable t) {
-                Log.i("ResCode", "Download failed");
-            }
-        });*/
-
-/*        Call<Integer> getCodeCall = NetworkService.getInstance().getAPIService().getCode();
-        getCodeCall.enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                Log.i("ResCode", response.code() + "");
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-
-            }
-        });*/
-
         Call<List<MoviesListResponse>> movies = NetworkService.getInstance().getAPIService().getMovies();
         movies.enqueue(new Callback<List<MoviesListResponse>>() {
             @Override
             public void onResponse(Call<List<MoviesListResponse>> call, Response<List<MoviesListResponse>> response) {
                 Log.i("ResCode", response.code() + "");
+                if (response.body() != null) {
+                    for (int i = 0; i<response.body().size();i++){
+                        Movie movie = new Movie("https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png"
+                                , response.body().get(i).movie.getName()
+                                , response.body().get(i).movie.getYear()
+                                , response.body().get(i).movie.movieIDS.getSlug());
+                        list.add(movie);
+                    }
+                }
                 view.onMoviesListDownloadSuccess(list);
             }
 

@@ -35,9 +35,10 @@ public class MoviesListFragment extends Fragment
 
     public static final String EXTRA_MOVIE = "EXTRA_MOVIE";
     public static final String EXTRA_IMAGE = "EXTRA_IMAGE";
+    public static final String EXTRA_SLUG = "EXTRA_SLUG";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_list, container, false);
@@ -66,6 +67,7 @@ public class MoviesListFragment extends Fragment
             Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
             intent.putExtra(EXTRA_MOVIE, item.getName());
             intent.putExtra(EXTRA_IMAGE, item.getIconUrl());
+            intent.putExtra(EXTRA_SLUG, item.getSlugId());
             startActivity(intent);
         });
 

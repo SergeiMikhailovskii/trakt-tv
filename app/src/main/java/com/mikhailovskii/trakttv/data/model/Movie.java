@@ -2,25 +2,32 @@ package com.mikhailovskii.trakttv.data.model;
 
 import android.support.annotation.NonNull;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Movie {
 
-    public String iconUrl;
+    private String iconUrl;
 
     @SerializedName("title")
-    public String name;
+    @Expose
+    private String name;
 
     @SerializedName("year")
-    public String year;
+    @Expose
+    private String year;
 
     @SerializedName("ids")
+    @Expose
     public MovieIDS movieIDS;
 
-    public Movie(String iconUrl, String name, String year) {
+    private String slugId;
+
+    public Movie(String iconUrl, String name, String year, String slugId) {
         this.iconUrl = iconUrl;
         this.name = name;
         this.year = year;
+        this.slugId = slugId;
     }
 
     @NonNull
@@ -48,6 +55,15 @@ public class Movie {
 
     public void setYear(String year) {
         this.year = year;
+    }
+
+    @NonNull
+    public String getSlugId(){
+        return slugId;
+    }
+
+    public void setSlugId(String slugId){
+        this.slugId = slugId;
     }
 
 }

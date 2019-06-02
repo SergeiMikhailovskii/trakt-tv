@@ -1,5 +1,6 @@
 package com.mikhailovskii.trakttv.data.model;
 
+import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailResponse;
 import com.mikhailovskii.trakttv.ui.movies_list.MoviesListResponse;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface APIService {
     Call<List<MoviesListResponse>> getMovies();
 
     @GET("/movies/{slug}?extended=full")
-    Call<Movie> getExtendedInfo(@Path("slug") String slug);
+    Call<MovieDetailResponse> getExtendedInfo(@Path("slug") String slug);
 
     //PIN: EDB775B0
     @GET("/oauth/device/code")

@@ -6,12 +6,12 @@ import com.mikhailovskii.trakttv.ui.base.MvpView;
 public interface MovieDetailContract {
 
     interface MovieDetailView extends MvpView {
-        void onExtendedInfoGetSuccess();
+        void onExtendedInfoGetSuccess(String overview);
     }
 
     interface MovieDetailPresenter extends MvpPresenter<MovieDetailView> {
 
-        void getExtendedInfo();
+        void getExtendedInfo(String slugId);
 
     }
 
