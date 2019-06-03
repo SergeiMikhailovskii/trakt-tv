@@ -28,21 +28,17 @@ public class MainActivity extends AppCompatActivity {
         startTransaction.commit();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
-
             Fragment fragment = null;
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
             switch (menuItem.getItemId()) {
-
                 case R.id.movies:
                     menuItem.setChecked(true);
                     fragment = new MoviesListFragment();
                     break;
-
                 case R.id.favorites:
                     menuItem.setChecked(true);
                     break;
-
                 case R.id.profile:
                     menuItem.setChecked(true);
                     fragment = new ProfileFragment();
