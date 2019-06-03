@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
-import com.mikhailovskii.trakttv.data.model.User;
+import com.mikhailovskii.trakttv.data.entity.User;
 
 public class Preference {
 

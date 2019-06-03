@@ -1,9 +1,8 @@
 package com.mikhailovskii.trakttv.ui.movies_list;
 
-import android.util.Log;
-
-import com.mikhailovskii.trakttv.data.model.Movie;
-import com.mikhailovskii.trakttv.data.model.NetworkService;
+import com.mikhailovskii.trakttv.data.entity.Movie;
+import com.mikhailovskii.trakttv.data.entity.MovieTrack;
+import com.mikhailovskii.trakttv.data.api.MovieAPIFactory;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 
 import java.util.ArrayList;
@@ -17,42 +16,37 @@ public class MoviesListPresenter extends BasePresenter<MoviesListContract.Movies
         implements MoviesListContract.MoviesListPresenter {
 
     @Override
-    public void downloadMoviesList() {
-        Log.i(MoviesListFragment.TAG, "In download movies list");
-        List<Movie> list = new ArrayList<>();
-/*
-        list.add(new Movie("https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png", "Movie 1", "Motto 1"));
-        list.add(new Movie("https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png", "Movie 2", "Motto 2"));
-        list.add(new Movie("https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png", "Movie 3", "Motto 3"));
-*/
+    public void loadMovieList() {
+        MovieAPIFactory.getInstance().getAPIService().getMovies()
+                .enqueue(new Callback<List<MovieTrack>>() {
+                    @Override
+                    public void onResponse(Call<List<MovieTrack>> call,
+                                           Response<List<MovieTrack>> response) {
+                        if (response.body() != null) {
+                            List<Movie> list = new ArrayList<>();
 
-        Call<List<MoviesListResponse>> movies = NetworkService.getInstance().getAPIService().getMovies();
-        movies.enqueue(new Callback<List<MoviesListResponse>>() {
-            @Override
-            public void onResponse(Call<List<MoviesListResponse>> call, Response<List<MoviesListResponse>> response) {
-                Log.i("ResCode", response.code() + "");
-                if (response.body() != null) {
-                    for (int i = 0; i<response.body().size();i++){
-                        Movie movie = new Movie("https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png"
-                                , response.body().get(i).movie.getName()
-                                , response.body().get(i).movie.getYear()
-                                , response.body().get(i).movie.movieIDS.getSlug());
-                        list.add(movie);
+                            for (MovieTrack movieTrack : response.body()) {
+                                Movie movie = new Movie("https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png",
+                                        movieTrack.movie.getName(),
+                                        movieTrack.movie.getYear(),
+                                        movieTrack.movie.movieId.getSlug());
+                                list.add(movie);
+                            }
+
+                            if (!list.isEmpty()) {
+                                view.onMovieListLoaded(list);
+                            } else {
+                                // view.showEmptyState(true);
+                            }
+                        }
                     }
-                }
-                view.onMoviesListDownloadSuccess(list);
-            }
 
-            @Override
-            public void onFailure(Call<List<MoviesListResponse>> call, Throwable t) {
-
-            }
-        });
-    }
-
-    @Override
-    public void downloadMovieInfo() {
-
+                    @Override
+                    public void onFailure(Call<List<MovieTrack>> call,
+                                          Throwable throwable) {
+                        view.onMovieListFailed();
+                    }
+                });
     }
 
 }

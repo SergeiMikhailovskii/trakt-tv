@@ -8,7 +8,7 @@ import com.facebook.GraphRequest;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.mikhailovskii.trakttv.TraktTvApp;
-import com.mikhailovskii.trakttv.data.model.User;
+import com.mikhailovskii.trakttv.data.entity.User;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 import com.mikhailovskii.trakttv.util.Preference;
 

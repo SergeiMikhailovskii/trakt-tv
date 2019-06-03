@@ -1,6 +1,6 @@
 package com.mikhailovskii.trakttv.ui.profile;
 
-import com.mikhailovskii.trakttv.data.model.User;
+import com.mikhailovskii.trakttv.data.entity.User;
 import com.mikhailovskii.trakttv.ui.base.MvpPresenter;
 import com.mikhailovskii.trakttv.ui.base.MvpView;
 

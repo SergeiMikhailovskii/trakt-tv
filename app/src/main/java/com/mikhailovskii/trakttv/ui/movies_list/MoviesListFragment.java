@@ -13,8 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mikhailovskii.trakttv.R;
-import com.mikhailovskii.trakttv.data.model.Movie;
+import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity;
+import com.mikhailovskii.trakttv.ui.adapter.MoviesRecyclerAdapter;
 
 import java.util.List;
 
@@ -22,48 +23,43 @@ import java.util.List;
 public class MoviesListFragment extends Fragment
         implements MoviesListContract.MoviesListView {
 
-    private MoviesListPresenter mPresenter = new MoviesListPresenter();
-
-    private RecyclerView mMoviesRecycler;
-
-    private MoviesRecyclerAdapter adapter;
-
-    private List<Movie> moviesList;
-
-
     public static final String TAG = "DebugTag";
 
     public static final String EXTRA_MOVIE = "EXTRA_MOVIE";
     public static final String EXTRA_IMAGE = "EXTRA_IMAGE";
     public static final String EXTRA_SLUG = "EXTRA_SLUG";
 
+    private MoviesListPresenter mPresenter = new MoviesListPresenter();
+    private RecyclerView mMoviesRecycler;
+    private MoviesRecyclerAdapter mAdapter;
+    private List<Movie> mMoviesList;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         mPresenter.attachView(this);
-        Log.i(TAG, "In onCreate MLF");
 
-        //Find views
         mMoviesRecycler = view.findViewById(R.id.movies_list);
-
         mMoviesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mPresenter.downloadMoviesList();
 
+
+        mPresenter.loadMovieList();
 
         return view;
     }
 
     @Override
-    public void onMoviesListDownloadSuccess(List<Movie> movieList) {
-        moviesList = movieList;
+    public void onMovieListLoaded(List<Movie> movieList) {
+        mMoviesList = movieList;
         Log.i(TAG, "in on movies list download success");
-        adapter = new MoviesRecyclerAdapter(moviesList, getContext());
+
+        // todo
+        mAdapter = new MoviesRecyclerAdapter(mMoviesList, getContext());
 
         //Handle click on item
-        adapter.setOnItemClickListener((position, item) -> {
+        mAdapter.setOnItemClickListener((position, item) -> {
             Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
             intent.putExtra(EXTRA_MOVIE, item.getName());
             intent.putExtra(EXTRA_IMAGE, item.getIconUrl());
@@ -71,22 +67,17 @@ public class MoviesListFragment extends Fragment
             startActivity(intent);
         });
 
-        mMoviesRecycler.setAdapter(adapter);
+        mMoviesRecycler.setAdapter(mAdapter);
     }
 
     @Override
-    public void onMovieInfoDownloadSuccess() {
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
+    public void onMovieListFailed() {
+        // todo toast
     }
 
     @Override
     public void showEmptyState(@NonNull Boolean value) {
-
+        // todo
     }
 
     @Override

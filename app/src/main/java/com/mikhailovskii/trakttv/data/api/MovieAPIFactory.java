@@ -1,4 +1,4 @@
-package com.mikhailovskii.trakttv.data.model;
+package com.mikhailovskii.trakttv.data.api;
 
 import java.util.concurrent.TimeUnit;
 
@@ -8,14 +8,14 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class NetworkService {
+public class MovieAPIFactory {
 
-    private static NetworkService mInstance;
+    private static MovieAPIFactory mInstance;
     private final String BASE_URL = "https://api.trakt.tv";
 
     private Retrofit mRetrofit;
 
-    private NetworkService() {
+    private MovieAPIFactory() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
@@ -44,15 +44,15 @@ public class NetworkService {
                 .build();
     }
 
-    public static NetworkService getInstance() {
+    public static MovieAPIFactory getInstance() {
         if (mInstance == null) {
-            mInstance = new NetworkService();
+            mInstance = new MovieAPIFactory();
         }
         return mInstance;
     }
 
-    public APIService getAPIService() {
-        return mRetrofit.create(APIService.class);
+    public MovieAPI getAPIService() {
+        return mRetrofit.create(MovieAPI.class);
     }
 
 }

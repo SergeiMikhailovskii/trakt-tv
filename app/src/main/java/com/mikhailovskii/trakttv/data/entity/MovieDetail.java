@@ -1,9 +1,9 @@
-package com.mikhailovskii.trakttv.ui.movie_detail;
+package com.mikhailovskii.trakttv.data.entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MovieDetailResponse {
+public class MovieDetail {
 
     @SerializedName("title")
     @Expose

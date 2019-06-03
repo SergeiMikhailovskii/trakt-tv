@@ -97,11 +97,6 @@ public class LoginActivity extends AppCompatActivity
     }
 
     @Override
-    public void showMessage(@NonNull String message) {
-
-    }
-
-    @Override
     public void showEmptyState(@NonNull Boolean value) {
 
     }

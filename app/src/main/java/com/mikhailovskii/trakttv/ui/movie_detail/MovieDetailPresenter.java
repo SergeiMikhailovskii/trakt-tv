@@ -1,8 +1,10 @@
 package com.mikhailovskii.trakttv.ui.movie_detail;
 
-import android.util.Log;
+import android.support.annotation.NonNull;
 
-import com.mikhailovskii.trakttv.data.model.NetworkService;
+import com.mikhailovskii.trakttv.data.api.MovieAPIFactory;
+import com.mikhailovskii.trakttv.data.entity.Movie;
+import com.mikhailovskii.trakttv.data.entity.MovieDetail;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 
 import retrofit2.Call;
@@ -12,23 +14,21 @@ import retrofit2.Response;
 public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.MovieDetailView>
         implements MovieDetailContract.MovieDetailPresenter {
 
-
     @Override
-    public void getExtendedInfo(String slugId) {
-        Call<MovieDetailResponse> extendedInfoCall = NetworkService.getInstance().getAPIService().getExtendedInfo(slugId);
-        extendedInfoCall.enqueue(new Callback<MovieDetailResponse>() {
+    public void loadMovieDetails(@NonNull String slugId) {
+        Call<Movie> extendedInfoCall = MovieAPIFactory.getInstance().getAPIService().getExtendedInfo(slugId);
+        extendedInfoCall.enqueue(new Callback<Movie>() {
             @Override
-            public void onResponse(Call<MovieDetailResponse> call, Response<MovieDetailResponse> response) {
-                Log.i("Rescode", String.valueOf(response.code()));
-
-                String overview = response.body().getOverview();
-
-                view.onExtendedInfoGetSuccess(overview);
+            public void onResponse(Call<Movie> call,
+                                   Response<Movie> response) {
+                // String overview = response.body().getOverview();
+                view.onMovieDetailsLoaded(null);
             }
 
             @Override
-            public void onFailure(Call<MovieDetailResponse> call, Throwable t) {
-
+            public void onFailure(Call<Movie> call,
+                                  Throwable throwable) {
+                view.onMovieDetailsFailed();
             }
         });
     }

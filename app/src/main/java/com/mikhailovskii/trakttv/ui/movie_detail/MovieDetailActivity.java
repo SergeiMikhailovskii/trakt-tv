@@ -10,45 +10,36 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mikhailovskii.trakttv.R;
+import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.ui.movies_list.MoviesListFragment;
 
 public class MovieDetailActivity extends AppCompatActivity
         implements MovieDetailContract.MovieDetailView {
 
+    private MovieDetailPresenter mPresenter = new MovieDetailPresenter();
     private TextView mDescriptionTextView;
     private ImageView mMovieImageView;
     private FloatingActionButton mFloatingActionButton;
-
     private String slugId;
     private String url;
-
-    private MovieDetailPresenter mPresenter = new MovieDetailPresenter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-
         mPresenter.attachView(this);
-
-        mDescriptionTextView = findViewById(R.id.description_textview);
-        mMovieImageView = findViewById(R.id.movie_image);
-        mFloatingActionButton = findViewById(R.id.favorite_button);
 
         slugId = getIntent().getStringExtra(MoviesListFragment.EXTRA_SLUG);
         url = getIntent().getStringExtra(MoviesListFragment.EXTRA_IMAGE);
 
-
+        mDescriptionTextView = findViewById(R.id.description_textview);
+        mMovieImageView = findViewById(R.id.movie_image);
+        mFloatingActionButton = findViewById(R.id.favorite_button);
         mFloatingActionButton.setOnClickListener(view -> Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show());
 
-        mPresenter.getExtendedInfo(slugId);
-
-
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
+        if (slugId != null) {
+            mPresenter.loadMovieDetails(slugId);
+        }
     }
 
     @Override
@@ -58,12 +49,19 @@ public class MovieDetailActivity extends AppCompatActivity
 
     @Override
     public void showLoadingIndicator(@NonNull Boolean value) {
+        // todo
 
     }
 
     @Override
-    public void onExtendedInfoGetSuccess(String overview) {
-        mDescriptionTextView.setText(overview);
+    public void onMovieDetailsLoaded(Movie movie) {
+        // mDescriptionTextView.setText(movie);
+
         Glide.with(this).load(url).into(mMovieImageView);
+    }
+
+    @Override
+    public void onMovieDetailsFailed() {
+
     }
 }

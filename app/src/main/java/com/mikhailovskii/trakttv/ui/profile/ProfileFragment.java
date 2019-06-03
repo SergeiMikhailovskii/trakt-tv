@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.mikhailovskii.trakttv.R;
-import com.mikhailovskii.trakttv.data.model.User;
+import com.mikhailovskii.trakttv.data.entity.User;
 import com.mikhailovskii.trakttv.ui.login.LoginActivity;
 
 import java.util.Objects;
@@ -63,18 +63,13 @@ public class ProfileFragment extends Fragment
     public void onUserDataLoaded(User user) {
         Glide.with(Objects.requireNonNull(getContext()))
                 .load(user.getAvatar())
-                .error(R.drawable.ic_error_profile)
+                .placeholder(R.drawable.ic_error_profile)
                 .apply(RequestOptions.circleCropTransform())
                 .into(mAvatar);
 
         mEmailTextView.setText(user.getEmail());
         mIdTextView.setText(user.getId());
         mLoginTextView.setText(user.getUsername());
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
     }
 
     @Override

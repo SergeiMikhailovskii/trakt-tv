@@ -1,9 +1,9 @@
-package com.mikhailovskii.trakttv.data.model;
+package com.mikhailovskii.trakttv.data.entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MovieIDS {
+public class MovieId {
 
     @SerializedName("slug")
     @Expose
@@ -16,4 +16,5 @@ public class MovieIDS {
     public void setSlug(String slug) {
         this.slug = slug;
     }
+
 }

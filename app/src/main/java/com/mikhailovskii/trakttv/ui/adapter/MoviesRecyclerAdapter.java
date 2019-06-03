@@ -1,4 +1,4 @@
-package com.mikhailovskii.trakttv.ui.movies_list;
+package com.mikhailovskii.trakttv.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,7 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.mikhailovskii.trakttv.R;
-import com.mikhailovskii.trakttv.data.model.Movie;
+import com.mikhailovskii.trakttv.data.entity.Movie;
+import com.mikhailovskii.trakttv.ui.movies_list.MoviesListFragment;
 
 import java.util.List;
 

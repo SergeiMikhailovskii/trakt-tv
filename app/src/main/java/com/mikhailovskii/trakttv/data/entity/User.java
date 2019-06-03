@@ -1,4 +1,4 @@
-package com.mikhailovskii.trakttv.data.model;
+package com.mikhailovskii.trakttv.data.entity;
 
 import android.support.annotation.NonNull;
 
