@@ -63,8 +63,8 @@ public class ProfileFragment extends Fragment
     public void onUserDataLoaded(User user) {
         Glide.with(Objects.requireNonNull(getContext()))
                 .load(user.getAvatar())
-                .placeholder(R.drawable.ic_error_profile)
                 .apply(RequestOptions.circleCropTransform())
+                .placeholder(R.drawable.ic_error_profile)
                 .into(mAvatar);
 
         mEmailTextView.setText(user.getEmail());

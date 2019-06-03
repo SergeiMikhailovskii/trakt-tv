@@ -7,23 +7,22 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.data.entity.Movie;
-import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity;
 import com.mikhailovskii.trakttv.ui.adapter.MoviesRecyclerAdapter;
+import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity;
 
 import java.util.List;
 
 
 public class MoviesListFragment extends Fragment
         implements MoviesListContract.MoviesListView {
-
-    public static final String TAG = "DebugTag";
 
     public static final String EXTRA_MOVIE = "EXTRA_MOVIE";
     public static final String EXTRA_IMAGE = "EXTRA_IMAGE";
@@ -32,6 +31,7 @@ public class MoviesListFragment extends Fragment
     private MoviesListPresenter mPresenter = new MoviesListPresenter();
     private RecyclerView mMoviesRecycler;
     private MoviesRecyclerAdapter mAdapter;
+    private ProgressBar mProgressBar;
     private List<Movie> mMoviesList;
 
     @Override
@@ -40,9 +40,9 @@ public class MoviesListFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         mPresenter.attachView(this);
 
+        mProgressBar = view.findViewById(R.id.progress_bar);
         mMoviesRecycler = view.findViewById(R.id.movies_list);
         mMoviesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
 
         mPresenter.loadMovieList();
@@ -52,8 +52,8 @@ public class MoviesListFragment extends Fragment
 
     @Override
     public void onMovieListLoaded(List<Movie> movieList) {
+        mProgressBar.setVisibility(View.GONE);
         mMoviesList = movieList;
-        Log.i(TAG, "in on movies list download success");
 
         // todo
         mAdapter = new MoviesRecyclerAdapter(mMoviesList, getContext());
@@ -72,17 +72,17 @@ public class MoviesListFragment extends Fragment
 
     @Override
     public void onMovieListFailed() {
-        // todo toast
+        Toast.makeText(getContext(), "Loading failed", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showEmptyState(@NonNull Boolean value) {
-        // todo
+        Toast.makeText(getContext(), "List is empty", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showLoadingIndicator(@NonNull Boolean value) {
-
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
 }

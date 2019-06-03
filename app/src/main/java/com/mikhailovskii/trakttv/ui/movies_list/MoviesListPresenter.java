@@ -1,8 +1,8 @@
 package com.mikhailovskii.trakttv.ui.movies_list;
 
+import com.mikhailovskii.trakttv.data.api.MovieAPIFactory;
 import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.data.entity.MovieTrack;
-import com.mikhailovskii.trakttv.data.api.MovieAPIFactory;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 
 import java.util.ArrayList;
@@ -17,6 +17,8 @@ public class MoviesListPresenter extends BasePresenter<MoviesListContract.Movies
 
     @Override
     public void loadMovieList() {
+        view.showLoadingIndicator(true);
+
         MovieAPIFactory.getInstance().getAPIService().getMovies()
                 .enqueue(new Callback<List<MovieTrack>>() {
                     @Override

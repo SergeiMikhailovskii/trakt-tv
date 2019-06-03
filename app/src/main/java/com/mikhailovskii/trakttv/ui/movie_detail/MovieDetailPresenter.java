@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.mikhailovskii.trakttv.data.api.MovieAPIFactory;
 import com.mikhailovskii.trakttv.data.entity.Movie;
-import com.mikhailovskii.trakttv.data.entity.MovieDetail;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 
 import retrofit2.Call;
@@ -16,6 +15,7 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
 
     @Override
     public void loadMovieDetails(@NonNull String slugId) {
+        view.showLoadingIndicator(true);
         Call<Movie> extendedInfoCall = MovieAPIFactory.getInstance().getAPIService().getExtendedInfo(slugId);
         extendedInfoCall.enqueue(new Callback<Movie>() {
             @Override

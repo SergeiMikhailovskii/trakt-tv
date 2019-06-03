@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +15,8 @@ import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.ui.movies_list.MoviesListFragment;
 
+import java.util.Objects;
+
 public class MovieDetailActivity extends AppCompatActivity
         implements MovieDetailContract.MovieDetailView {
 
@@ -20,8 +24,10 @@ public class MovieDetailActivity extends AppCompatActivity
     private TextView mDescriptionTextView;
     private ImageView mMovieImageView;
     private FloatingActionButton mFloatingActionButton;
-    private String slugId;
-    private String url;
+    private ProgressBar mProgressBar;
+    private String mSlugId;
+    private String mUrl;
+    private String mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,35 +35,39 @@ public class MovieDetailActivity extends AppCompatActivity
         setContentView(R.layout.activity_movie_detail);
         mPresenter.attachView(this);
 
-        slugId = getIntent().getStringExtra(MoviesListFragment.EXTRA_SLUG);
-        url = getIntent().getStringExtra(MoviesListFragment.EXTRA_IMAGE);
+        mSlugId = getIntent().getStringExtra(MoviesListFragment.EXTRA_SLUG);
+        mUrl = getIntent().getStringExtra(MoviesListFragment.EXTRA_IMAGE);
+        mTitle = getIntent().getStringExtra(MoviesListFragment.EXTRA_MOVIE);
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle(mTitle);
 
         mDescriptionTextView = findViewById(R.id.description_textview);
+        mProgressBar = findViewById(R.id.progress_bar);
         mMovieImageView = findViewById(R.id.movie_image);
         mFloatingActionButton = findViewById(R.id.favorite_button);
         mFloatingActionButton.setOnClickListener(view -> Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show());
 
-        if (slugId != null) {
-            mPresenter.loadMovieDetails(slugId);
+        if (mSlugId != null) {
+            mPresenter.loadMovieDetails(mSlugId);
         }
     }
 
     @Override
     public void showEmptyState(@NonNull Boolean value) {
-
+        Toast.makeText(this, "Empty details", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showLoadingIndicator(@NonNull Boolean value) {
-        // todo
-
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onMovieDetailsLoaded(Movie movie) {
+    public void onMovieDetailsLoaded(@NonNull Movie movie) {
+        mProgressBar.setVisibility(View.GONE);
         // mDescriptionTextView.setText(movie);
 
-        Glide.with(this).load(url).into(mMovieImageView);
+        Glide.with(this).load(mUrl).into(mMovieImageView);
     }
 
     @Override

@@ -45,11 +45,18 @@ public class LoginActivity extends AppCompatActivity
 
         // Handle login button
         mLoginButton.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(LoginPresenter.EXTRA_LOGIN, mLoginEdit.getText().toString());
-            bundle.putString(LoginPresenter.EXTRA_PASSWORD, mPasswordEdit.getText().toString());
+            String login = mLoginEdit.getText().toString();
+            String password = mPasswordEdit.getText().toString();
+            if (!(login.equals("") || password.equals(""))) {
+                Bundle bundle = new Bundle();
 
-            mPresenter.saveUserData(bundle);
+                bundle.putString(LoginPresenter.EXTRA_LOGIN, mLoginEdit.getText().toString());
+                bundle.putString(LoginPresenter.EXTRA_PASSWORD, mPasswordEdit.getText().toString());
+
+                mPresenter.saveUserData(bundle);
+            } else {
+                Toast.makeText(this, "Please, enter your information!", Toast.LENGTH_SHORT).show();
+            }
         });
 
         // Facebook logic
