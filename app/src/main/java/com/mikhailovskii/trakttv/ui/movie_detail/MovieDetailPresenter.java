@@ -21,8 +21,12 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
             @Override
             public void onResponse(Call<Movie> call,
                                    Response<Movie> response) {
-                // String overview = response.body().getOverview();
-                view.onMovieDetailsLoaded(null);
+                Movie movie = response.body();
+                if (movie != null) {
+                    view.onMovieDetailsLoaded(movie);
+                } else {
+                    view.onMovieDetailsFailed();
+                }
             }
 
             @Override
