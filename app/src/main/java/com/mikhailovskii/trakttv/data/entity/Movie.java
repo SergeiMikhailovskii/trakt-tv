@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
 public class Movie {
 
     private String iconUrl;
+    private String slugId;
+    private int watchers;
 
     @SerializedName("title")
     @Expose
@@ -15,22 +17,49 @@ public class Movie {
 
     @SerializedName("year")
     @Expose
-    private String year;
+    private int year;
 
     @SerializedName("ids")
     @Expose
     public MovieId movieId;
 
-    private String slugId;
+    @SerializedName("tagline")
+    @Expose
+    private String tagline;
 
-    private int watchers;
+    @SerializedName("released")
+    @Expose
+    private String released;
 
-    public Movie(String iconUrl, String name, String year, String slugId, int watchers) {
+    @SerializedName("runtime")
+    @Expose
+    private int runtime;
+
+    @SerializedName("country")
+    @Expose
+    private String country;
+
+    @SerializedName("overview")
+    @Expose
+    private String overview;
+
+    public Movie(String iconUrl, String name, int year, String slugId, int watchers) {
         this.iconUrl = iconUrl;
         this.name = name;
         this.year = year;
         this.slugId = slugId;
         this.watchers = watchers;
+    }
+
+    public Movie(String iconUrl, String name, int year, String tagline, String released, int runtime, String country, String overview){
+        this.iconUrl = iconUrl;
+        this.name = name;
+        this.year = year;
+        this.tagline = tagline;
+        this.released = released;
+        this.runtime = runtime;
+        this.country = country;
+        this.overview = overview;
     }
 
     @NonNull
@@ -51,12 +80,11 @@ public class Movie {
         this.name = name;
     }
 
-    @NonNull
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 
@@ -69,7 +97,6 @@ public class Movie {
         this.slugId = slugId;
     }
 
-    @NonNull
     public int getWatchers() {
         return watchers;
     }
@@ -78,4 +105,47 @@ public class Movie {
         this.watchers = watchers;
     }
 
+    @NonNull
+    public String getTagline() {
+        return tagline;
+    }
+
+    public void setTagline(String tagline) {
+        this.tagline = tagline;
+    }
+
+    @NonNull
+    public String getReleased() {
+        return released;
+    }
+
+    public void setReleased(String released) {
+        this.released = released;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
+
+    @NonNull
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    @NonNull
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
 }
