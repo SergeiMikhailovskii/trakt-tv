@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,15 +17,15 @@ import android.widget.Toast;
 
 import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.data.entity.Movie;
-import com.mikhailovskii.trakttv.ui.adapter.MoviesRecyclerAdapter;
+import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter;
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MovieListFragment extends Fragment
-        implements MovieListContract.MoviesListView {
+public class MovieListFragment extends Fragment implements MovieListContract.MoviesListView,
+        MoviesAdapter.OnItemClickListener {
 
     public static final String EXTRA_MOVIE = "EXTRA_MOVIE";
     public static final String EXTRA_IMAGE = "EXTRA_IMAGE";
@@ -33,10 +34,8 @@ public class MovieListFragment extends Fragment
     private MovieListPresenter mPresenter = new MovieListPresenter();
     private SwipeRefreshLayout mSwipeRefresh;
     private RecyclerView mMoviesRecycler;
-    private ProgressBar mProgressBar;
     private TextView mNoFilms;
-    private MoviesRecyclerAdapter mAdapter;
-    private List<Movie> mMoviesList;
+    private MoviesAdapter mAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -44,48 +43,43 @@ public class MovieListFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         mPresenter.attachView(this);
 
-        mProgressBar = view.findViewById(R.id.progress_bar);
         mNoFilms = view.findViewById(R.id.no_films);
+
         mMoviesRecycler = view.findViewById(R.id.movies_list);
         mMoviesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        mMoviesRecycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+
         mSwipeRefresh = view.findViewById(R.id.swipe_refresh);
         mSwipeRefresh.setOnRefreshListener(() -> {
-                    mPresenter.loadMovieList();
-                    mSwipeRefresh.setRefreshing(false);
-                }
-        );
-
-        mMoviesList = new ArrayList<>();
-
-        mAdapter = new MoviesRecyclerAdapter(mMoviesList, getContext());
-        mAdapter.setOnItemClickListener((position, item) -> {
-            Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
-            intent.putExtra(EXTRA_MOVIE, item.getName());
-            intent.putExtra(EXTRA_IMAGE, item.getIconUrl());
-            intent.putExtra(EXTRA_SLUG, item.getSlugId());
-            startActivity(intent);
+            mPresenter.loadMovieList();
+            mSwipeRefresh.setRefreshing(false);
         });
 
+        mAdapter = new MoviesAdapter(this);
         mMoviesRecycler.setAdapter(mAdapter);
 
-        showLoadingIndicator(true);
         mPresenter.loadMovieList();
 
         return view;
     }
 
     @Override
+    public void onItemClicked(int position, Movie item) {
+        Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+        intent.putExtra(EXTRA_MOVIE, item.getName());
+        intent.putExtra(EXTRA_IMAGE, item.getIconUrl());
+        intent.putExtra(EXTRA_SLUG, item.getSlugId());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onItemLongClick(int position, Movie item) {
+        // not used yet
+    }
+
+    @Override
     public void onMovieListLoaded(List<Movie> movieList) {
-        showLoadingIndicator(false);
-
-        for (Movie movie : movieList) {
-            if (!mMoviesList.contains(movie)) {
-                mMoviesList.add(movie);
-            }
-        }
-
-        mAdapter.notifyDataSetChanged();
-
+        mAdapter.setData(movieList);
     }
 
     @Override
@@ -95,18 +89,16 @@ public class MovieListFragment extends Fragment
 
     @Override
     public void showEmptyState(@NonNull Boolean value) {
-        mNoFilms.setVisibility(View.VISIBLE);
+        if (value){
+            mNoFilms.setVisibility(View.VISIBLE);
+        } else  {
+            mNoFilms.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void showLoadingIndicator(@NonNull Boolean value) {
-        mProgressBar.setVisibility(View.VISIBLE);
-
-        if (value) {
-            mProgressBar.setVisibility(View.VISIBLE);
-        } else {
-            mProgressBar.setVisibility(View.GONE);
-        }
+        mSwipeRefresh.setRefreshing(value);
     }
 
 }

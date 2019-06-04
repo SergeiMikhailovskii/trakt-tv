@@ -19,6 +19,8 @@ public class MovieListPresenter extends BasePresenter<MovieListContract.MoviesLi
 
     @Override
     public void loadMovieList() {
+        view.showLoadingIndicator(true);
+
         MovieAPIFactory.getInstance().getAPIService().getMovies()
                 .enqueue(new Callback<List<MovieTrack>>() {
                     @Override
@@ -41,13 +43,17 @@ public class MovieListPresenter extends BasePresenter<MovieListContract.MoviesLi
                             } else {
                                 view.showEmptyState(true);
                             }
+                        } else  {
+                            view.onMovieListFailed();
                         }
+                        view.showLoadingIndicator(false);
                     }
 
                     @Override
                     public void onFailure(Call<List<MovieTrack>> call,
                                           Throwable throwable) {
                         view.onMovieListFailed();
+                        view.showLoadingIndicator(false);
                     }
                 });
     }
