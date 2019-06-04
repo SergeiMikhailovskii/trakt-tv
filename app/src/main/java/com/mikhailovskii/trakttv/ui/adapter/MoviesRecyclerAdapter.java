@@ -53,8 +53,9 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
         Glide.with(context)
                 .load(movie.getIconUrl())
                 .into(viewHolder.mIconImageView);
-        viewHolder.mMottoTextView.setText(movie.getYear());
         viewHolder.mMovieNameTextView.setText(movie.getName());
+        viewHolder.mYearTextView.setText("Year: " + movie.getYear());
+        viewHolder.mWatchersTextView.setText("Watchers: " + movie.getWatchers());
     }
 
     @Override
@@ -87,14 +88,16 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAd
 
         public ImageView mIconImageView;
         public TextView mMovieNameTextView;
-        public TextView mMottoTextView;
+        public TextView mYearTextView;
+        public TextView mWatchersTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mIconImageView = itemView.findViewById(R.id.icon_imageview);
             mMovieNameTextView = itemView.findViewById(R.id.moviename_textview);
-            mMottoTextView = itemView.findViewById(R.id.motto_textview);
+            mYearTextView = itemView.findViewById(R.id.year_textview);
+            mWatchersTextView = itemView.findViewById(R.id.watchers);
 
         }
 

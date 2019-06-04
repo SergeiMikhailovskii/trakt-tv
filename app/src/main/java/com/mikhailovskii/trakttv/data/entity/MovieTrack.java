@@ -12,4 +12,13 @@ public class MovieTrack {
     @SerializedName("movie")
     public Movie movie;
 
+    public int getWatchersNumber() {
+        return watchersNumber;
+    }
+
+    public void setWatchersNumber(int watchersNumber) {
+        this.watchersNumber = watchersNumber;
+    }
+
+
 }

@@ -6,7 +6,7 @@ import com.mikhailovskii.trakttv.ui.base.MvpView;
 
 import java.util.List;
 
-public interface MoviesListContract {
+public interface MovieListContract {
 
     interface MoviesListView extends MvpView {
 

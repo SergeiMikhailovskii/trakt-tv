@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.mikhailovskii.trakttv.R;
-import com.mikhailovskii.trakttv.ui.movies_list.MoviesListFragment;
+import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 import com.mikhailovskii.trakttv.ui.profile.ProfileFragment;
 
 
@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
 
         FragmentTransaction startTransaction = getSupportFragmentManager().beginTransaction();
-        MoviesListFragment moviesListFragment = new MoviesListFragment();
-        startTransaction.add(R.id.fragments, moviesListFragment);
+        MovieListFragment movieListFragment = new MovieListFragment();
+        startTransaction.add(R.id.fragments, movieListFragment);
         startTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         startTransaction.commit();
 
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             switch (menuItem.getItemId()) {
                 case R.id.movies:
                     menuItem.setChecked(true);
-                    fragment = new MoviesListFragment();
+                    fragment = new MovieListFragment();
                     break;
                 case R.id.favorites:
                     menuItem.setChecked(true);

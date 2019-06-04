@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.data.entity.Movie;
-import com.mikhailovskii.trakttv.ui.movies_list.MoviesListFragment;
+import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 
 import java.util.Objects;
 
@@ -35,9 +35,9 @@ public class MovieDetailActivity extends AppCompatActivity
         setContentView(R.layout.activity_movie_detail);
         mPresenter.attachView(this);
 
-        mSlugId = getIntent().getStringExtra(MoviesListFragment.EXTRA_SLUG);
-        mUrl = getIntent().getStringExtra(MoviesListFragment.EXTRA_IMAGE);
-        mTitle = getIntent().getStringExtra(MoviesListFragment.EXTRA_MOVIE);
+        mSlugId = getIntent().getStringExtra(MovieListFragment.EXTRA_SLUG);
+        mUrl = getIntent().getStringExtra(MovieListFragment.EXTRA_IMAGE);
+        mTitle = getIntent().getStringExtra(MovieListFragment.EXTRA_MOVIE);
 
         Objects.requireNonNull(getSupportActionBar()).setTitle(mTitle);
 
@@ -74,4 +74,5 @@ public class MovieDetailActivity extends AppCompatActivity
     public void onMovieDetailsFailed() {
 
     }
+
 }

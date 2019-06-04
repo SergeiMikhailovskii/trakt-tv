@@ -16,6 +16,10 @@
     <string name="log_out">Log out</string>
     <string name="id">ID</string>
     <string name="email">Email</string>
+    <string name="no_films">No films</string>
+    <string name="loading_failed">Loading failed</string>
+    <string name="year">Year:\u0020</string>
+    <string name="watchers">Watchers:\u0020</string>
 
 
 </resources>

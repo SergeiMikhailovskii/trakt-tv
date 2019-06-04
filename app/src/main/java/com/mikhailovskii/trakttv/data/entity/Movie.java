@@ -23,11 +23,14 @@ public class Movie {
 
     private String slugId;
 
-    public Movie(String iconUrl, String name, String year, String slugId) {
+    private int watchers;
+
+    public Movie(String iconUrl, String name, String year, String slugId, int watchers) {
         this.iconUrl = iconUrl;
         this.name = name;
         this.year = year;
         this.slugId = slugId;
+        this.watchers = watchers;
     }
 
     @NonNull
@@ -64,6 +67,15 @@ public class Movie {
 
     public void setSlugId(String slugId){
         this.slugId = slugId;
+    }
+
+    @NonNull
+    public int getWatchers() {
+        return watchers;
+    }
+
+    public void setWatchers(int watchers) {
+        this.watchers = watchers;
     }
 
 }
