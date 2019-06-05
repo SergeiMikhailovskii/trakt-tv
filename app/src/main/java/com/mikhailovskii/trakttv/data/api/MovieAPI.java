@@ -13,11 +13,14 @@ import retrofit2.http.Path;
 public interface MovieAPI {
 
     @GET("/movies/trending")
-    Call<List<MovieTrack>> getMovies();
+    Observable<List<MovieTrack>> getMovies();
 
-    Observable<List<MovieTrack>> getMovies1();
-
+/*
     @GET("/movies/{slug}?extended=full")
     Call<Movie> getExtendedInfo(@Path("slug") String slug);
+*/
+
+    @GET("/movies/{slug}?extended=full")
+    Observable<Movie> getExtendedInfo(@Path("slug") String slug);
 
 }

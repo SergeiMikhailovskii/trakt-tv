@@ -30,7 +30,6 @@ public class MovieListFragment extends Fragment implements MovieListContract.Mov
 
     private MovieListPresenter mPresenter = new MovieListPresenter();
     private SwipeRefreshLayout mSwipeRefresh;
-    private RecyclerView mMoviesRecycler;
     private TextView mNoFilms;
     private MoviesAdapter mAdapter;
 
@@ -42,9 +41,9 @@ public class MovieListFragment extends Fragment implements MovieListContract.Mov
 
         mNoFilms = view.findViewById(R.id.no_films);
 
-        mMoviesRecycler = view.findViewById(R.id.movies_list);
-        mMoviesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        mMoviesRecycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        RecyclerView moviesRecycler = view.findViewById(R.id.movies_list);
+        moviesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        moviesRecycler.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), DividerItemDecoration.VERTICAL));
 
         mSwipeRefresh = view.findViewById(R.id.swipe_refresh);
         mSwipeRefresh.setOnRefreshListener(() -> {
@@ -53,7 +52,7 @@ public class MovieListFragment extends Fragment implements MovieListContract.Mov
         });
 
         mAdapter = new MoviesAdapter(this);
-        mMoviesRecycler.setAdapter(mAdapter);
+        moviesRecycler.setAdapter(mAdapter);
 
         mPresenter.loadMovieList();
 

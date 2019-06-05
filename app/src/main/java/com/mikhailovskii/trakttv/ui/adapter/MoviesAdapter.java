@@ -40,8 +40,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
                 .into(viewHolder.mIconImageView);
 
         viewHolder.mMovieNameTextView.setText(movie.getName());
-        viewHolder.mYearTextView.setText("Year: " + movie.getYear());
-        viewHolder.mWatchersTextView.setText("Watchers: " + movie.getWatchers());
+        viewHolder.mYearTextView.setText(viewHolder.itemView.getContext().getResources().getString(R.string.year, movie.getYear()));
+        viewHolder.mWatchersTextView.setText(viewHolder.itemView.getContext().getResources().getString(R.string.watchers, movie.getWatchers()));
 
         viewHolder.itemView.setOnClickListener(v -> {
             if (viewHolder.getAdapterPosition() != RecyclerView.NO_POSITION) {

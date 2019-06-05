@@ -1,6 +1,5 @@
 package com.mikhailovskii.trakttv.ui.movie_detail;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -94,16 +93,22 @@ public class MovieDetailActivity extends AppCompatActivity
         mSwipeRefreshLayout.setRefreshing(value);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onMovieDetailsLoaded(@NonNull Movie movie) {
         mToolbarTitle_tv.setText(movie.getName());
         mDescription_tv.setText(movie.getOverview());
-        mYear_tv.setText("Year: " + movie.getYear());
+/*        mYear_tv.setText("Year: " + movie.getYear());
         mCountry_tv.setText("Country: " + movie.getCountry());
         mReleased_tv.setText("Released: " + movie.getReleased());
         mRuntime_tv.setText("Runtime: " + movie.getRuntime());
-        mTagline_tv.setText("Tagline: " + movie.getTagline());
+        mTagline_tv.setText("Tagline: " + movie.getTagline());*/
+
+        mYear_tv.setText(getString(R.string.year, movie.getYear()));
+        mCountry_tv.setText(getString(R.string.country, movie.getCountry()));
+        mReleased_tv.setText(getString(R.string.released, movie.getReleased()));
+        mRuntime_tv.setText(getString(R.string.runtime, movie.getRuntime()));
+        mTagline_tv.setText(getString(R.string.tagline, movie.getTagline()));
+
 
         Glide.with(this).load(mUrl).into(mMovieImageView);
     }
