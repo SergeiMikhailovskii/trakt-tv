@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class MovieDetailActivity extends AppCompatActivity
     private TextView mTagline_tv;
     private TextView mYear_tv;
     private TextView mToolbarTitle_tv;
+    private TextView mNoInfo_tv;
     private ImageView mMovieImageView;
     private ImageButton mBack_btn;
     private FloatingActionButton mFloatingActionButton;
@@ -53,6 +55,7 @@ public class MovieDetailActivity extends AppCompatActivity
         mReleased_tv = findViewById(R.id.released);
         mTagline_tv = findViewById(R.id.tagline);
         mYear_tv = findViewById(R.id.year);
+        mNoInfo_tv = findViewById(R.id.no_info);
         mMovieImageView = findViewById(R.id.movie_image);
         mToolbar = findViewById(R.id.toolbar);
         mToolbarTitle_tv = mToolbar.findViewById(R.id.toolbar_title);
@@ -60,9 +63,7 @@ public class MovieDetailActivity extends AppCompatActivity
         mFloatingActionButton = findViewById(R.id.favorite_button);
         mFloatingActionButton.setOnClickListener(view -> Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show());
 
-        mBack_btn.setOnClickListener(v -> {
-            onBackPressed();
-        });
+        mBack_btn.setOnClickListener(v -> onBackPressed());
 
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
         mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.loadMovieDetails(mSlugId));
@@ -76,11 +77,16 @@ public class MovieDetailActivity extends AppCompatActivity
         if (mSlugId != null) {
             mPresenter.loadMovieDetails(mSlugId);
         }
+
     }
 
     @Override
     public void showEmptyState(@NonNull Boolean value) {
-        Toast.makeText(this, "Empty details", Toast.LENGTH_SHORT).show();
+        if (value) {
+            mNoInfo_tv.setVisibility(View.VISIBLE);
+        } else {
+            mNoInfo_tv.setVisibility(View.GONE);
+        }
     }
 
     @Override

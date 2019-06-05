@@ -20,6 +20,7 @@
     <string name="loading_failed">Loading failed</string>
     <string name="year">Year:\u0020</string>
     <string name="watchers">Watchers:\u0020</string>
+    <string name="no_information">No information</string>
 
 
 </resources>
