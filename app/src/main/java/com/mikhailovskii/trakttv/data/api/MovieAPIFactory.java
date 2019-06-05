@@ -1,5 +1,7 @@
 package com.mikhailovskii.trakttv.data.api;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -41,6 +43,7 @@ public class MovieAPIFactory {
                 .baseUrl(BASE_URL)
                 .client(httpClient.build())
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 

@@ -10,6 +10,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,6 +62,30 @@ public class MovieListPresenter extends BasePresenter<MovieListContract.MoviesLi
                         view.showLoadingIndicator(false);
                     }
                 });
+
+/*        MovieAPIFactory.getInstance().getAPIService().getMovies1().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<MovieTrack>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(List<MovieTrack> movieTracks) {
+                for (MovieTrack movieTrack:movieTracks) {
+
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });*/
     }
 
 }
