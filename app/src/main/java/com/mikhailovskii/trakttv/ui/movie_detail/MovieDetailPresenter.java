@@ -35,6 +35,7 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
                 view.onMovieDetailsFailed();
             }
         });
+        view.showLoadingIndicator(false);
     }
 
 }

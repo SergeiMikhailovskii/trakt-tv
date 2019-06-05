@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,14 +19,12 @@ import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter;
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class MovieListFragment extends Fragment implements MovieListContract.MoviesListView,
         MoviesAdapter.OnItemClickListener {
 
-    public static final String EXTRA_MOVIE = "EXTRA_MOVIE";
     public static final String EXTRA_IMAGE = "EXTRA_IMAGE";
     public static final String EXTRA_SLUG = "EXTRA_SLUG";
 
@@ -66,7 +63,6 @@ public class MovieListFragment extends Fragment implements MovieListContract.Mov
     @Override
     public void onItemClicked(int position, Movie item) {
         Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
-        intent.putExtra(EXTRA_MOVIE, item.getName());
         intent.putExtra(EXTRA_IMAGE, item.getIconUrl());
         intent.putExtra(EXTRA_SLUG, item.getSlugId());
         startActivity(intent);
@@ -89,9 +85,9 @@ public class MovieListFragment extends Fragment implements MovieListContract.Mov
 
     @Override
     public void showEmptyState(@NonNull Boolean value) {
-        if (value){
+        if (value) {
             mNoFilms.setVisibility(View.VISIBLE);
-        } else  {
+        } else {
             mNoFilms.setVisibility(View.GONE);
         }
     }
