@@ -39,19 +39,21 @@ public class MovieListPresenter extends BasePresenter<MovieListContract.MoviesLi
                             }
 
                             if (!list.isEmpty()) {
+                                view.showEmptyState(false);
                                 view.onMovieListLoaded(list);
                             } else {
                                 view.showEmptyState(true);
                             }
                         } else  {
+                            view.showEmptyState(true);
                             view.onMovieListFailed();
                         }
                         view.showLoadingIndicator(false);
                     }
 
                     @Override
-                    public void onFailure(Call<List<MovieTrack>> call,
-                                          Throwable throwable) {
+                    public void onFailure(@NotNull Call<List<MovieTrack>> call,
+                                          @NotNull Throwable throwable) {
                         view.onMovieListFailed();
                         view.showLoadingIndicator(false);
                     }
