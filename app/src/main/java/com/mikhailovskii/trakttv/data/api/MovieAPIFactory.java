@@ -1,5 +1,7 @@
 package com.mikhailovskii.trakttv.data.api;
 
+import android.support.annotation.NonNull;
+
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
@@ -47,6 +49,7 @@ public class MovieAPIFactory {
                 .build();
     }
 
+    @NonNull
     public static MovieAPIFactory getInstance() {
         if (mInstance == null) {
             mInstance = new MovieAPIFactory();
@@ -54,6 +57,7 @@ public class MovieAPIFactory {
         return mInstance;
     }
 
+    @NonNull
     public MovieAPI getAPIService() {
         return mRetrofit.create(MovieAPI.class);
     }

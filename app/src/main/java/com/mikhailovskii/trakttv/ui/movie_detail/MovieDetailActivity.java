@@ -22,17 +22,17 @@ public class MovieDetailActivity extends AppCompatActivity
 
     private MovieDetailPresenter mPresenter = new MovieDetailPresenter();
 
-    private TextView mDescription_tv;
-    private TextView mCountry_tv;
-    private TextView mRuntime_tv;
-    private TextView mReleased_tv;
-    private TextView mTagline_tv;
-    private TextView mYear_tv;
-    private TextView mToolbarTitle_tv;
-    private TextView mNoInfo_tv;
-    private ImageView mMovieImageView;
-    private ImageButton mBack_btn;
-    private FloatingActionButton mFloatingActionButton;
+    private TextView mTvDescription;
+    private TextView mTvCountry;
+    private TextView mTvRuntime;
+    private TextView mTvReleased;
+    private TextView mTvTagline;
+    private TextView mTvYear;
+    private TextView mTvToolbarTitle;
+    private TextView mTvNoInfo;
+    private ImageView mIvMovie;
+    private ImageButton mBtnBack;
+    private FloatingActionButton mFabFavorite;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Toolbar mToolbar;
 
@@ -48,21 +48,21 @@ public class MovieDetailActivity extends AppCompatActivity
         mSlugId = getIntent().getStringExtra(MovieListFragment.EXTRA_SLUG);
         mUrl = getIntent().getStringExtra(MovieListFragment.EXTRA_IMAGE);
 
-        mDescription_tv = findViewById(R.id.description_textview);
-        mCountry_tv = findViewById(R.id.country);
-        mRuntime_tv = findViewById(R.id.runtime);
-        mReleased_tv = findViewById(R.id.released);
-        mTagline_tv = findViewById(R.id.tagline);
-        mYear_tv = findViewById(R.id.year);
-        mNoInfo_tv = findViewById(R.id.no_info);
-        mMovieImageView = findViewById(R.id.movie_image);
+        mTvDescription = findViewById(R.id.tv_description);
+        mTvCountry = findViewById(R.id.tv_country);
+        mTvRuntime = findViewById(R.id.tv_runtime);
+        mTvReleased = findViewById(R.id.tv_released);
+        mTvTagline = findViewById(R.id.tv_tagline);
+        mTvYear = findViewById(R.id.tv_year);
+        mTvNoInfo = findViewById(R.id.tv_no_info);
+        mIvMovie = findViewById(R.id.movie_image);
         mToolbar = findViewById(R.id.toolbar);
-        mToolbarTitle_tv = mToolbar.findViewById(R.id.toolbar_title);
-        mBack_btn = mToolbar.findViewById(R.id.back);
-        mFloatingActionButton = findViewById(R.id.favorite_button);
-        mFloatingActionButton.setOnClickListener(view -> Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show());
+        mTvToolbarTitle = mToolbar.findViewById(R.id.toolbar_title);
+        mBtnBack = mToolbar.findViewById(R.id.back);
+        mFabFavorite = findViewById(R.id.favorite);
+        mFabFavorite.setOnClickListener(view -> Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show());
 
-        mBack_btn.setOnClickListener(v -> onBackPressed());
+        mBtnBack.setOnClickListener(v -> onBackPressed());
 
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
         mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.loadMovieDetails(mSlugId));
@@ -82,9 +82,9 @@ public class MovieDetailActivity extends AppCompatActivity
     @Override
     public void showEmptyState(@NonNull Boolean value) {
         if (value) {
-            mNoInfo_tv.setVisibility(View.VISIBLE);
+            mTvNoInfo.setVisibility(View.VISIBLE);
         } else {
-            mNoInfo_tv.setVisibility(View.GONE);
+            mTvNoInfo.setVisibility(View.GONE);
         }
     }
 
@@ -95,22 +95,16 @@ public class MovieDetailActivity extends AppCompatActivity
 
     @Override
     public void onMovieDetailsLoaded(@NonNull Movie movie) {
-        mToolbarTitle_tv.setText(movie.getName());
-        mDescription_tv.setText(movie.getOverview());
-/*        mYear_tv.setText("Year: " + movie.getYear());
-        mCountry_tv.setText("Country: " + movie.getCountry());
-        mReleased_tv.setText("Released: " + movie.getReleased());
-        mRuntime_tv.setText("Runtime: " + movie.getRuntime());
-        mTagline_tv.setText("Tagline: " + movie.getTagline());*/
-
-        mYear_tv.setText(getString(R.string.year, movie.getYear()));
-        mCountry_tv.setText(getString(R.string.country, movie.getCountry()));
-        mReleased_tv.setText(getString(R.string.released, movie.getReleased()));
-        mRuntime_tv.setText(getString(R.string.runtime, movie.getRuntime()));
-        mTagline_tv.setText(getString(R.string.tagline, movie.getTagline()));
+        mTvToolbarTitle.setText(movie.getName());
+        mTvDescription.setText(movie.getOverview());
+        mTvYear.setText(getString(R.string.year, movie.getYear()));
+        mTvCountry.setText(getString(R.string.country, movie.getCountry()));
+        mTvReleased.setText(getString(R.string.released, movie.getReleased()));
+        mTvRuntime.setText(getString(R.string.runtime, movie.getRuntime()));
+        mTvTagline.setText(getString(R.string.tagline, movie.getTagline()));
 
 
-        Glide.with(this).load(mUrl).into(mMovieImageView);
+        Glide.with(this).load(mUrl).into(mIvMovie);
     }
 
     @Override

@@ -28,10 +28,10 @@ public class LoginActivity extends AppCompatActivity
 
     private TextInputLayout mLoginLayout;
     private TextInputLayout mPasswordLayout;
-    private TextInputEditText mLoginEdit;
-    private TextInputEditText mPasswordEdit;
-    private LoginButton mFacebookButton;
-    private Button mLoginButton;
+    private TextInputEditText mEtLogin;
+    private TextInputEditText mEtPassword;
+    private LoginButton mBtnFacebook;
+    private Button mBtnLogin;
 
     private CallbackManager mCallbackManager;
     private LoginPresenter mPresenter = new LoginPresenter();
@@ -45,27 +45,18 @@ public class LoginActivity extends AppCompatActivity
         // Find views
         mLoginLayout = findViewById(R.id.login_layout);
         mPasswordLayout = findViewById(R.id.password_layout);
-        mLoginEdit = mLoginLayout.findViewById(R.id.login_edit);
-        mPasswordEdit = mPasswordLayout.findViewById(R.id.password_edit);
-        mFacebookButton = findViewById(R.id.facebook_button);
-        mLoginButton = findViewById(R.id.login);
+        mEtLogin = mLoginLayout.findViewById(R.id.tv_login);
+        mEtPassword = mPasswordLayout.findViewById(R.id.password_text);
+        mBtnFacebook = findViewById(R.id.facebook_login);
+        mBtnLogin = findViewById(R.id.login);
 
         // Handle login button
-        mLoginButton.setOnClickListener(v -> {
+        mBtnLogin.setOnClickListener(v -> {
             mLoginLayout.setError(null);
             mPasswordLayout.setError(null);
-            String login = Objects.requireNonNull(mLoginEdit.getText()).toString();
-            String password = Objects.requireNonNull(mPasswordEdit.getText()).toString();
-            /*if (!(login.equals("") || password.equals(""))) {
-                Bundle bundle = new Bundle();
+            String login = Objects.requireNonNull(mEtLogin.getText()).toString();
+            String password = Objects.requireNonNull(mEtPassword.getText()).toString();
 
-                bundle.putString(LoginPresenter.EXTRA_LOGIN, mLoginEdit.getText().toString());
-                bundle.putString(LoginPresenter.EXTRA_PASSWORD, mPasswordEdit.getText().toString());
-
-                mPresenter.saveUserData(bundle);
-            } else {
-                Toast.makeText(this, "Please, enter your information!", Toast.LENGTH_SHORT).show();
-            }*/
             if (login.equals("")) {
                 mLoginLayout.setError("Enter login!");
             } else if (password.equals("")) {
@@ -73,8 +64,8 @@ public class LoginActivity extends AppCompatActivity
             } else {
                 Bundle bundle = new Bundle();
 
-                bundle.putString(LoginPresenter.EXTRA_LOGIN, mLoginEdit.getText().toString());
-                bundle.putString(LoginPresenter.EXTRA_PASSWORD, mPasswordEdit.getText().toString());
+                bundle.putString(LoginPresenter.EXTRA_LOGIN, mEtLogin.getText().toString());
+                bundle.putString(LoginPresenter.EXTRA_PASSWORD, mEtPassword.getText().toString());
 
                 mPresenter.saveUserData(bundle);
             }
@@ -83,8 +74,8 @@ public class LoginActivity extends AppCompatActivity
 
         // Facebook logic
         mCallbackManager = CallbackManager.Factory.create();
-        mFacebookButton.setPermissions(FB_EMAIL_PERMISSION);
-        mFacebookButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+        mBtnFacebook.setPermissions(FB_EMAIL_PERMISSION);
+        mBtnFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 mPresenter.proceedWithFbLogin(loginResult);

@@ -1,5 +1,7 @@
 package com.mikhailovskii.trakttv.ui.movies_list;
 
+import android.support.annotation.NonNull;
+
 import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.ui.base.MvpPresenter;
 import com.mikhailovskii.trakttv.ui.base.MvpView;
@@ -10,7 +12,7 @@ public interface MovieListContract {
 
     interface MoviesListView extends MvpView {
 
-        void onMovieListLoaded(List<Movie> movieList);
+        void onMovieListLoaded(@NonNull List<Movie> movieList);
 
         void onMovieListFailed();
 

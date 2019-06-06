@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction startTransaction = getSupportFragmentManager().beginTransaction();
         MovieListFragment movieListFragment = new MovieListFragment();
-        startTransaction.add(R.id.fragments, movieListFragment);
+        startTransaction.add(R.id.fragmentLayout, movieListFragment);
         startTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         startTransaction.commit();
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (fragment != null) {
-                fragmentTransaction.replace(R.id.fragments, fragment);
+                fragmentTransaction.replace(R.id.fragmentLayout, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 fragmentTransaction.commit();

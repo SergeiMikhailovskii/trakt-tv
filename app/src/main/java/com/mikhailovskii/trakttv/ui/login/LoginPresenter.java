@@ -12,6 +12,7 @@ import com.mikhailovskii.trakttv.data.entity.User;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 import com.mikhailovskii.trakttv.util.Preference;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,7 +47,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView>
     }
 
     @Override
-    public void proceedWithFbLogin(LoginResult loginResult) {
+    public void proceedWithFbLogin(@NotNull LoginResult loginResult) {
         GraphRequest request = GraphRequest.newMeRequest(
                 AccessToken.getCurrentAccessToken(),
                 (object, response) -> {

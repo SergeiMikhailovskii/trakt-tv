@@ -43,7 +43,7 @@ public class Movie {
     @Expose
     private String overview;
 
-    public Movie(String iconUrl, String name, int year, String slugId, int watchers) {
+    public Movie(@NonNull String iconUrl, @NonNull String name, int year, @NonNull String slugId, int watchers) {
         this.iconUrl = iconUrl;
         this.name = name;
         this.year = year;
@@ -51,7 +51,7 @@ public class Movie {
         this.watchers = watchers;
     }
 
-    public Movie(String iconUrl, String name, int year, String tagline, String released, int runtime, String country, String overview){
+    public Movie(@NonNull String iconUrl, @NonNull String name, int year, @NonNull String tagline, @NonNull String released, int runtime, @NonNull String country, @NonNull String overview) {
         this.iconUrl = iconUrl;
         this.name = name;
         this.year = year;
@@ -67,7 +67,7 @@ public class Movie {
         return iconUrl;
     }
 
-    public void setIconUrl(String iconUrl) {
+    public void setIconUrl(@NonNull String iconUrl) {
         this.iconUrl = iconUrl;
     }
 
@@ -76,7 +76,7 @@ public class Movie {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
@@ -89,11 +89,11 @@ public class Movie {
     }
 
     @NonNull
-    public String getSlugId(){
+    public String getSlugId() {
         return slugId;
     }
 
-    public void setSlugId(String slugId){
+    public void setSlugId(@NonNull String slugId) {
         this.slugId = slugId;
     }
 
@@ -110,7 +110,7 @@ public class Movie {
         return tagline;
     }
 
-    public void setTagline(String tagline) {
+    public void setTagline(@NonNull String tagline) {
         this.tagline = tagline;
     }
 
@@ -119,7 +119,7 @@ public class Movie {
         return released;
     }
 
-    public void setReleased(String released) {
+    public void setReleased(@NonNull String released) {
         this.released = released;
     }
 
@@ -136,7 +136,7 @@ public class Movie {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(@NonNull String country) {
         this.country = country;
     }
 
@@ -145,7 +145,7 @@ public class Movie {
         return overview;
     }
 
-    public void setOverview(String overview) {
+    public void setOverview(@NonNull String overview) {
         this.overview = overview;
     }
 }

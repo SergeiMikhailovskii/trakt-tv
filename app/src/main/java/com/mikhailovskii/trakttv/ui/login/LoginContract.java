@@ -21,7 +21,7 @@ public interface LoginContract {
 
         void saveUserData(@NonNull Bundle bundle);
 
-        void proceedWithFbLogin(LoginResult loginResult);
+        void proceedWithFbLogin(@NonNull LoginResult loginResult);
 
     }
 

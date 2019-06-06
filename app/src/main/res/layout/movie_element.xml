@@ -6,7 +6,7 @@
     android:background="?attr/selectableItemBackground">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/icon_imageview"
+        android:id="@+id/icon_image"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginStart="16dp"
@@ -20,36 +20,36 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/moviename_textview"
+        android:id="@+id/tv_moviename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@id/icon_imageview"
+        app:layout_constraintStart_toEndOf="@id/icon_image"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/year_textview"
+        android:id="@+id/tv_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:text="@string/year"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@id/icon_imageview"
-        app:layout_constraintTop_toBottomOf="@id/moviename_textview" />
+        app:layout_constraintStart_toEndOf="@id/icon_image"
+        app:layout_constraintTop_toBottomOf="@id/tv_moviename" />
 
     <TextView
-        android:id="@+id/watchers"
+        android:id="@+id/tv_watchers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:text="@string/watchers"
         android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@id/icon_imageview"
-        app:layout_constraintTop_toBottomOf="@id/year_textview" />
+        app:layout_constraintStart_toEndOf="@id/icon_image"
+        app:layout_constraintTop_toBottomOf="@id/tv_year" />
 
 </android.support.constraint.ConstraintLayout>

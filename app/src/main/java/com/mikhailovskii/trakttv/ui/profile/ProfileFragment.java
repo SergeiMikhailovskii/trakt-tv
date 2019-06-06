@@ -18,6 +18,8 @@ import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.data.entity.User;
 import com.mikhailovskii.trakttv.ui.login.LoginActivity;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 
@@ -26,11 +28,11 @@ public class ProfileFragment extends Fragment
 
     private ProfilePresenter mProfilePresenter = new ProfilePresenter();
 
-    private Button mLogOutButton;
-    private ImageView mAvatar;
-    private TextView mLoginTextView;
-    private TextView mIdTextView;
-    private TextView mEmailTextView;
+    private Button mBtnLogOut;
+    private ImageView mIvAvatar;
+    private TextView mTvLogin;
+    private TextView mTvId;
+    private TextView mTvEmail;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -40,14 +42,14 @@ public class ProfileFragment extends Fragment
         mProfilePresenter.attachView(this);
 
         //Find views
-        mLogOutButton = view.findViewById(R.id.log_out_button);
-        mAvatar = view.findViewById(R.id.avatar);
-        mLoginTextView = view.findViewById(R.id.login_textview);
-        mIdTextView = view.findViewById(R.id.id_textview);
-        mEmailTextView = view.findViewById(R.id.email_textview);
+        mBtnLogOut = view.findViewById(R.id.log_out);
+        mIvAvatar = view.findViewById(R.id.avatar);
+        mTvLogin = view.findViewById(R.id.tv_login);
+        mTvId = view.findViewById(R.id.tv_id);
+        mTvEmail = view.findViewById(R.id.tv_email);
 
         //Handle logout button
-        mLogOutButton.setOnClickListener(v -> mProfilePresenter.logOut());
+        mBtnLogOut.setOnClickListener(v -> mProfilePresenter.logOut());
 
         mProfilePresenter.getUser();
         return view;
@@ -60,16 +62,16 @@ public class ProfileFragment extends Fragment
     }
 
     @Override
-    public void onUserDataLoaded(User user) {
+    public void onUserDataLoaded(@NotNull User user) {
         Glide.with(Objects.requireNonNull(getContext()))
                 .load(user.getAvatar())
                 .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_error_profile)
-                .into(mAvatar);
+                .into(mIvAvatar);
 
-        mEmailTextView.setText(user.getEmail());
-        mIdTextView.setText(user.getId());
-        mLoginTextView.setText(user.getUsername());
+        mTvEmail.setText(user.getEmail());
+        mTvId.setText(user.getId());
+        mTvLogin.setText(user.getUsername());
     }
 
     @Override

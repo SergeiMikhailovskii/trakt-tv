@@ -20,19 +20,17 @@ public class MovieListPresenter extends BasePresenter<MovieListContract.MoviesLi
 
     @Override
     public void loadMovieList() {
-        view.showLoadingIndicator(true);
-
-        List<Movie> list = new ArrayList<>();
-
         MovieAPIFactory.getInstance().getAPIService()
                 .getMovies()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<MovieTrack>>() {
 
+                    List<Movie> list = new ArrayList<>();
+
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        view.showLoadingIndicator(true);
                     }
 
                     @Override
@@ -55,6 +53,7 @@ public class MovieListPresenter extends BasePresenter<MovieListContract.MoviesLi
 
                     @Override
                     public void onComplete() {
+                        view.showLoadingIndicator(false);
                         if (!list.isEmpty()) {
                             view.showEmptyState(false);
                             view.onMovieListLoaded(list);
@@ -63,8 +62,6 @@ public class MovieListPresenter extends BasePresenter<MovieListContract.MoviesLi
                         }
                     }
                 });
-
-        view.showLoadingIndicator(false);
 
     }
 

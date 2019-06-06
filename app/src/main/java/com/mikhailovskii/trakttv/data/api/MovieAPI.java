@@ -1,5 +1,8 @@
 package com.mikhailovskii.trakttv.data.api;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.data.entity.MovieTrack;
 
@@ -13,14 +16,11 @@ import retrofit2.http.Path;
 public interface MovieAPI {
 
     @GET("/movies/trending")
+    @NonNull
     Observable<List<MovieTrack>> getMovies();
 
-/*
     @GET("/movies/{slug}?extended=full")
-    Call<Movie> getExtendedInfo(@Path("slug") String slug);
-*/
-
-    @GET("/movies/{slug}?extended=full")
+    @NonNull
     Observable<Movie> getExtendedInfo(@Path("slug") String slug);
 
 }

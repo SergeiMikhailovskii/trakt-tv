@@ -1,5 +1,7 @@
 package com.mikhailovskii.trakttv.data.entity;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,11 +11,12 @@ public class MovieId {
     @Expose
     private String slug;
 
+    @NonNull
     public String getSlug() {
         return slug;
     }
 
-    public void setSlug(String slug) {
+    public void setSlug(@NonNull String slug) {
         this.slug = slug;
     }
 

@@ -89,10 +89,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            mIconImageView = itemView.findViewById(R.id.icon_imageview);
-            mMovieNameTextView = itemView.findViewById(R.id.moviename_textview);
-            mYearTextView = itemView.findViewById(R.id.year_textview);
-            mWatchersTextView = itemView.findViewById(R.id.watchers);
+            mIconImageView = itemView.findViewById(R.id.icon_image);
+            mMovieNameTextView = itemView.findViewById(R.id.tv_moviename);
+            mYearTextView = itemView.findViewById(R.id.tv_year);
+            mWatchersTextView = itemView.findViewById(R.id.tv_watchers);
         }
 
     }

@@ -19,6 +19,8 @@ import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter;
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -30,7 +32,7 @@ public class MovieListFragment extends Fragment implements MovieListContract.Mov
 
     private MovieListPresenter mPresenter = new MovieListPresenter();
     private SwipeRefreshLayout mSwipeRefresh;
-    private TextView mNoFilms;
+    private TextView mTvNoFilms;
     private MoviesAdapter mAdapter;
 
     @Override
@@ -39,7 +41,7 @@ public class MovieListFragment extends Fragment implements MovieListContract.Mov
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         mPresenter.attachView(this);
 
-        mNoFilms = view.findViewById(R.id.no_films);
+        mTvNoFilms = view.findViewById(R.id.no_films);
 
         RecyclerView moviesRecycler = view.findViewById(R.id.movies_list);
         moviesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -73,7 +75,7 @@ public class MovieListFragment extends Fragment implements MovieListContract.Mov
     }
 
     @Override
-    public void onMovieListLoaded(List<Movie> movieList) {
+    public void onMovieListLoaded(@NonNull @NotNull List<Movie> movieList) {
         mAdapter.setData(movieList);
     }
 
@@ -85,9 +87,9 @@ public class MovieListFragment extends Fragment implements MovieListContract.Mov
     @Override
     public void showEmptyState(@NonNull Boolean value) {
         if (value) {
-            mNoFilms.setVisibility(View.VISIBLE);
+            mTvNoFilms.setVisibility(View.VISIBLE);
         } else {
-            mNoFilms.setVisibility(View.GONE);
+            mTvNoFilms.setVisibility(View.GONE);
         }
     }
 
