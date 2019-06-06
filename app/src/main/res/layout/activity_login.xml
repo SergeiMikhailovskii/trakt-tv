@@ -35,33 +35,47 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:ignore="ContentDescription" />
 
-    <EditText
-        android:id="@+id/login_edit"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/login_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:hint="@string/login"
-        android:singleLine="true"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo_imageview"
-        tools:ignore="Autofill,TextFields" />
+        app:layout_constraintTop_toBottomOf="@id/logo_imageview">
 
-    <EditText
-        android:id="@+id/password_edit"
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/login_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/login" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:hint="@string/password"
-        android:singleLine="true"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_edit"
-        tools:ignore="Autofill,TextFields" />
+        app:layout_constraintTop_toBottomOf="@id/login_layout"
+        app:passwordToggleEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/password_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:inputType="textPassword" />
+
+    </android.support.design.widget.TextInputLayout>
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/facebook_button"
@@ -73,7 +87,7 @@
         android:text="@string/log_in_with_facebook"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password_edit" />
+        app:layout_constraintTop_toBottomOf="@id/password_layout" />
 
     <Button
         android:id="@+id/login"

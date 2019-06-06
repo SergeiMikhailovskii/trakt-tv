@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -17,14 +18,18 @@ import com.facebook.login.widget.LoginButton;
 import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.ui.main.MainActivity;
 
+import java.util.Objects;
+
 
 public class LoginActivity extends AppCompatActivity
         implements LoginContract.LoginView {
 
     private static final String FB_EMAIL_PERMISSION = "email";
 
-    private EditText mLoginEdit;
-    private EditText mPasswordEdit;
+    private TextInputLayout mLoginLayout;
+    private TextInputLayout mPasswordLayout;
+    private TextInputEditText mLoginEdit;
+    private TextInputEditText mPasswordEdit;
     private LoginButton mFacebookButton;
     private Button mLoginButton;
 
@@ -38,16 +43,20 @@ public class LoginActivity extends AppCompatActivity
         mPresenter.attachView(this);
 
         // Find views
-        mLoginEdit = findViewById(R.id.login_edit);
-        mPasswordEdit = findViewById(R.id.password_edit);
+        mLoginLayout = findViewById(R.id.login_layout);
+        mPasswordLayout = findViewById(R.id.password_layout);
+        mLoginEdit = mLoginLayout.findViewById(R.id.login_edit);
+        mPasswordEdit = mPasswordLayout.findViewById(R.id.password_edit);
         mFacebookButton = findViewById(R.id.facebook_button);
         mLoginButton = findViewById(R.id.login);
 
         // Handle login button
         mLoginButton.setOnClickListener(v -> {
-            String login = mLoginEdit.getText().toString();
-            String password = mPasswordEdit.getText().toString();
-            if (!(login.equals("") || password.equals(""))) {
+            mLoginLayout.setError(null);
+            mPasswordLayout.setError(null);
+            String login = Objects.requireNonNull(mLoginEdit.getText()).toString();
+            String password = Objects.requireNonNull(mPasswordEdit.getText()).toString();
+            /*if (!(login.equals("") || password.equals(""))) {
                 Bundle bundle = new Bundle();
 
                 bundle.putString(LoginPresenter.EXTRA_LOGIN, mLoginEdit.getText().toString());
@@ -56,6 +65,18 @@ public class LoginActivity extends AppCompatActivity
                 mPresenter.saveUserData(bundle);
             } else {
                 Toast.makeText(this, "Please, enter your information!", Toast.LENGTH_SHORT).show();
+            }*/
+            if (login.equals("")) {
+                mLoginLayout.setError("Enter login!");
+            } else if (password.equals("")) {
+                mPasswordLayout.setError("Enter password");
+            } else {
+                Bundle bundle = new Bundle();
+
+                bundle.putString(LoginPresenter.EXTRA_LOGIN, mLoginEdit.getText().toString());
+                bundle.putString(LoginPresenter.EXTRA_PASSWORD, mPasswordEdit.getText().toString());
+
+                mPresenter.saveUserData(bundle);
             }
 
         });
