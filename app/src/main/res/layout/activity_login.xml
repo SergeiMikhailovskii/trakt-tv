@@ -51,7 +51,8 @@
             android:id="@+id/tv_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/login" />
+            android:hint="@string/login"
+            android:singleLine="true" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -73,7 +74,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:singleLine="true" />
 
     </android.support.design.widget.TextInputLayout>
 
