@@ -43,7 +43,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView>
 
         Preference.getInstance(TraktTvApp.getAppContext()).setUser(user);
 
-        view.onLoggedIn();
+        mView.onLoggedIn();
     }
 
     @Override

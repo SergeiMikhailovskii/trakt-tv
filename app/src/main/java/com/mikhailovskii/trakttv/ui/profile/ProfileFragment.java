@@ -23,10 +23,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 
-public class ProfileFragment extends Fragment
-        implements ProfileContract.ProfileView {
+public class ProfileFragment extends Fragment implements ProfileContract.ProfileView {
 
-    private ProfilePresenter mProfilePresenter = new ProfilePresenter();
+    private ProfilePresenter mPresenter = new ProfilePresenter();
 
     private Button mBtnLogOut;
     private ImageView mIvAvatar;
@@ -39,7 +38,7 @@ public class ProfileFragment extends Fragment
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        mProfilePresenter.attachView(this);
+        mPresenter.attachView(this);
 
         //Find views
         mBtnLogOut = view.findViewById(R.id.log_out);
@@ -49,10 +48,18 @@ public class ProfileFragment extends Fragment
         mTvEmail = view.findViewById(R.id.tv_email);
 
         //Handle logout button
-        mBtnLogOut.setOnClickListener(v -> mProfilePresenter.logOut());
+        mBtnLogOut.setOnClickListener(v -> mPresenter.logOut());
 
-        mProfilePresenter.getUser();
+        mPresenter.getUser();
+
         return view;
+    }
+
+    // todo do not forget to detach view
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.detachView();
     }
 
     @Override

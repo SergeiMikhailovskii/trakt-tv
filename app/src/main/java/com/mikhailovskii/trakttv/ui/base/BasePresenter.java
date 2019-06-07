@@ -2,18 +2,22 @@ package com.mikhailovskii.trakttv.ui.base;
 
 import android.support.annotation.NonNull;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 public class BasePresenter<View> implements MvpPresenter<View> {
 
-    public View view = null;
+    public View mView = null;
+    public CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
     public void attachView(@NonNull View view) {
-        this.view = view;
+        mView = view;
     }
 
     @Override
     public void detachView() {
-        this.view = null;
+        mCompositeDisposable.clear();
+        mView = null;
     }
 
 }

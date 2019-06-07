@@ -45,6 +45,8 @@ public class MovieDetailActivity extends AppCompatActivity
         setContentView(R.layout.activity_movie_detail);
         mPresenter.attachView(this);
 
+        setToolbar();
+
         mSlugId = getIntent().getStringExtra(MovieListFragment.EXTRA_SLUG);
         mUrl = getIntent().getStringExtra(MovieListFragment.EXTRA_IMAGE);
 
@@ -56,27 +58,21 @@ public class MovieDetailActivity extends AppCompatActivity
         mTvYear = findViewById(R.id.tv_year);
         mTvNoInfo = findViewById(R.id.tv_no_info);
         mIvMovie = findViewById(R.id.movie_image);
-        mToolbar = findViewById(R.id.toolbar);
-        mTvToolbarTitle = mToolbar.findViewById(R.id.toolbar_title);
-        mBtnBack = mToolbar.findViewById(R.id.back);
+
         mFabFavorite = findViewById(R.id.favorite);
         mFabFavorite.setOnClickListener(view -> Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show());
-
-        mBtnBack.setOnClickListener(v -> onBackPressed());
 
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
         mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.loadMovieDetails(mSlugId));
 
-        setSupportActionBar(mToolbar);
+        mPresenter.loadMovieDetails(mSlugId);
+    }
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
-
-        if (mSlugId != null) {
-            mPresenter.loadMovieDetails(mSlugId);
-        }
-
+    // todo do not forget to use detachView
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.detachView();
     }
 
     @Override
@@ -103,13 +99,26 @@ public class MovieDetailActivity extends AppCompatActivity
         mTvRuntime.setText(getString(R.string.runtime, movie.getRuntime()));
         mTvTagline.setText(getString(R.string.tagline, movie.getTagline()));
 
-
         Glide.with(this).load(mUrl).into(mIvMovie);
     }
 
     @Override
     public void onMovieDetailsFailed() {
 
+    }
+
+    private void setToolbar() {
+        mToolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(mToolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+        mTvToolbarTitle = mToolbar.findViewById(R.id.toolbar_title);
+        mBtnBack = mToolbar.findViewById(R.id.back);
+        mBtnBack.setOnClickListener(v -> onBackPressed());
     }
 
 }

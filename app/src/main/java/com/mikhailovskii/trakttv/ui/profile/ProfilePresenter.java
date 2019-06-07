@@ -11,13 +11,14 @@ public class ProfilePresenter extends BasePresenter<ProfileContract.ProfileView>
     @Override
     public void getUser() {
         User user = Preference.getInstance(TraktTvApp.getAppContext()).getUser();
-        view.onUserDataLoaded(user);
+        // todo user can be null?
+        mView.onUserDataLoaded(user);
     }
 
     @Override
     public void logOut() {
         Preference.getInstance(TraktTvApp.getAppContext()).setUser(null);
-        view.onLogOutSuccess();
+        mView.onLogOutSuccess();
     }
 
 }
