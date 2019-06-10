@@ -15,42 +15,50 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.mikhailovskii.trakttv.R;
-import com.mikhailovskii.trakttv.data.model.User;
+import com.mikhailovskii.trakttv.data.entity.User;
 import com.mikhailovskii.trakttv.ui.login.LoginActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 
-public class ProfileFragment extends Fragment
-        implements ProfileContract.ProfileView {
+public class ProfileFragment extends Fragment implements ProfileContract.ProfileView {
 
-    private ProfilePresenter mProfilePresenter = new ProfilePresenter();
+    private ProfilePresenter mPresenter = new ProfilePresenter();
 
-    private Button mLogOutButton;
-    private ImageView mAvatar;
-    private TextView mLoginTextView;
-    private TextView mIdTextView;
-    private TextView mEmailTextView;
+    private Button mBtnLogOut;
+    private ImageView mIvAvatar;
+    private TextView mTvLogin;
+    private TextView mTvId;
+    private TextView mTvEmail;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        mProfilePresenter.attachView(this);
+        mPresenter.attachView(this);
 
         //Find views
-        mLogOutButton = view.findViewById(R.id.log_out_button);
-        mAvatar = view.findViewById(R.id.avatar);
-        mLoginTextView = view.findViewById(R.id.login_textview);
-        mIdTextView = view.findViewById(R.id.id_textview);
-        mEmailTextView = view.findViewById(R.id.email_textview);
+        mBtnLogOut = view.findViewById(R.id.log_out);
+        mIvAvatar = view.findViewById(R.id.avatar);
+        mTvLogin = view.findViewById(R.id.tv_login);
+        mTvId = view.findViewById(R.id.tv_id);
+        mTvEmail = view.findViewById(R.id.tv_email);
 
         //Handle logout button
-        mLogOutButton.setOnClickListener(v -> mProfilePresenter.logOut());
+        mBtnLogOut.setOnClickListener(v -> mPresenter.logOut());
 
-        mProfilePresenter.getUser();
+        mPresenter.getUser();
+
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.detachView();
     }
 
     @Override
@@ -60,21 +68,16 @@ public class ProfileFragment extends Fragment
     }
 
     @Override
-    public void onUserDataLoaded(User user) {
+    public void onUserDataLoaded(@NotNull User user) {
         Glide.with(Objects.requireNonNull(getContext()))
                 .load(user.getAvatar())
-                .error(R.drawable.ic_error_profile)
                 .apply(RequestOptions.circleCropTransform())
-                .into(mAvatar);
+                .placeholder(R.drawable.ic_error_profile)
+                .into(mIvAvatar);
 
-        mEmailTextView.setText(user.getEmail());
-        mIdTextView.setText(user.getId());
-        mLoginTextView.setText(user.getUsername());
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
+        mTvEmail.setText(user.getEmail());
+        mTvId.setText(user.getId());
+        mTvLogin.setText(user.getUsername());
     }
 
     @Override

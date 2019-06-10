@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -17,16 +18,20 @@ import com.facebook.login.widget.LoginButton;
 import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.ui.main.MainActivity;
 
+import java.util.Objects;
+
 
 public class LoginActivity extends AppCompatActivity
         implements LoginContract.LoginView {
 
     private static final String FB_EMAIL_PERMISSION = "email";
 
-    private EditText mLoginEdit;
-    private EditText mPasswordEdit;
-    private LoginButton mFacebookButton;
-    private Button mLoginButton;
+    private TextInputLayout mLoginLayout;
+    private TextInputLayout mPasswordLayout;
+    private TextInputEditText mEtLogin;
+    private TextInputEditText mEtPassword;
+    private LoginButton mBtnFacebook;
+    private Button mBtnLogin;
 
     private CallbackManager mCallbackManager;
     private LoginPresenter mPresenter = new LoginPresenter();
@@ -38,24 +43,39 @@ public class LoginActivity extends AppCompatActivity
         mPresenter.attachView(this);
 
         // Find views
-        mLoginEdit = findViewById(R.id.login_edit);
-        mPasswordEdit = findViewById(R.id.password_edit);
-        mFacebookButton = findViewById(R.id.facebook_button);
-        mLoginButton = findViewById(R.id.login);
+        mLoginLayout = findViewById(R.id.login_layout);
+        mPasswordLayout = findViewById(R.id.password_layout);
+        mEtLogin = mLoginLayout.findViewById(R.id.tv_login);
+        mEtPassword = mPasswordLayout.findViewById(R.id.password_text);
+        mBtnFacebook = findViewById(R.id.facebook_login);
+        mBtnLogin = findViewById(R.id.login);
 
         // Handle login button
-        mLoginButton.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(LoginPresenter.EXTRA_LOGIN, mLoginEdit.getText().toString());
-            bundle.putString(LoginPresenter.EXTRA_PASSWORD, mPasswordEdit.getText().toString());
+        mBtnLogin.setOnClickListener(v -> {
+            mLoginLayout.setError(null);
+            mPasswordLayout.setError(null);
+            String login = Objects.requireNonNull(mEtLogin.getText()).toString();
+            String password = Objects.requireNonNull(mEtPassword.getText()).toString();
 
-            mPresenter.saveUserData(bundle);
+            if (login.equals("")) {
+                mLoginLayout.setError("Enter login!");
+            } else if (password.equals("")) {
+                mPasswordLayout.setError("Enter password");
+            } else {
+                Bundle bundle = new Bundle();
+
+                bundle.putString(LoginPresenter.EXTRA_LOGIN, mEtLogin.getText().toString());
+                bundle.putString(LoginPresenter.EXTRA_PASSWORD, mEtPassword.getText().toString());
+
+                mPresenter.saveUserData(bundle);
+            }
+
         });
 
         // Facebook logic
         mCallbackManager = CallbackManager.Factory.create();
-        mFacebookButton.setPermissions(FB_EMAIL_PERMISSION);
-        mFacebookButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+        mBtnFacebook.setPermissions(FB_EMAIL_PERMISSION);
+        mBtnFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 mPresenter.proceedWithFbLogin(loginResult);
@@ -94,11 +114,6 @@ public class LoginActivity extends AppCompatActivity
     @Override
     public void onLoginFailed() {
         Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showMessage(@NonNull String message) {
-
     }
 
     @Override

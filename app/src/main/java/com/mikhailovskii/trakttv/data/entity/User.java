@@ -1,6 +1,7 @@
-package com.mikhailovskii.trakttv.data.model;
+package com.mikhailovskii.trakttv.data.entity;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public class User {
 
@@ -11,7 +12,7 @@ public class User {
     private String id;
     private String avatar;
 
-    public User(String email, String password, String token, String username, String id, String avatar) {
+    public User(@Nullable String email, @Nullable String password, @Nullable String token, @Nullable String username, @Nullable String id, @Nullable String avatar) {
         this.email = email;
         this.password = password;
         this.token = token;
@@ -20,12 +21,12 @@ public class User {
         this.avatar = avatar;
     }
 
-    @NonNull
+    @Nullable
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(@NonNull String email) {
         this.email = email;
     }
 
@@ -34,16 +35,16 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(@NonNull String password) {
         this.password = password;
     }
 
-    @NonNull
+    @Nullable
     public String getToken() {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(@NonNull String token) {
         this.token = token;
     }
 
@@ -52,25 +53,25 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(@NonNull String username) {
         this.username = username;
     }
 
-    @NonNull
+    @Nullable
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(@NonNull String id) {
         this.id = id;
     }
 
-    @NonNull
+    @Nullable
     public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(@NonNull String avatar) {
         this.avatar = avatar;
     }
 }

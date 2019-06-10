@@ -6,12 +6,11 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.mikhailovskii.trakttv.R;
+import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 import com.mikhailovskii.trakttv.ui.profile.ProfileFragment;
 
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,21 +21,24 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
+        FragmentTransaction startTransaction = getSupportFragmentManager().beginTransaction();
+        MovieListFragment movieListFragment = new MovieListFragment();
+        startTransaction.add(R.id.fragmentLayout, movieListFragment);
+        startTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        startTransaction.commit();
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             Fragment fragment = null;
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
             switch (menuItem.getItemId()) {
-
                 case R.id.movies:
                     menuItem.setChecked(true);
+                    fragment = new MovieListFragment();
                     break;
-
                 case R.id.favorites:
                     menuItem.setChecked(true);
                     break;
-
                 case R.id.profile:
                     menuItem.setChecked(true);
                     fragment = new ProfileFragment();
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (fragment != null) {
-                fragmentTransaction.replace(R.id.fragments, fragment);
+                fragmentTransaction.replace(R.id.fragmentLayout, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 fragmentTransaction.commit();

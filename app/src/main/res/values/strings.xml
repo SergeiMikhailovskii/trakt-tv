@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Trakt-TV</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="log_in_with_facebook">Log in with facebook</string>
@@ -14,7 +14,16 @@
     <string name="failed_fb_login">Failed to login with FB</string>
     <string name="login_failed">Login failed!</string>
     <string name="log_out">Log out</string>
-    <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
     <string name="id">ID</string>
     <string name="email">Email</string>
+    <string name="no_films">No films</string>
+    <string name="loading_failed">Loading failed</string>
+    <string name="year">Year: %1$d</string>
+    <string name="watchers">Watchers: %1$d</string>
+    <string name="no_information">No information</string>
+    <string name="country">Country: %1$s</string>
+    <string name="released">Released: %1$s</string>
+    <string name="runtime">Runtime: %1$d</string>
+    <string name="tagline">Tagline: %1$s</string>
+
 </resources>

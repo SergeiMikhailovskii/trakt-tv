@@ -7,11 +7,12 @@ import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
-import com.mikhailovskii.trakttv.TracktvApp;
-import com.mikhailovskii.trakttv.data.model.User;
+import com.mikhailovskii.trakttv.TraktTvApp;
+import com.mikhailovskii.trakttv.data.entity.User;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 import com.mikhailovskii.trakttv.util.Preference;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,12 +41,13 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView>
 
         User user = new User(email, password, token, login, id, avatar);
 
-        Preference.getInstance(TracktvApp.getAppContext()).setUser(user);
+        Preference.getInstance(TraktTvApp.getAppContext()).setUser(user);
 
-        view.onLoggedIn();
+        mView.onLoggedIn();
     }
 
-    public void proceedWithFbLogin(LoginResult loginResult) {
+    @Override
+    public void proceedWithFbLogin(@NotNull LoginResult loginResult) {
         GraphRequest request = GraphRequest.newMeRequest(
                 AccessToken.getCurrentAccessToken(),
                 (object, response) -> {
@@ -70,7 +72,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView>
                             bundle.putString(EXTRA_ID, id);
                             bundle.putString(EXTRA_AVATAR, "https://graph.facebook.com/v2.2/" + id + "/picture?height=120&type=normal");
                             bundle.putString(EXTRA_LOGIN, Profile.getCurrentProfile().getName());
-
 
 
                             saveUserData(bundle);
