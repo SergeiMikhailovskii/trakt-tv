@@ -13,12 +13,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.stetho.Stetho;
 import com.mikhailovskii.trakttv.R;
+import com.mikhailovskii.trakttv.TraktTvApp;
 import com.mikhailovskii.trakttv.data.entity.Movie;
+import com.mikhailovskii.trakttv.data.room.MovieEntity;
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 
 public class MovieDetailActivity extends AppCompatActivity
         implements MovieDetailContract.MovieDetailView {
+
+    public static final String EXTRA_NAME = "EXTRA_NAME";
+    public static final String EXTRA_WATCHERS = "EXTRA_WATCHERS";
 
     private MovieDetailPresenter mPresenter = new MovieDetailPresenter();
 
@@ -45,6 +51,8 @@ public class MovieDetailActivity extends AppCompatActivity
         setContentView(R.layout.activity_movie_detail);
         mPresenter.attachView(this);
 
+        Stetho.initializeWithDefaults(this);
+
         setToolbar();
 
         mSlugId = getIntent().getStringExtra(MovieListFragment.EXTRA_SLUG);
@@ -60,7 +68,6 @@ public class MovieDetailActivity extends AppCompatActivity
         mIvMovie = findViewById(R.id.movie_image);
 
         mFabFavorite = findViewById(R.id.favorite);
-        mFabFavorite.setOnClickListener(view -> Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show());
 
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
         mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.loadMovieDetails(mSlugId));
@@ -90,6 +97,15 @@ public class MovieDetailActivity extends AppCompatActivity
 
     @Override
     public void onMovieDetailsLoaded(@NonNull Movie movie) {
+
+        mFabFavorite.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(EXTRA_NAME, movie.getName());
+            bundle.putInt(EXTRA_WATCHERS, movie.getWatchers());
+            bundle.putString(MovieListFragment.EXTRA_IMAGE, movie.getIconUrl());
+            mPresenter.addMovieToFavorites(bundle);
+        });
+
         mTvToolbarTitle.setText(movie.getName());
         mTvDescription.setText(movie.getOverview());
         mTvYear.setText(getString(R.string.year, movie.getYear()));
@@ -103,6 +119,16 @@ public class MovieDetailActivity extends AppCompatActivity
 
     @Override
     public void onMovieDetailsFailed() {
+
+    }
+
+    @Override
+    public void onMoviesAdded() {
+        Toast.makeText(this, "Film added!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMoviesAddingFailed() {
 
     }
 

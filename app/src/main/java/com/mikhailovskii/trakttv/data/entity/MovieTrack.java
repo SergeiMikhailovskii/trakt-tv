@@ -20,5 +20,4 @@ public class MovieTrack {
         this.watchersNumber = watchersNumber;
     }
 
-
 }
