@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
@@ -35,7 +36,7 @@ public class Preference {
         mEditor.putString(PREF_USER, new Gson().toJson(user)).commit();
     }
 
-    @Nullable
+    @NonNull
     public User getUser() {
         return new Gson().fromJson(mSharedPreferences.getString(PREF_USER, null), User.class);
     }

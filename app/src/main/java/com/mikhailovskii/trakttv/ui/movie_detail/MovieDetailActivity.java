@@ -68,7 +68,6 @@ public class MovieDetailActivity extends AppCompatActivity
         mPresenter.loadMovieDetails(mSlugId);
     }
 
-    // todo do not forget to use detachView
     @Override
     protected void onDestroy() {
         super.onDestroy();

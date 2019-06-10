@@ -61,7 +61,6 @@ public class MovieListFragment extends Fragment implements MovieListContract.Mov
         return view;
     }
 
-    // todo do not forget to detach view
     @Override
     public void onDestroyView() {
         super.onDestroyView();

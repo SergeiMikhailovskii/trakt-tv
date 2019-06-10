@@ -55,7 +55,6 @@ public class ProfileFragment extends Fragment implements ProfileContract.Profile
         return view;
     }
 
-    // todo do not forget to detach view
     @Override
     public void onDestroyView() {
         super.onDestroyView();
