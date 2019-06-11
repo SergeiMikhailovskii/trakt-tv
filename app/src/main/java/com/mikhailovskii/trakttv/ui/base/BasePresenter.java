@@ -1,6 +1,6 @@
 package com.mikhailovskii.trakttv.ui.base;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import io.reactivex.disposables.CompositeDisposable;
 

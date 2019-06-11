@@ -1,12 +1,14 @@
 package com.mikhailovskii.trakttv.data.room;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.OnConflictStrategy;
-import android.arch.persistence.room.Query;
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
 
 import java.util.List;
+
+import io.reactivex.Completable;
 
 @Dao
 public interface MovieDao {
@@ -15,7 +17,7 @@ public interface MovieDao {
     List<MovieEntity> getFavorites();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMovie(MovieEntity movie);
+    Completable insertMovie(final MovieEntity movie);
 
     @Delete
     void deleteMovie(MovieEntity movie);

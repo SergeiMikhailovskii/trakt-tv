@@ -1,6 +1,6 @@
 package com.mikhailovskii.trakttv.data.api;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 

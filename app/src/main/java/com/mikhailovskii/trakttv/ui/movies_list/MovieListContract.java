@@ -1,6 +1,6 @@
 package com.mikhailovskii.trakttv.ui.movies_list;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.ui.base.MvpPresenter;

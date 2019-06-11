@@ -1,7 +1,8 @@
 package com.mikhailovskii.trakttv.ui.login;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;

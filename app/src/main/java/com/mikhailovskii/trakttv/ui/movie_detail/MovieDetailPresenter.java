@@ -1,8 +1,6 @@
 package com.mikhailovskii.trakttv.ui.movie_detail;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.mikhailovskii.trakttv.TraktTvApp;
 import com.mikhailovskii.trakttv.data.api.MovieAPIFactory;
@@ -12,6 +10,10 @@ import com.mikhailovskii.trakttv.data.room.MovieEntity;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -39,7 +41,7 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
     }
 
     @Override
-    public void addMovieToFavorites(@NonNull Bundle bundle) {
+    public void addMovieToFavorites(@Nonnull Bundle bundle) {
         String url = bundle.getString(MovieListFragment.EXTRA_IMAGE);
         int watchers = bundle.getInt(MovieDetailActivity.EXTRA_WATCHERS);
         String name = bundle.getString(MovieDetailActivity.EXTRA_NAME);
@@ -47,9 +49,17 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
         MovieDatabase database = TraktTvApp.getInstance().getDatabase();
         MovieDao movieDao = database.movieDao();
         MovieEntity movieEntity = new MovieEntity(name, watchers, url);
-        movieDao.insertMovie(movieEntity);
 
-        mView.onMoviesAdded();
+        mCompositeDisposable.add(Observable.fromCallable(() -> movieDao.insertMovie(movieEntity))
+                .doOnSubscribe(disposable -> mView.showLoadingIndicator(true))
+                .doOnError(throwable -> mView.showEmptyState(true))
+                .doOnComplete(() -> {
+                    mView.showEmptyState(false);
+                    mView.onMoviesAdded();
+                })
+                .doOnTerminate(() -> mView.showLoadingIndicator(false))
+                .observeOn(Schedulers.io())
+                .subscribe());
 
 
     }

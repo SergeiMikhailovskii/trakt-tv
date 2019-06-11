@@ -1,7 +1,8 @@
 package com.mikhailovskii.trakttv.ui.login;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.facebook.login.LoginResult;
 import com.mikhailovskii.trakttv.ui.base.MvpPresenter;

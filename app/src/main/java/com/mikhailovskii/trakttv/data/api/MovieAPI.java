@@ -1,6 +1,6 @@
 package com.mikhailovskii.trakttv.data.api;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.data.entity.MovieTrack;

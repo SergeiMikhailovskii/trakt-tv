@@ -1,10 +1,12 @@
 package com.mikhailovskii.trakttv;
 
 import android.app.Application;
-import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
+import androidx.room.Room;
+
+import com.facebook.stetho.Stetho;
 import com.mikhailovskii.trakttv.data.room.MovieDatabase;
 
 public class TraktTvApp extends Application {
@@ -19,6 +21,7 @@ public class TraktTvApp extends Application {
         sAppContext = getApplicationContext();
         instance = this;
         database = Room.databaseBuilder(this, MovieDatabase.class, "MovieDatabase").build();
+        Stetho.initializeWithDefaults(this);
     }
 
     @NonNull

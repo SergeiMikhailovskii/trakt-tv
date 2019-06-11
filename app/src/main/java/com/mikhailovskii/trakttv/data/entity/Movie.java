@@ -1,7 +1,6 @@
 package com.mikhailovskii.trakttv.data.entity;
 
-import android.arch.persistence.room.Ignore;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -52,7 +51,6 @@ public class Movie {
         this.watchers = watchers;
     }
 
-    @Ignore
     public Movie(@NonNull String iconUrl, @NonNull String name, int year, @NonNull String tagline, @NonNull String released, int runtime, @NonNull String country, @NonNull String overview) {
         this.iconUrl = iconUrl;
         this.name = name;

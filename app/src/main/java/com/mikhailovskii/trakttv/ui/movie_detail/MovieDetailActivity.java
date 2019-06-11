@@ -1,23 +1,21 @@
 package com.mikhailovskii.trakttv.ui.movie_detail;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.bumptech.glide.Glide;
-import com.facebook.stetho.Stetho;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mikhailovskii.trakttv.R;
-import com.mikhailovskii.trakttv.TraktTvApp;
 import com.mikhailovskii.trakttv.data.entity.Movie;
-import com.mikhailovskii.trakttv.data.room.MovieEntity;
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 
 public class MovieDetailActivity extends AppCompatActivity
@@ -50,8 +48,6 @@ public class MovieDetailActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         mPresenter.attachView(this);
-
-        Stetho.initializeWithDefaults(this);
 
         setToolbar();
 
