@@ -5,12 +5,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class MovieTrack {
 
+    @SerializedName("movie")
+    public Movie movie;
     @SerializedName("watchers")
     @Expose
     private int watchersNumber;
-
-    @SerializedName("movie")
-    public Movie movie;
 
     public int getWatchersNumber() {
         return watchersNumber;

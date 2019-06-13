@@ -107,6 +107,7 @@ public class FavoritesFragment extends Fragment
         Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
         intent.putExtra(MovieListFragment.EXTRA_IMAGE, item.getIconUrl());
         intent.putExtra(MovieListFragment.EXTRA_SLUG, item.getSlugId());
+        intent.putExtra(MovieDetailActivity.PREV_ACTIVITY, "Favorites");
         startActivity(intent);
     }
 

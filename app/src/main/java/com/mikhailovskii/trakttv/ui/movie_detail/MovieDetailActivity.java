@@ -23,6 +23,7 @@ public class MovieDetailActivity extends AppCompatActivity
 
     public static final String EXTRA_NAME = "EXTRA_NAME";
     public static final String EXTRA_WATCHERS = "EXTRA_WATCHERS";
+    public static final String PREV_ACTIVITY = "PREV_ACTIVITY";
 
     private MovieDetailPresenter mPresenter = new MovieDetailPresenter();
 
@@ -62,8 +63,11 @@ public class MovieDetailActivity extends AppCompatActivity
         mTvYear = findViewById(R.id.tv_year);
         mTvNoInfo = findViewById(R.id.tv_no_info);
         mIvMovie = findViewById(R.id.movie_image);
-
         mFabFavorite = findViewById(R.id.favorite);
+
+        if (getIntent().getStringExtra(PREV_ACTIVITY).equals("Favorites")) {
+            mFabFavorite.hide();
+        }
 
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
         mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.loadMovieDetails(mSlugId));
@@ -93,7 +97,6 @@ public class MovieDetailActivity extends AppCompatActivity
 
     @Override
     public void onMovieDetailsLoaded(@NonNull Movie movie) {
-
         mFabFavorite.setOnClickListener(view -> {
             Bundle bundle = new Bundle();
             bundle.putString(EXTRA_NAME, movie.getName());

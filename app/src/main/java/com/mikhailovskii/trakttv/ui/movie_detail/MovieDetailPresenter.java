@@ -4,11 +4,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.mikhailovskii.trakttv.TraktTvApp;
 import com.mikhailovskii.trakttv.data.api.MovieAPIFactory;
+import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.db.room.MovieDao;
 import com.mikhailovskii.trakttv.db.room.MovieDatabase;
-import com.mikhailovskii.trakttv.db.room.MovieEntity;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 
@@ -49,7 +48,7 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
         mCompositeDisposable.add(Observable.just(bundle)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> mView.showLoadingIndicator(true))
-                .map(_bundle -> new MovieEntity(
+                .map(_bundle -> new Movie(
                         _bundle.getString(MovieDetailActivity.EXTRA_NAME),
                         _bundle.getInt(MovieDetailActivity.EXTRA_WATCHERS),
                         _bundle.getString(MovieListFragment.EXTRA_IMAGE),

@@ -73,6 +73,7 @@ public class MovieListFragment extends Fragment implements MovieListContract.Mov
         Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
         intent.putExtra(EXTRA_IMAGE, item.getIconUrl());
         intent.putExtra(EXTRA_SLUG, item.getSlugId());
+        intent.putExtra(MovieDetailActivity.PREV_ACTIVITY, "List");
         startActivity(intent);
     }
 

@@ -8,12 +8,12 @@ import com.mikhailovskii.trakttv.data.entity.MovieId;
 public class MovieIdConverter {
 
     @TypeConverter
-    public String fromId(MovieId movieId){
+    public String fromId(MovieId movieId) {
         return new Gson().toJson(movieId);
     }
 
     @TypeConverter
-    public MovieId toId(String data){
+    public MovieId toId(String data) {
         return new Gson().fromJson(data, MovieId.class);
     }
 

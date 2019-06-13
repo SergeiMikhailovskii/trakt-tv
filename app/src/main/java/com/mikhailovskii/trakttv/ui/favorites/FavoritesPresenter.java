@@ -2,12 +2,9 @@ package com.mikhailovskii.trakttv.ui.favorites;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-
 import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.db.room.MovieDao;
 import com.mikhailovskii.trakttv.db.room.MovieDatabase;
-import com.mikhailovskii.trakttv.db.room.MovieEntity;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity;
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
@@ -28,10 +25,9 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.Favorite
                 .doOnSubscribe(disposable -> mView.showLoadingIndicator(true))
                 .toObservable()
                 .flatMapIterable(listObservable -> listObservable)
-                .map(this::getMovie)
                 .toList()
-                .doAfterTerminate(() -> mView.showLoadingIndicator(false))
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(() -> mView.showLoadingIndicator(false))
                 .subscribe(list -> {
                     if (list.isEmpty()) {
                         mView.showEmptyState(true);
@@ -51,31 +47,21 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.Favorite
         String name = bundle.getString(MovieDetailActivity.EXTRA_NAME);
         String slug = bundle.getString(MovieListFragment.EXTRA_SLUG);
 
-        MovieEntity movieEntity = new MovieEntity(name, watchers, url, slug);
+        Movie movie = new Movie(name, watchers, url, slug);
 
         MovieDao movieDao = MovieDatabase.getMovieDao();
 
-        mCompositeDisposable.add(movieDao.deleteMovie(movieEntity)
+        mCompositeDisposable.add(movieDao.deleteMovie(movie.getName())
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> mView.showLoadingIndicator(true))
-                .doAfterTerminate(() -> mView.showLoadingIndicator(false))
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(() -> mView.showLoadingIndicator(false))
                 .subscribe(
-                        ()-> mView.onMovieDeleted(),
-                        error-> mView.onMovieDeleteFailed()
+                        () -> mView.onMovieDeleted(),
+                        error -> mView.onMovieDeleteFailed()
                 )
         );
 
-    }
-
-    @NonNull
-    private Movie getMovie(@NonNull MovieEntity movieEntity) {
-        return new Movie(movieEntity.getIconUrl(),
-                movieEntity.getName(),
-                0,
-                movieEntity.getSlug(),
-                movieEntity.getWatchers()
-        );
     }
 
 }

@@ -11,18 +11,9 @@ import com.mikhailovskii.trakttv.db.room.MovieDatabase;
 
 public class TraktTvApp extends Application {
 
-    private static Context sAppContext;
     public static TraktTvApp instance;
+    private static Context sAppContext;
     private MovieDatabase database;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        sAppContext = getApplicationContext();
-        instance = this;
-        database = Room.databaseBuilder(this, MovieDatabase.class, "MovieDatabase").allowMainThreadQueries().build();
-        setupDebugTools();
-    }
 
     @NonNull
     public static Context getAppContext() {
@@ -33,12 +24,23 @@ public class TraktTvApp extends Application {
         return instance;
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        sAppContext = getApplicationContext();
+        instance = this;
+        database = Room.databaseBuilder(this, MovieDatabase.class, "MovieDatabase")
+                .fallbackToDestructiveMigration()
+                .build();
+        setupDebugTools();
+    }
+
     public MovieDatabase getDatabase() {
         return database;
     }
 
     private void setupDebugTools() {
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this);
         }
     }
