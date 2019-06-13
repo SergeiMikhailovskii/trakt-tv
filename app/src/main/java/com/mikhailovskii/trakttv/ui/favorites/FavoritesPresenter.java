@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.mikhailovskii.trakttv.TraktTvApp;
 import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.db.room.MovieDao;
 import com.mikhailovskii.trakttv.db.room.MovieDatabase;
@@ -22,8 +21,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.Favorite
 
     @Override
     public void loadFavoriteMovies() {
-        MovieDatabase database = TraktTvApp.getInstance().getDatabase();
-        MovieDao movieDao = database.movieDao();
+        MovieDao movieDao = MovieDatabase.getMovieDao();
 
         mCompositeDisposable.add(movieDao.getFavorites()
                 .subscribeOn(Schedulers.computation())
@@ -55,16 +53,17 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.Favorite
 
         MovieEntity movieEntity = new MovieEntity(name, watchers, url, slug);
 
-        MovieDatabase database = TraktTvApp.getInstance().getDatabase();
-        MovieDao movieDao = database.movieDao();
+        MovieDao movieDao = MovieDatabase.getMovieDao();
+
         mCompositeDisposable.add(movieDao.deleteMovie(movieEntity)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> mView.showLoadingIndicator(true))
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnError(throwable -> mView.onMovieDeleteFailed())
-                .doOnComplete(() -> mView.onMovieDeleted())
                 .doAfterTerminate(() -> mView.showLoadingIndicator(false))
-                .subscribe()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        ()-> mView.onMovieDeleted(),
+                        error-> mView.onMovieDeleteFailed()
+                )
         );
 
     }

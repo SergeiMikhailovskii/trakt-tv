@@ -12,7 +12,6 @@ import com.mikhailovskii.trakttv.db.room.MovieEntity;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import io.reactivex.Observable;
@@ -45,8 +44,7 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
 
     @Override
     public void addMovieToFavorites(@NonNull Bundle bundle) {
-        MovieDatabase database = TraktTvApp.getInstance().getDatabase();
-        MovieDao movieDao = database.movieDao();
+        MovieDao movieDao = MovieDatabase.getMovieDao();
 
         mCompositeDisposable.add(Observable.just(bundle)
                 .subscribeOn(Schedulers.io())

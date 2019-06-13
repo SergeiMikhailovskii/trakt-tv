@@ -24,4 +24,9 @@ public interface MovieDao {
     @Delete
     Completable deleteMovie(MovieEntity movie);
 
+/*
+    @Query("DELETE FROM MovieEntity WHERE name = :name")
+    Completable deleteMovie(String name);
+*/
+
 }

@@ -2,11 +2,6 @@ package com.mikhailovskii.trakttv.ui.favorites;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +9,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.data.entity.Movie;
@@ -80,6 +80,7 @@ public class FavoritesFragment extends Fragment
     @Override
     public void onMovieDeleted() {
         Toast.makeText(getContext(), "Movie deleted", Toast.LENGTH_SHORT).show();
+        mPresenter.loadFavoriteMovies();
     }
 
     @Override

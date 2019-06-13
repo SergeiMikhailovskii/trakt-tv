@@ -1,12 +1,17 @@
 package com.mikhailovskii.trakttv.data.entity;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.mikhailovskii.trakttv.db.room.MovieIdConverter;
 
+@Entity
 public class Movie {
 
+    private int id;
     private String iconUrl;
     private String slugId;
     private int watchers;
@@ -21,6 +26,7 @@ public class Movie {
 
     @SerializedName("ids")
     @Expose
+    @TypeConverters({MovieIdConverter.class})
     public MovieId movieId;
 
     @SerializedName("tagline")
@@ -149,6 +155,14 @@ public class Movie {
 
     public void setOverview(@NonNull String overview) {
         this.overview = overview;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }
