@@ -7,9 +7,6 @@ import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
@@ -46,10 +43,10 @@ public class MovieListPresenter extends BasePresenter<MovieListContract.MoviesLi
     @NotNull
     private Movie getMovie(@NonNull MovieTrack movieTrack) {
         return new Movie(IMG_URL,
-               movieTrack.movie.getName(),
-               movieTrack.movie.getYear(),
-               movieTrack.movie.movieId.getSlug(),
-               movieTrack.getWatchersNumber()
+                movieTrack.movie.getName(),
+                movieTrack.movie.getYear(),
+                movieTrack.movie.movieId.getSlug(),
+                movieTrack.getWatchersNumber()
         );
     }
 

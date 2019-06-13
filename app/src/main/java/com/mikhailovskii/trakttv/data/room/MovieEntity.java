@@ -1,6 +1,7 @@
 package com.mikhailovskii.trakttv.data.room;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -9,14 +10,21 @@ public class MovieEntity {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo(name = "name")
     private String name;
+    @ColumnInfo(name = "watchers")
     private int watchers;
+    @ColumnInfo(name = "icon")
     private String iconUrl;
 
-    public MovieEntity(String name, int watchers, String iconUrl) {
+    @ColumnInfo(name = "slug")
+    private String slug;
+
+    public MovieEntity(String name, int watchers, String iconUrl, String slug) {
         this.name = name;
         this.watchers = watchers;
         this.iconUrl = iconUrl;
+        this.slug = slug;
     }
 
     @NonNull
@@ -24,7 +32,7 @@ public class MovieEntity {
         return iconUrl;
     }
 
-    public void setIconUrl(String iconUrl) {
+    public void setIconUrl(@NonNull String iconUrl) {
         this.iconUrl = iconUrl;
     }
 
@@ -33,7 +41,7 @@ public class MovieEntity {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
@@ -51,6 +59,15 @@ public class MovieEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @NonNull
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(@NonNull String slug) {
+        this.slug = slug;
     }
 
 }

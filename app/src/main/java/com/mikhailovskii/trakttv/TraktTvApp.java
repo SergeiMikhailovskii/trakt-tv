@@ -20,8 +20,8 @@ public class TraktTvApp extends Application {
         super.onCreate();
         sAppContext = getApplicationContext();
         instance = this;
-        database = Room.databaseBuilder(this, MovieDatabase.class, "MovieDatabase").build();
-        Stetho.initializeWithDefaults(this);
+        database = Room.databaseBuilder(this, MovieDatabase.class, "MovieDatabase").allowMainThreadQueries().build();
+        setupDebugTools();
     }
 
     @NonNull
@@ -35,6 +35,12 @@ public class TraktTvApp extends Application {
 
     public MovieDatabase getDatabase() {
         return database;
+    }
+
+    private void setupDebugTools() {
+        if (BuildConfig.DEBUG){
+            Stetho.initializeWithDefaults(this);
+        }
     }
 
 }

@@ -42,26 +42,29 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
 
     @Override
     public void addMovieToFavorites(@Nonnull Bundle bundle) {
+        mView.showLoadingIndicator(true);
         String url = bundle.getString(MovieListFragment.EXTRA_IMAGE);
         int watchers = bundle.getInt(MovieDetailActivity.EXTRA_WATCHERS);
         String name = bundle.getString(MovieDetailActivity.EXTRA_NAME);
+        String slug = bundle.getString(MovieListFragment.EXTRA_SLUG);
 
         MovieDatabase database = TraktTvApp.getInstance().getDatabase();
         MovieDao movieDao = database.movieDao();
-        MovieEntity movieEntity = new MovieEntity(name, watchers, url);
+        MovieEntity movieEntity = new MovieEntity(name, watchers, url, slug);
 
-        mCompositeDisposable.add(Observable.fromCallable(() -> movieDao.insertMovie(movieEntity))
+        mCompositeDisposable.add(movieDao.insertMovie(movieEntity)
+                .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> mView.showLoadingIndicator(true))
-                .doOnError(throwable -> mView.showEmptyState(true))
-                .doOnComplete(() -> {
-                    mView.showEmptyState(false);
-                    mView.onMoviesAdded();
-                })
-                .doOnTerminate(() -> mView.showLoadingIndicator(false))
-                .observeOn(Schedulers.io())
-                .subscribe());
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(throwable -> mView.onMovieDetailsFailed())
+                .doOnComplete(() -> mView.onMoviesAdded())
+                .doAfterTerminate(() -> mView.showLoadingIndicator(false))
+                .subscribe()
+        );
 
-
+/*        movieDao.insertMovie(movieEntity);
+        mView.onMoviesAdded();
+        mView.showLoadingIndicator(false);*/
     }
 
 }
