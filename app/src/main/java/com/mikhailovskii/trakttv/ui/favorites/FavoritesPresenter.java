@@ -6,15 +6,16 @@ import androidx.annotation.NonNull;
 
 import com.mikhailovskii.trakttv.TraktTvApp;
 import com.mikhailovskii.trakttv.data.entity.Movie;
-import com.mikhailovskii.trakttv.data.room.MovieDao;
-import com.mikhailovskii.trakttv.data.room.MovieDatabase;
-import com.mikhailovskii.trakttv.data.room.MovieEntity;
+import com.mikhailovskii.trakttv.db.room.MovieDao;
+import com.mikhailovskii.trakttv.db.room.MovieDatabase;
+import com.mikhailovskii.trakttv.db.room.MovieEntity;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity;
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class FavoritesPresenter extends BasePresenter<FavoritesContract.FavoritesView>
         implements FavoritesContract.FavoritesPresenter {
@@ -25,26 +26,22 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.Favorite
         MovieDao movieDao = database.movieDao();
 
         mCompositeDisposable.add(movieDao.getFavorites()
-                .take(1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.computation())
                 .doOnSubscribe(disposable -> mView.showLoadingIndicator(true))
-                .doOnError(throwable -> {
-                    mView.showLoadingIndicator(false);
-                    mView.showEmptyState(true);
-                })
-                .doOnTerminate(() -> mView.showLoadingIndicator(false))
-                .doOnComplete(() -> mView.showLoadingIndicator(false))
+                .toObservable()
                 .flatMapIterable(listObservable -> listObservable)
                 .map(this::getMovie)
                 .toList()
+                .doAfterTerminate(() -> mView.showLoadingIndicator(false))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(list -> {
                     if (list.isEmpty()) {
                         mView.showEmptyState(true);
                     } else {
+                        mView.showEmptyState(false);
                         mView.onMoviesLoaded(list);
                     }
-                })
+                }, Timber::e)
         );
 
     }

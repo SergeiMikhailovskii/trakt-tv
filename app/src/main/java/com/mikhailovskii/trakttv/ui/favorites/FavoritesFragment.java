@@ -51,9 +51,13 @@ public class FavoritesFragment extends Fragment
         mAdapter = new MoviesAdapter(this);
         mMoviesRecycler.setAdapter(mAdapter);
 
-        mPresenter.loadFavoriteMovies();
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.loadFavoriteMovies();
     }
 
     @Override

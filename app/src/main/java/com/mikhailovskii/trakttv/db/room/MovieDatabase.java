@@ -1,4 +1,4 @@
-package com.mikhailovskii.trakttv.data.room;
+package com.mikhailovskii.trakttv.db.room;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;

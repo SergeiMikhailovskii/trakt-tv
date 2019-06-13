@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Room;
 
 import com.facebook.stetho.Stetho;
-import com.mikhailovskii.trakttv.data.room.MovieDatabase;
+import com.mikhailovskii.trakttv.db.room.MovieDatabase;
 
 public class TraktTvApp extends Application {
 

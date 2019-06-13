@@ -1,4 +1,4 @@
-package com.mikhailovskii.trakttv.data.room;
+package com.mikhailovskii.trakttv.db.room;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -10,12 +10,13 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 @Dao
 public interface MovieDao {
 
     @Query("SELECT * from MovieEntity")
-    Observable<List<MovieEntity>> getFavorites();
+    Single<List<MovieEntity>> getFavorites();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertMovie(final MovieEntity movie);
