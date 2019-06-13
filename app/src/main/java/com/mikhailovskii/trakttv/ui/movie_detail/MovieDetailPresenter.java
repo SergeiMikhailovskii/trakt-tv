@@ -13,7 +13,6 @@ import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -62,9 +61,6 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
                 .subscribe()
         );
 
-/*        movieDao.insertMovie(movieEntity);
-        mView.onMoviesAdded();
-        mView.showLoadingIndicator(false);*/
     }
 
 }

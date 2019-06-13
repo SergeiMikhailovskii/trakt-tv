@@ -51,7 +51,7 @@ public class Movie {
         this.watchers = watchers;
     }
 
-    public Movie(@NonNull String iconUrl, @NonNull String name, int year, @NonNull String tagline, @NonNull String released, int runtime, @NonNull String country, @NonNull String overview) {
+    public Movie(@NonNull String iconUrl, @NonNull String name, int year, @NonNull String tagline, @NonNull String released, int runtime, @NonNull String country, @NonNull String overview, @NonNull String slugId, int watchers) {
         this.iconUrl = iconUrl;
         this.name = name;
         this.year = year;
@@ -60,6 +60,8 @@ public class Movie {
         this.runtime = runtime;
         this.country = country;
         this.overview = overview;
+        this.slugId = slugId;
+        this.watchers = watchers;
     }
 
     @NonNull
@@ -148,4 +150,5 @@ public class Movie {
     public void setOverview(@NonNull String overview) {
         this.overview = overview;
     }
+
 }

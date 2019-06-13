@@ -40,9 +40,10 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView>
         String token = bundle.getString(EXTRA_TOKEN);
         String avatar = bundle.getString(EXTRA_AVATAR);
 
-        User user = new User(email, password, token, login, id, avatar);
-
-        Preference.getInstance(TraktTvApp.getAppContext()).setUser(user);
+        if (password != null && login != null) {
+            User user = new User(email, password, token, login, id, avatar);
+            Preference.getInstance(TraktTvApp.getAppContext()).setUser(user);
+        }
 
         mView.onLoggedIn();
     }

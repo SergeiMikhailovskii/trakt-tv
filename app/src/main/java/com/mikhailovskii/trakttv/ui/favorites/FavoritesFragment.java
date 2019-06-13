@@ -43,11 +43,11 @@ public class FavoritesFragment extends Fragment
 
         mTvNoFilms = view.findViewById(R.id.no_films);
         mSwipeRefresh = view.findViewById(R.id.swipe_refresh);
+        mSwipeRefresh.setOnRefreshListener(() -> mPresenter.loadFavoriteMovies());
+
         mMoviesRecycler = view.findViewById(R.id.movies_list);
         mMoviesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         mMoviesRecycler.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), DividerItemDecoration.VERTICAL));
-
-
         mAdapter = new MoviesAdapter(this);
         mMoviesRecycler.setAdapter(mAdapter);
 
@@ -75,12 +75,12 @@ public class FavoritesFragment extends Fragment
 
     @Override
     public void onMovieDeleted() {
-
+        Toast.makeText(getContext(), "Movie deleted", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onMovieDeleteFailed() {
-        Toast.makeText(getContext(), "Movie deleted", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

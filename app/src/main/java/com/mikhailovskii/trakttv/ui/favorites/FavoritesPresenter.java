@@ -13,9 +13,6 @@ import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity;
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -37,7 +34,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.Favorite
                     mView.showEmptyState(true);
                 })
                 .doOnTerminate(() -> mView.showLoadingIndicator(false))
-                .doOnComplete(()->mView.showLoadingIndicator(false))
+                .doOnComplete(() -> mView.showLoadingIndicator(false))
                 .flatMapIterable(listObservable -> listObservable)
                 .map(this::getMovie)
                 .toList()
@@ -49,13 +46,6 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.Favorite
                     }
                 })
         );
-
-/*        List<Movie> movies = new ArrayList<>();
-
-        for (MovieEntity movie:movieDao.getFavorites()){
-            movies.add(getMovie(movie));
-        }
-        mView.onMoviesLoaded(movies);*/
 
     }
 
@@ -70,8 +60,16 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.Favorite
 
         MovieDatabase database = TraktTvApp.getInstance().getDatabase();
         MovieDao movieDao = database.movieDao();
-        movieDao.deleteMovie(movieEntity);
-        mView.onMovieDeleted();
+        mCompositeDisposable.add(movieDao.deleteMovie(movieEntity)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(disposable -> mView.showLoadingIndicator(true))
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(throwable -> mView.onMovieDeleteFailed())
+                .doOnComplete(() -> mView.onMovieDeleted())
+                .doAfterTerminate(() -> mView.showLoadingIndicator(false))
+                .subscribe()
+        );
+
     }
 
     @NonNull

@@ -98,7 +98,7 @@ public class MovieDetailActivity extends AppCompatActivity
             Bundle bundle = new Bundle();
             bundle.putString(EXTRA_NAME, movie.getName());
             bundle.putInt(EXTRA_WATCHERS, movie.getWatchers());
-            bundle.putString(MovieListFragment.EXTRA_SLUG, movie.getSlugId());
+            bundle.putString(MovieListFragment.EXTRA_SLUG, movie.movieId.getSlug());
             bundle.putString(MovieListFragment.EXTRA_IMAGE, mUrl);
             mPresenter.addMovieToFavorites(bundle);
         });
