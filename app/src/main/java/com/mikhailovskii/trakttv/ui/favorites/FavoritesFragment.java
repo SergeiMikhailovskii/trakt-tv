@@ -76,18 +76,17 @@ public class FavoritesFragment extends Fragment
     @Override
     public void onMoviesFailed() {
         Toast.makeText(getContext(), getString(R.string.loading_failed), Toast.LENGTH_SHORT).show();
-        showEmptyState(true);
     }
 
     @Override
     public void onMovieRemoved() {
-        Toast.makeText(getContext(), "Movie deleted", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), getString(R.string.movie_deleted), Toast.LENGTH_SHORT).show();
         mPresenter.loadFavoriteMovies();
     }
 
     @Override
     public void onMovieRemoveFailed() {
-        Toast.makeText(getContext(), "Movie Remove failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), getString(R.string.movie_remove_failed), Toast.LENGTH_SHORT).show();
     }
 
     @Override

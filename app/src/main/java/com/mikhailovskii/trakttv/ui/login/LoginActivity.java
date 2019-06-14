@@ -59,9 +59,9 @@ public class LoginActivity extends AppCompatActivity
             String password = Objects.requireNonNull(mEtPassword.getText()).toString();
 
             if (login.equals("")) {
-                mLoginLayout.setError("Enter login!");
+                mLoginLayout.setError(getString(R.string.enter_login));
             } else if (password.equals("")) {
-                mPasswordLayout.setError("Enter password");
+                mPasswordLayout.setError(getString(R.string.enter_password));
             } else {
                 Bundle bundle = new Bundle();
 

@@ -81,7 +81,7 @@ public class MovieListFragment extends Fragment implements MovieListContract.Mov
 
     @Override
     public void onItemLongClick(int position, Movie item) {
-        // not used yet
+
     }
 
     @Override

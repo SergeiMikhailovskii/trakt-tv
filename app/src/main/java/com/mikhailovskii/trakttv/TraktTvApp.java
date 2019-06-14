@@ -12,6 +12,8 @@ import com.mikhailovskii.trakttv.db.room.MovieDatabase;
 public class TraktTvApp extends Application {
 
     public static TraktTvApp instance;
+
+    private static String DB_NAME = "MovieDatabase";
     private static Context sAppContext;
     private MovieDatabase database;
 
@@ -29,7 +31,7 @@ public class TraktTvApp extends Application {
         super.onCreate();
         sAppContext = getApplicationContext();
         instance = this;
-        database = Room.databaseBuilder(this, MovieDatabase.class, "MovieDatabase")
+        database = Room.databaseBuilder(this, MovieDatabase.class, DB_NAME)
                 .fallbackToDestructiveMigration()
                 .build();
         setupDebugTools();

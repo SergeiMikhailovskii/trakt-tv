@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.data.entity.Movie;
+import com.mikhailovskii.trakttv.ui.favorites.FavoritesFragment;
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 
 public class MovieDetailActivity extends AppCompatActivity
@@ -65,7 +66,7 @@ public class MovieDetailActivity extends AppCompatActivity
         mIvMovie = findViewById(R.id.movie_image);
         mFabFavorite = findViewById(R.id.favorite);
 
-        if (getIntent().getStringExtra(PREV_ACTIVITY).equals("Favorites")) {
+        if (getIntent().getStringExtra(PREV_ACTIVITY).equals(FavoritesFragment.FRAGMENT_NAME)) {
             mFabFavorite.hide();
         }
 
@@ -119,12 +120,12 @@ public class MovieDetailActivity extends AppCompatActivity
 
     @Override
     public void onMovieDetailsFailed() {
-        Toast.makeText(this, "Adding failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.adding_failed), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onMoviesAdded() {
-        Toast.makeText(this, "Film added!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.film_added), Toast.LENGTH_SHORT).show();
     }
 
     @Override

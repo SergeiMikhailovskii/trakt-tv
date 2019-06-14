@@ -55,13 +55,13 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
                         _bundle.getString(MovieListFragment.EXTRA_SLUG)))
                 .flatMap(movieEntity -> movieDao.insertMovie(movieEntity).toObservable())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate(() -> mView.showLoadingIndicator(false))
-                .subscribe(result -> {
-                    mView.onMoviesAdded();
-                }, error -> {
+                .doOnComplete(() -> mView.onMoviesAdded())
+                .doOnError(error -> {
                     Timber.e(error);
                     mView.onMovieDetailsFailed();
                 })
+                .doAfterTerminate(() -> mView.showLoadingIndicator(false))
+                .subscribe()
         );
 
     }

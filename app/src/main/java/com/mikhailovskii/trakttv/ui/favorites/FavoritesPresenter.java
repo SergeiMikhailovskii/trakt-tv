@@ -28,15 +28,20 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.Favorite
                 .flatMapIterable(listObservable -> listObservable)
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate(() -> mView.showLoadingIndicator(false))
-                .subscribe(list -> {
+                .doOnSuccess(list -> {
                     if (list.isEmpty()) {
                         mView.showEmptyState(true);
                     } else {
                         mView.showEmptyState(false);
                         mView.onMoviesLoaded(list);
                     }
-                }, Timber::e)
+                })
+                .doOnError(error -> {
+                    mView.onMoviesFailed();
+                    Timber.e(error);
+                })
+                .doAfterTerminate(() -> mView.showLoadingIndicator(false))
+                .subscribe()
         );
 
     }
@@ -53,14 +58,13 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.Favorite
                         _bundle.getString(MovieListFragment.EXTRA_SLUG)))
                 .flatMap(movieEntity -> MovieDatabase.getMovieDao().deleteMovie(movieEntity.getName()).toObservable())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete(() -> mView.onMovieRemoved())
+                .doOnError(error -> {
+                    mView.onMovieRemoveFailed();
+                    Timber.e(error);
+                })
                 .doAfterTerminate(() -> mView.showLoadingIndicator(false))
-                .subscribe(
-                        result -> mView.onMovieRemoved(),
-                        error -> {
-                            mView.onMovieRemoveFailed();
-                            Timber.e(error);
-                        }
-                )
+                .subscribe()
         );
 
     }
