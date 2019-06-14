@@ -9,6 +9,7 @@ import com.mikhailovskii.trakttv.ui.base.BasePresenter;
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity;
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
@@ -42,23 +43,23 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.Favorite
 
     @Override
     public void deleteMovie(Bundle bundle) {
-        String url = bundle.getString(MovieListFragment.EXTRA_IMAGE);
-        int watchers = bundle.getInt(MovieDetailActivity.EXTRA_WATCHERS);
-        String name = bundle.getString(MovieDetailActivity.EXTRA_NAME);
-        String slug = bundle.getString(MovieListFragment.EXTRA_SLUG);
 
-        Movie movie = new Movie(name, watchers, url, slug);
-
-        MovieDao movieDao = MovieDatabase.getMovieDao();
-
-        mCompositeDisposable.add(movieDao.deleteMovie(movie.getName())
+        mCompositeDisposable.add(Observable.just(bundle)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> mView.showLoadingIndicator(true))
+                .map(_bundle -> new Movie(_bundle.getString(MovieDetailActivity.EXTRA_NAME),
+                        _bundle.getInt(MovieDetailActivity.EXTRA_WATCHERS),
+                        _bundle.getString(MovieListFragment.EXTRA_IMAGE),
+                        _bundle.getString(MovieListFragment.EXTRA_SLUG)))
+                .flatMap(movieEntity -> MovieDatabase.getMovieDao().deleteMovie(movieEntity.getName()).toObservable())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(() -> mView.showLoadingIndicator(false))
                 .subscribe(
-                        () -> mView.onMovieDeleted(),
-                        error -> mView.onMovieDeleteFailed()
+                        result -> mView.onMovieRemoved(),
+                        error -> {
+                            mView.onMovieRemoveFailed();
+                            Timber.e(error);
+                        }
                 )
         );
 

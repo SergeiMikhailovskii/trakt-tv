@@ -29,6 +29,8 @@ import java.util.Objects;
 public class FavoritesFragment extends Fragment
         implements FavoritesContract.FavoritesView, MoviesAdapter.OnItemClickListener {
 
+    public static final String FRAGMENT_NAME = "Favorites";
+
     private FavoritesPresenter mPresenter = new FavoritesPresenter();
     private TextView mTvNoFilms;
     private SwipeRefreshLayout mSwipeRefresh;
@@ -78,14 +80,14 @@ public class FavoritesFragment extends Fragment
     }
 
     @Override
-    public void onMovieDeleted() {
+    public void onMovieRemoved() {
         Toast.makeText(getContext(), "Movie deleted", Toast.LENGTH_SHORT).show();
         mPresenter.loadFavoriteMovies();
     }
 
     @Override
-    public void onMovieDeleteFailed() {
-
+    public void onMovieRemoveFailed() {
+        Toast.makeText(getContext(), "Movie Remove failed", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -107,7 +109,7 @@ public class FavoritesFragment extends Fragment
         Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
         intent.putExtra(MovieListFragment.EXTRA_IMAGE, item.getIconUrl());
         intent.putExtra(MovieListFragment.EXTRA_SLUG, item.getSlugId());
-        intent.putExtra(MovieDetailActivity.PREV_ACTIVITY, "Favorites");
+        intent.putExtra(MovieDetailActivity.PREV_ACTIVITY, FRAGMENT_NAME);
         startActivity(intent);
     }
 

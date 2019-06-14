@@ -16,9 +16,9 @@ public interface FavoritesContract {
 
         void onMoviesFailed();
 
-        void onMovieDeleted();
+        void onMovieRemoved();
 
-        void onMovieDeleteFailed();
+        void onMovieRemoveFailed();
 
     }
 

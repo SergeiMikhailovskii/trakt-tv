@@ -28,6 +28,8 @@ import java.util.Objects;
 public class MovieListFragment extends Fragment implements MovieListContract.MoviesListView,
         MoviesAdapter.OnItemClickListener {
 
+    public static final String FRAGMENT_NAME = "List";
+
     public static final String EXTRA_IMAGE = "EXTRA_IMAGE";
     public static final String EXTRA_SLUG = "EXTRA_SLUG";
 
@@ -73,7 +75,7 @@ public class MovieListFragment extends Fragment implements MovieListContract.Mov
         Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
         intent.putExtra(EXTRA_IMAGE, item.getIconUrl());
         intent.putExtra(EXTRA_SLUG, item.getSlugId());
-        intent.putExtra(MovieDetailActivity.PREV_ACTIVITY, "List");
+        intent.putExtra(MovieDetailActivity.PREV_ACTIVITY, FRAGMENT_NAME);
         startActivity(intent);
     }
 

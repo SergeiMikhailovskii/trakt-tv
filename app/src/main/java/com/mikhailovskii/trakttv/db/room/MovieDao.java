@@ -21,9 +21,6 @@ public interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertMovie(final Movie movie);
 
-/*    @Delete
-    Completable deleteMovie(Movie movie);*/
-
     @Query("DELETE FROM Movie WHERE name = :name")
     Completable deleteMovie(String name);
 
