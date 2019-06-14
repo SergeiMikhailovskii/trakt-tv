@@ -1,13 +1,15 @@
 package com.mikhailovskii.trakttv.ui.main;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mikhailovskii.trakttv.R;
+import com.mikhailovskii.trakttv.ui.favorites.FavoritesFragment;
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 import com.mikhailovskii.trakttv.ui.profile.ProfileFragment;
 
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.favorites:
                     menuItem.setChecked(true);
+                    fragment = new FavoritesFragment();
                     break;
                 case R.id.profile:
                     menuItem.setChecked(true);

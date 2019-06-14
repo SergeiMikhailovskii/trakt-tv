@@ -1,7 +1,8 @@
 package com.mikhailovskii.trakttv.data.entity;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+
+import javax.annotation.Nullable;
 
 public class User {
 
@@ -12,7 +13,7 @@ public class User {
     private String id;
     private String avatar;
 
-    public User(@Nullable String email, @Nullable String password, @Nullable String token, @Nullable String username, @Nullable String id, @Nullable String avatar) {
+    public User(@Nullable String email, @NonNull String password, @Nullable String token, @NonNull String username, @Nullable String id, @Nullable String avatar) {
         this.email = email;
         this.password = password;
         this.token = token;

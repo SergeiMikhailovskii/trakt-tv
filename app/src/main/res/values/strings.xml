@@ -1,23 +1,36 @@
 <resources>
+
+    <!--App-->
     <string name="app_name">Trakt-TV</string>
+
+    <!--Authorization-->
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="log_in_with_facebook">Log in with facebook</string>
     <string name="enter">Enter</string>
     <string name="facebook_app_id">634172213715592</string>
     <string name="fb_login_protocol_scheme">fb634172213715592</string>
+    <string name="login_fb_cancelled">Login with FB cancelled</string>
+    <string name="failed_fb_login">Failed to login with FB</string>
+    <string name="login_failed">Login failed!</string>
+    <string name="enter_login">Enter login!</string>
+    <string name="enter_password">Enter password!</string>
+
+    <!--Bottom Navigation-->
     <string name="movie">Movie</string>
     <string name="favorites">Favorites</string>
     <string name="profile">Profile</string>
 
-    <string name="login_fb_cancelled">Login with FB cancelled</string>
-    <string name="failed_fb_login">Failed to login with FB</string>
-    <string name="login_failed">Login failed!</string>
+    <!--Profile-->
     <string name="log_out">Log out</string>
     <string name="id">ID</string>
     <string name="email">Email</string>
+
+    <!--List-->
     <string name="no_films">No films</string>
     <string name="loading_failed">Loading failed</string>
+
+    <!--Detail-->
     <string name="year">Year: %1$d</string>
     <string name="watchers">Watchers: %1$d</string>
     <string name="no_information">No information</string>
@@ -25,5 +38,12 @@
     <string name="released">Released: %1$s</string>
     <string name="runtime">Runtime: %1$d</string>
     <string name="tagline">Tagline: %1$s</string>
+    <string name="adding_failed">Adding failed</string>
+    <string name="film_added">Film added!</string>
+
+    <!--Favorites-->
+    <string name="movie_deleted">Movie deleted</string>
+    <string name="movie_remove_failed">Movie Remove failed</string>
+
 
 </resources>

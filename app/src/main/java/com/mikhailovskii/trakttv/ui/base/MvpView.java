@@ -1,7 +1,6 @@
 package com.mikhailovskii.trakttv.ui.base;
 
-
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public interface MvpView {
 

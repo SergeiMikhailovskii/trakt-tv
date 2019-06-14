@@ -1,12 +1,22 @@
 package com.mikhailovskii.trakttv.ui.movie_detail;
 
-import android.support.annotation.Nullable;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 
 import com.mikhailovskii.trakttv.data.api.MovieAPIFactory;
+import com.mikhailovskii.trakttv.data.entity.Movie;
+import com.mikhailovskii.trakttv.db.room.MovieDao;
+import com.mikhailovskii.trakttv.db.room.MovieDatabase;
 import com.mikhailovskii.trakttv.ui.base.BasePresenter;
+import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 
+import javax.annotation.Nullable;
+
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.MovieDetailView>
         implements MovieDetailContract.MovieDetailPresenter {
@@ -29,6 +39,31 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
                         }
                 )
         );
+    }
+
+    @Override
+    public void addMovieToFavorites(@NonNull Bundle bundle) {
+        MovieDao movieDao = MovieDatabase.getMovieDao();
+
+        mCompositeDisposable.add(Observable.just(bundle)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(disposable -> mView.showLoadingIndicator(true))
+                .map(_bundle -> new Movie(
+                        _bundle.getString(MovieDetailActivity.EXTRA_NAME),
+                        _bundle.getInt(MovieDetailActivity.EXTRA_WATCHERS),
+                        _bundle.getString(MovieListFragment.EXTRA_IMAGE),
+                        _bundle.getString(MovieListFragment.EXTRA_SLUG)))
+                .flatMap(movieEntity -> movieDao.insertMovie(movieEntity).toObservable())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete(() -> mView.onMoviesAdded())
+                .doOnError(error -> {
+                    Timber.e(error);
+                    mView.onMovieDetailsFailed();
+                })
+                .doAfterTerminate(() -> mView.showLoadingIndicator(false))
+                .subscribe()
+        );
+
     }
 
 }

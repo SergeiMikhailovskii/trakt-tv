@@ -1,7 +1,9 @@
 package com.mikhailovskii.trakttv.ui.movie_detail;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.mikhailovskii.trakttv.data.entity.Movie;
 import com.mikhailovskii.trakttv.ui.base.MvpPresenter;
@@ -15,11 +17,17 @@ public interface MovieDetailContract {
 
         void onMovieDetailsFailed();
 
+        void onMoviesAdded();
+
+        void onMoviesAddingFailed();
+
     }
 
     interface MovieDetailPresenter extends MvpPresenter<MovieDetailView> {
 
         void loadMovieDetails(@Nullable String slugId);
+
+        void addMovieToFavorites(@NonNull Bundle bundle);
 
     }
 

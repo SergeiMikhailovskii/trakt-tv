@@ -1,24 +1,30 @@
 package com.mikhailovskii.trakttv.ui.movie_detail;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mikhailovskii.trakttv.R;
 import com.mikhailovskii.trakttv.data.entity.Movie;
+import com.mikhailovskii.trakttv.ui.favorites.FavoritesFragment;
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment;
 
 public class MovieDetailActivity extends AppCompatActivity
         implements MovieDetailContract.MovieDetailView {
+
+    public static final String EXTRA_NAME = "EXTRA_NAME";
+    public static final String EXTRA_WATCHERS = "EXTRA_WATCHERS";
+    public static final String PREV_ACTIVITY = "PREV_ACTIVITY";
 
     private MovieDetailPresenter mPresenter = new MovieDetailPresenter();
 
@@ -58,9 +64,11 @@ public class MovieDetailActivity extends AppCompatActivity
         mTvYear = findViewById(R.id.tv_year);
         mTvNoInfo = findViewById(R.id.tv_no_info);
         mIvMovie = findViewById(R.id.movie_image);
-
         mFabFavorite = findViewById(R.id.favorite);
-        mFabFavorite.setOnClickListener(view -> Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show());
+
+        if (getIntent().getStringExtra(PREV_ACTIVITY).equals(FavoritesFragment.FRAGMENT_NAME)) {
+            mFabFavorite.hide();
+        }
 
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh);
         mSwipeRefreshLayout.setOnRefreshListener(() -> mPresenter.loadMovieDetails(mSlugId));
@@ -90,6 +98,15 @@ public class MovieDetailActivity extends AppCompatActivity
 
     @Override
     public void onMovieDetailsLoaded(@NonNull Movie movie) {
+        mFabFavorite.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            bundle.putString(EXTRA_NAME, movie.getName());
+            bundle.putInt(EXTRA_WATCHERS, movie.getWatchers());
+            bundle.putString(MovieListFragment.EXTRA_SLUG, movie.movieId.getSlug());
+            bundle.putString(MovieListFragment.EXTRA_IMAGE, mUrl);
+            mPresenter.addMovieToFavorites(bundle);
+        });
+
         mTvToolbarTitle.setText(movie.getName());
         mTvDescription.setText(movie.getOverview());
         mTvYear.setText(getString(R.string.year, movie.getYear()));
@@ -103,6 +120,16 @@ public class MovieDetailActivity extends AppCompatActivity
 
     @Override
     public void onMovieDetailsFailed() {
+        Toast.makeText(this, getString(R.string.adding_failed), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMoviesAdded() {
+        Toast.makeText(this, getString(R.string.film_added), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMoviesAddingFailed() {
 
     }
 

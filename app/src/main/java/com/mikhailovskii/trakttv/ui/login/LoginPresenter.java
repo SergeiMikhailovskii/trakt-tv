@@ -1,7 +1,8 @@
 package com.mikhailovskii.trakttv.ui.login;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -39,9 +40,10 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView>
         String token = bundle.getString(EXTRA_TOKEN);
         String avatar = bundle.getString(EXTRA_AVATAR);
 
-        User user = new User(email, password, token, login, id, avatar);
-
-        Preference.getInstance(TraktTvApp.getAppContext()).setUser(user);
+        if (password != null && login != null) {
+            User user = new User(email, password, token, login, id, avatar);
+            Preference.getInstance(TraktTvApp.getAppContext()).setUser(user);
+        }
 
         mView.onLoggedIn();
     }

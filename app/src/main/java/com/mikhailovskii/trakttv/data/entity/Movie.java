@@ -1,11 +1,25 @@
 package com.mikhailovskii.trakttv.data.entity;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.mikhailovskii.trakttv.db.room.MovieIdConverter;
 
+@Entity
 public class Movie {
+
+    @SerializedName("ids")
+    @Expose
+    @TypeConverters({MovieIdConverter.class})
+    public MovieId movieId;
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
 
     private String iconUrl;
     private String slugId;
@@ -18,10 +32,6 @@ public class Movie {
     @SerializedName("year")
     @Expose
     private int year;
-
-    @SerializedName("ids")
-    @Expose
-    public MovieId movieId;
 
     @SerializedName("tagline")
     @Expose
@@ -43,6 +53,8 @@ public class Movie {
     @Expose
     private String overview;
 
+    //For movie list
+    @Ignore
     public Movie(@NonNull String iconUrl, @NonNull String name, int year, @NonNull String slugId, int watchers) {
         this.iconUrl = iconUrl;
         this.name = name;
@@ -51,7 +63,9 @@ public class Movie {
         this.watchers = watchers;
     }
 
-    public Movie(@NonNull String iconUrl, @NonNull String name, int year, @NonNull String tagline, @NonNull String released, int runtime, @NonNull String country, @NonNull String overview) {
+    //For movie detail
+    @Ignore
+    public Movie(@NonNull String iconUrl, @NonNull String name, int year, @NonNull String tagline, @NonNull String released, int runtime, @NonNull String country, @NonNull String overview, @NonNull String slugId, int watchers) {
         this.iconUrl = iconUrl;
         this.name = name;
         this.year = year;
@@ -60,6 +74,16 @@ public class Movie {
         this.runtime = runtime;
         this.country = country;
         this.overview = overview;
+        this.slugId = slugId;
+        this.watchers = watchers;
+    }
+
+    //For room
+    public Movie(String name, int watchers, String iconUrl, String slugId) {
+        this.iconUrl = iconUrl;
+        this.slugId = slugId;
+        this.watchers = watchers;
+        this.name = name;
     }
 
     @NonNull
@@ -148,4 +172,13 @@ public class Movie {
     public void setOverview(@NonNull String overview) {
         this.overview = overview;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }
