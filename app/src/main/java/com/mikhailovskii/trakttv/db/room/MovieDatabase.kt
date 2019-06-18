@@ -19,7 +19,7 @@ abstract class MovieDatabase : RoomDatabase() {
 
     companion object {
 
-        const val DB_VERSION = 2
+        const val DB_VERSION = 3
         private const val DB_NAME = "trakttv.db"
 
         val movieDao: MovieDao
@@ -28,7 +28,7 @@ abstract class MovieDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: MovieDatabase? = null
 
-        fun getInstance(context: Context): MovieDatabase =
+        private fun getInstance(context: Context): MovieDatabase =
                 INSTANCE ?: synchronized(this) {
                     INSTANCE ?: buildDatabase(context).also {
                         INSTANCE = it

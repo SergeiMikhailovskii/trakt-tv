@@ -13,25 +13,28 @@ import com.bumptech.glide.request.RequestOptions
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.User
 import com.mikhailovskii.trakttv.ui.login.LoginActivity
-import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.view.*
 import java.util.*
 
 class ProfileFragment : Fragment(), ProfileContract.ProfileView {
+    private var root:View? = null
 
     private val mPresenter = ProfilePresenter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        root = inflater.inflate(R.layout.fragment_profile, container, false)
         mPresenter.attachView(this)
 
         //Handle logout button
-        log_out.setOnClickListener { v -> mPresenter.logOut() }
+        root!!.log_out.setOnClickListener {
+            mPresenter.logOut()
+        }
 
         mPresenter.getUser()
 
-        return view
+        return root
     }
 
     override fun onDestroyView() {
@@ -49,11 +52,11 @@ class ProfileFragment : Fragment(), ProfileContract.ProfileView {
                 .load(user.avatar)
                 .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_error_profile)
-                .into(avatar)
+                .into(root!!.avatar)
 
-        tv_email.text = user.email
-        tv_id.text = user.id
-        tv_login.text = user.username
+        root!!.tv_email.text = user.email
+        root!!.tv_id.text = user.id
+        root!!.tv_login.text = user.username
     }
 
     override fun showEmptyState(value: Boolean) {

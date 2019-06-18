@@ -4,9 +4,7 @@ import com.mikhailovskii.trakttv.data.api.MovieAPIFactory
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.data.entity.MovieTrack
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
-
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.annotations.NonNull
 import io.reactivex.schedulers.Schedulers
 
 class MovieListPresenter : BasePresenter<MovieListContract.MoviesListView>(), MovieListContract.MoviesListPresenter {
@@ -21,14 +19,13 @@ class MovieListPresenter : BasePresenter<MovieListContract.MoviesListView>(), Mo
                 .map { getMovie(it) }
                 .toList()
                 .subscribe({ list ->
-                    if (!list.isEmpty()) {
+                    if (list.isNotEmpty()) {
                         mView!!.showEmptyState(false)
                         mView!!.onMovieListLoaded(list)
                     } else {
                         mView!!.showEmptyState(true)
                     }
-                }, { error ->
-                    mView!!.showEmptyState(true)
+                }, {
                     mView!!.onMovieListFailed()
                 }))
 
@@ -45,7 +42,7 @@ class MovieListPresenter : BasePresenter<MovieListContract.MoviesListView>(), Mo
 
     companion object {
 
-        private val IMG_URL = "https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png"
+        private const val IMG_URL = "https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png"
 
     }
 

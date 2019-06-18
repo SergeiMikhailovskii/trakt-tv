@@ -16,27 +16,32 @@ import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
 import com.mikhailovskii.trakttv.util.toast
-import kotlinx.android.synthetic.main.fragment_favorites.*
+import kotlinx.android.synthetic.main.fragment_favorites.view.*
 import java.util.*
 
 class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAdapter.OnItemClickListener {
 
     private val mPresenter = FavoritesPresenter()
     private var mAdapter: MoviesAdapter? = null
+    private var root: View? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_favorites, container, false)
+        root = inflater.inflate(R.layout.fragment_favorites, container, false)
         mPresenter.attachView(this)
 
-        swipe_refresh.setOnRefreshListener { mPresenter.loadFavoriteMovies() }
+        root!!.swipe_refresh.setOnRefreshListener { mPresenter.loadFavoriteMovies() }
 
-        movies_list.layoutManager = LinearLayoutManager(context)
-        movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
+        root!!.movies_list.layoutManager = LinearLayoutManager(context)
+        root!!.movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
         mAdapter = MoviesAdapter(this)
-        movies_list.adapter = mAdapter
+        root!!.movies_list.adapter = mAdapter
 
-        return view
+        return root
     }
 
     override fun onResume() {
@@ -54,7 +59,6 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
     }
 
     override fun onMoviesFailed() {
-        // todo toas() extantion
         toast(getString(R.string.loading_failed))
     }
 
@@ -70,14 +74,14 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
 
     override fun showEmptyState(value: Boolean) {
         if (value) {
-            no_films.visibility = View.VISIBLE
+            root!!.no_films.visibility = View.VISIBLE
         } else {
-            no_films.visibility = View.GONE
+            root!!.no_films.visibility = View.GONE
         }
     }
 
     override fun showLoadingIndicator(value: Boolean) {
-        swipe_refresh.isRefreshing = value
+        root!!.swipe_refresh.isRefreshing = value
     }
 
     override fun onItemClicked(position: Int, item: Movie) {

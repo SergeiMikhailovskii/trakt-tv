@@ -15,6 +15,7 @@ import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity
 import com.mikhailovskii.trakttv.util.toast
 import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.fragment_list.view.*
 import java.util.*
 
 class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAdapter.OnItemClickListener {
@@ -22,21 +23,23 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
     private val mPresenter = MovieListPresenter()
     private var mAdapter: MoviesAdapter? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
         mPresenter.attachView(this)
 
-        movies_list.layoutManager = LinearLayoutManager(context)
-        movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
+        view.movies_list.layoutManager = LinearLayoutManager(context)
+        view.movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
 
-        swipe_refresh.setOnRefreshListener {
+        view.swipe_refresh.setOnRefreshListener {
             mPresenter.loadMovieList()
             swipe_refresh.isRefreshing = false
         }
 
         mAdapter = MoviesAdapter(this)
-        movies_list.adapter = mAdapter
+        view.movies_list.adapter = mAdapter
 
         mPresenter.loadMovieList()
 
