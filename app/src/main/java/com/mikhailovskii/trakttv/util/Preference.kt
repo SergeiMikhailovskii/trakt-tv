@@ -20,14 +20,14 @@ private constructor(context: Context) {
     }
 
     var user: User?
-        get() = Gson().fromJson<User>(sharedPreferences.getString(PREF_USER, null), User::class.java!!)
+        get() = Gson().fromJson<User>(sharedPreferences.getString(PREF_USER, null), User::class.java)
         set(user) {
             editor.putString(PREF_USER, Gson().toJson(user)).commit()
         }
 
     companion object {
 
-        private val PREF_USER = "PREF_USER"
+        private const val PREF_USER = "PREF_USER"
 
         private var instance: Preference? = null
 

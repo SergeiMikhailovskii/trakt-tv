@@ -3,31 +3,19 @@ package com.mikhailovskii.trakttv.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.ui.main.MainActivity
-
-import java.util.Objects
+import kotlinx.android.synthetic.main.activity_login.*
+import org.jetbrains.anko.toast
+import java.util.*
 
 
 class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
-
-    private var mLoginLayout: TextInputLayout? = null
-    private var mPasswordLayout: TextInputLayout? = null
-    private var mEtLogin: TextInputEditText? = null
-    private var mEtPassword: TextInputEditText? = null
-    private var mBtnFacebook: LoginButton? = null
-    private var mBtnLogin: Button? = null
 
     private var mCallbackManager: CallbackManager? = null
     private val mPresenter = LoginPresenter()
@@ -37,29 +25,21 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
         setContentView(R.layout.activity_login)
         mPresenter.attachView(this)
 
-        // Find views
-        mLoginLayout = findViewById(R.id.login_layout)
-        mPasswordLayout = findViewById(R.id.password_layout)
-        mEtLogin = mLoginLayout!!.findViewById(R.id.tv_login)
-        mEtPassword = mPasswordLayout!!.findViewById(R.id.password_text)
-        mBtnFacebook = findViewById(R.id.facebook_login)
-        mBtnLogin = findViewById(R.id.login)
-
         // Handle login button
-        mBtnLogin!!.setOnClickListener { v ->
-            mLoginLayout!!.error = null
-            mPasswordLayout!!.error = null
-            val login = Objects.requireNonNull<Editable>(mEtLogin!!.text).toString()
-            val password = Objects.requireNonNull<Editable>(mEtPassword!!.text).toString()
+        login.setOnClickListener {
+            login_layout.error = null
+            password_layout.error = null
+            val login = Objects.requireNonNull<Editable>(tv_login.text).toString()
+            val password = Objects.requireNonNull<Editable>(et_password.text).toString()
 
             when {
-                login == "" -> mLoginLayout!!.error = getString(R.string.enter_login)
-                password == "" -> mPasswordLayout!!.error = getString(R.string.enter_password)
+                login == "" -> login_layout.error = getString(R.string.enter_login)
+                password == "" -> password_layout.error = getString(R.string.enter_password)
                 else -> {
                     val bundle = Bundle()
 
-                    bundle.putString(LoginPresenter.EXTRA_LOGIN, mEtLogin!!.text!!.toString())
-                    bundle.putString(LoginPresenter.EXTRA_PASSWORD, mEtPassword!!.text!!.toString())
+                    bundle.putString(LoginPresenter.EXTRA_LOGIN, tv_login.text!!.toString())
+                    bundle.putString(LoginPresenter.EXTRA_PASSWORD, et_password.text!!.toString())
 
                     mPresenter.saveUserData(bundle)
                 }
@@ -69,18 +49,18 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
 
         // Facebook logic
         mCallbackManager = CallbackManager.Factory.create()
-        mBtnFacebook!!.setPermissions(FB_EMAIL_PERMISSION)
-        mBtnFacebook!!.registerCallback(mCallbackManager, object : FacebookCallback<LoginResult> {
+        facebook_login.setPermissions(FB_EMAIL_PERMISSION)
+        facebook_login.registerCallback(mCallbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 mPresenter.proceedWithFbLogin(loginResult)
             }
 
             override fun onCancel() {
-                Toast.makeText(applicationContext, applicationContext.getString(R.string.login_fb_cancelled), Toast.LENGTH_SHORT).show()
+                toast(getString(R.string.login_fb_cancelled))
             }
 
             override fun onError(error: FacebookException) {
-                Toast.makeText(applicationContext, applicationContext.getString(R.string.failed_fb_login), Toast.LENGTH_SHORT).show()
+                toast(getString(R.string.failed_fb_login))
             }
         })
     }
@@ -101,7 +81,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
     }
 
     override fun onLoginFailed() {
-        Toast.makeText(applicationContext, applicationContext.getString(R.string.login_failed), Toast.LENGTH_SHORT).show()
+        toast(getString(R.string.login_failed))
     }
 
     override fun showEmptyState(value: Boolean) {

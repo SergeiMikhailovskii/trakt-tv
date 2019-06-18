@@ -1,31 +1,25 @@
 package com.mikhailovskii.trakttv.ui.movies_list
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity
-import java.util.Objects
+import com.mikhailovskii.trakttv.util.toast
+import kotlinx.android.synthetic.main.fragment_list.*
+import java.util.*
 
 class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAdapter.OnItemClickListener {
 
     private val mPresenter = MovieListPresenter()
-    private var mSwipeRefresh: SwipeRefreshLayout? = null
-    private var mTvNoFilms: TextView? = null
     private var mAdapter: MoviesAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -33,20 +27,16 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
         val view = inflater.inflate(R.layout.fragment_list, container, false)
         mPresenter.attachView(this)
 
-        mTvNoFilms = view.findViewById(R.id.no_films)
+        movies_list.layoutManager = LinearLayoutManager(context)
+        movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
 
-        val moviesRecycler = view.findViewById<RecyclerView>(R.id.movies_list)
-        moviesRecycler.layoutManager = LinearLayoutManager(context)
-        moviesRecycler.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
-
-        mSwipeRefresh = view.findViewById(R.id.swipe_refresh)
-        mSwipeRefresh!!.setOnRefreshListener {
+        swipe_refresh.setOnRefreshListener {
             mPresenter.loadMovieList()
-            mSwipeRefresh!!.isRefreshing = false
+            swipe_refresh.isRefreshing = false
         }
 
         mAdapter = MoviesAdapter(this)
-        moviesRecycler.adapter = mAdapter
+        movies_list.adapter = mAdapter
 
         mPresenter.loadMovieList()
 
@@ -75,19 +65,19 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
     }
 
     override fun onMovieListFailed() {
-        Toast.makeText(context, Objects.requireNonNull<Context>(context).getString(R.string.loading_failed), Toast.LENGTH_SHORT).show()
+        toast(getString(R.string.loading_failed))
     }
 
     override fun showEmptyState(value: Boolean) {
         if (value) {
-            mTvNoFilms!!.visibility = View.VISIBLE
+            no_films.visibility = View.VISIBLE
         } else {
-            mTvNoFilms!!.visibility = View.GONE
+            no_films.visibility = View.GONE
         }
     }
 
     override fun showLoadingIndicator(value: Boolean) {
-        mSwipeRefresh!!.isRefreshing = value
+        swipe_refresh.isRefreshing = value
     }
 
     companion object {
