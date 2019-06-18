@@ -12,17 +12,13 @@ import com.mikhailovskii.trakttv.db.room.MovieIdConverter
 @Entity
 class Movie {
 
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+
     @SerializedName("ids")
     @Expose
     @TypeConverters(MovieIdConverter::class)
     var movieId: MovieId? = null
-
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-
-    var iconUrl: String? = null
-    var slugId: String? = null
-    var watchers: Int = 0
 
     @SerializedName("title")
     @Expose
@@ -51,6 +47,12 @@ class Movie {
     @SerializedName("overview")
     @Expose
     var overview: String? = null
+
+    var iconUrl: String? = null
+
+    var slugId: String? = null
+
+    var watchers: Int = 0
 
     //For movie list
     @Ignore

@@ -13,7 +13,9 @@ import com.mikhailovskii.trakttv.data.entity.Movie
 
 import java.util.ArrayList
 
-class MoviesAdapter(private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
+class MoviesAdapter(
+        private val onItemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
     private val moviesList = ArrayList<Movie>()
 
@@ -25,21 +27,24 @@ class MoviesAdapter(private val onItemClickListener: OnItemClickListener) : Recy
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val movie = moviesList[position]
 
+        // todo https://kotlinlang.org/docs/tutorials/android-plugin.html
+        // viewHolder.bindData()
+
         Glide.with(viewHolder.itemView.context)
                 .load(movie.iconUrl)
-                .into(viewHolder.mIconImageView)
+                .into(viewHolder.iconImageView)
 
-        viewHolder.mMovieNameTextView.text = movie.name
-        viewHolder.mYearTextView.text = viewHolder.itemView.context.resources.getString(R.string.year, movie.year)
-        viewHolder.mWatchersTextView.text = viewHolder.itemView.context.resources.getString(R.string.watchers, movie.watchers)
+        viewHolder.movieNameTextView.text = movie.name
+        viewHolder.yearTextView.text = viewHolder.itemView.context.resources.getString(R.string.year, movie.year)
+        viewHolder.watchersTextView.text = viewHolder.itemView.context.resources.getString(R.string.watchers, movie.watchers)
 
-        viewHolder.itemView.setOnClickListener { v ->
+        viewHolder.itemView.setOnClickListener {
             if (viewHolder.adapterPosition != RecyclerView.NO_POSITION) {
                 onItemClickListener.onItemClicked(viewHolder.adapterPosition, movie)
             }
         }
 
-        viewHolder.itemView.setOnLongClickListener { v ->
+        viewHolder.itemView.setOnLongClickListener {
             if (viewHolder.adapterPosition != RecyclerView.NO_POSITION) {
                 onItemClickListener.onItemLongClick(viewHolder.adapterPosition, movie)
             }
@@ -69,17 +74,20 @@ class MoviesAdapter(private val onItemClickListener: OnItemClickListener) : Recy
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var mIconImageView: ImageView
-        var mMovieNameTextView: TextView
-        var mYearTextView: TextView
-        var mWatchersTextView: TextView
+        var iconImageView: ImageView
+        var movieNameTextView: TextView
+        var yearTextView: TextView
+        var watchersTextView: TextView
 
         init {
+            iconImageView = itemView.findViewById(R.id.icon_image)
+            movieNameTextView = itemView.findViewById(R.id.tv_moviename)
+            yearTextView = itemView.findViewById(R.id.tv_year)
+            watchersTextView = itemView.findViewById(R.id.tv_watchers)
+        }
 
-            mIconImageView = itemView.findViewById(R.id.icon_image)
-            mMovieNameTextView = itemView.findViewById(R.id.tv_moviename)
-            mYearTextView = itemView.findViewById(R.id.tv_year)
-            mWatchersTextView = itemView.findViewById(R.id.tv_watchers)
+        fun bindData(){
+
         }
 
     }

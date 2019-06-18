@@ -7,6 +7,7 @@ class MovieTrack {
 
     @SerializedName("movie")
     var movie: Movie? = null
+
     @SerializedName("watchers")
     @Expose
     var watchersNumber: Int = 0

@@ -13,8 +13,8 @@ import io.reactivex.Single
 @Dao
 interface MovieDao {
 
-    @get:Query("SELECT * from Movie")
-    val favorites: Single<List<Movie>>
+    @Query("SELECT * from Movie")
+    fun getFavorites(): Single<List<Movie>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovie(movie: Movie): Completable

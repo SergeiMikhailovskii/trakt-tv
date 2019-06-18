@@ -52,17 +52,17 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
             val login = Objects.requireNonNull<Editable>(mEtLogin!!.text).toString()
             val password = Objects.requireNonNull<Editable>(mEtPassword!!.text).toString()
 
-            if (login == "") {
-                mLoginLayout!!.error = getString(R.string.enter_login)
-            } else if (password == "") {
-                mPasswordLayout!!.error = getString(R.string.enter_password)
-            } else {
-                val bundle = Bundle()
+            when {
+                login == "" -> mLoginLayout!!.error = getString(R.string.enter_login)
+                password == "" -> mPasswordLayout!!.error = getString(R.string.enter_password)
+                else -> {
+                    val bundle = Bundle()
 
-                bundle.putString(LoginPresenter.EXTRA_LOGIN, mEtLogin!!.text!!.toString())
-                bundle.putString(LoginPresenter.EXTRA_PASSWORD, mEtPassword!!.text!!.toString())
+                    bundle.putString(LoginPresenter.EXTRA_LOGIN, mEtLogin!!.text!!.toString())
+                    bundle.putString(LoginPresenter.EXTRA_PASSWORD, mEtPassword!!.text!!.toString())
 
-                mPresenter.saveUserData(bundle)
+                    mPresenter.saveUserData(bundle)
+                }
             }
 
         }

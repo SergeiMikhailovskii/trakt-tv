@@ -12,13 +12,13 @@ import io.reactivex.schedulers.Schedulers
 class MovieListPresenter : BasePresenter<MovieListContract.MoviesListView>(), MovieListContract.MoviesListPresenter {
 
     override fun loadMovieList() {
-        mCompositeDisposable.add(MovieAPIFactory.instance.apiService.movies
+        mCompositeDisposable.add(MovieAPIFactory.getInstance().apiService.getMovies()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { mView!!.showLoadingIndicator(true) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate { mView!!.showLoadingIndicator(false) }
                 .flatMapIterable { movieTracks -> movieTracks }
-                .map(Function<MovieTrack, Movie> { this.getMovie(it) })
+                .map { getMovie(it) }
                 .toList()
                 .subscribe({ list ->
                     if (!list.isEmpty()) {
@@ -34,11 +34,11 @@ class MovieListPresenter : BasePresenter<MovieListContract.MoviesListView>(), Mo
 
     }
 
-    private fun getMovie(@NonNull movieTrack: MovieTrack): Movie {
+    private fun getMovie(movieTrack: MovieTrack): Movie {
         return Movie(IMG_URL,
-                movieTrack.movie!!.name,
-                movieTrack.movie!!.year,
-                movieTrack.movie!!.movieId!!.slug,
+                movieTrack.movie?.name!!,
+                movieTrack.movie?.year!!,
+                movieTrack.movie?.movieId?.slug!!,
                 movieTrack.watchersNumber
         )
     }
@@ -46,6 +46,7 @@ class MovieListPresenter : BasePresenter<MovieListContract.MoviesListView>(), Mo
     companion object {
 
         private val IMG_URL = "https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png"
+
     }
 
 }

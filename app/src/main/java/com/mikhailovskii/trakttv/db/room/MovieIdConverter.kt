@@ -14,7 +14,7 @@ class MovieIdConverter {
 
     @TypeConverter
     fun toId(data: String): MovieId {
-        return Gson().fromJson(data, MovieId::class.java!!)
+        return Gson().fromJson(data, MovieId::class.java)
     }
 
 }

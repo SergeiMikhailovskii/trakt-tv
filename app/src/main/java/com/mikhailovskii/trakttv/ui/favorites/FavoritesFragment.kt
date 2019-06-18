@@ -36,13 +36,13 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
 
         mTvNoFilms = view.findViewById(R.id.no_films)
         mSwipeRefresh = view.findViewById(R.id.swipe_refresh)
-        mSwipeRefresh!!.setOnRefreshListener { mPresenter.loadFavoriteMovies() }
+        mSwipeRefresh?.setOnRefreshListener { mPresenter.loadFavoriteMovies() }
 
         mMoviesRecycler = view.findViewById(R.id.movies_list)
-        mMoviesRecycler!!.layoutManager = LinearLayoutManager(context)
-        mMoviesRecycler!!.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
+        mMoviesRecycler?.layoutManager = LinearLayoutManager(context)
+        mMoviesRecycler?.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
         mAdapter = MoviesAdapter(this)
-        mMoviesRecycler!!.adapter = mAdapter
+        mMoviesRecycler?.adapter = mAdapter
 
         return view
     }
@@ -58,10 +58,11 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
     }
 
     override fun onMoviesLoaded(list: List<Movie>) {
-        mAdapter!!.setData(list)
+        mAdapter?.setData(list)
     }
 
     override fun onMoviesFailed() {
+        // todo toas() extantion
         Toast.makeText(context, getString(R.string.loading_failed), Toast.LENGTH_SHORT).show()
     }
 

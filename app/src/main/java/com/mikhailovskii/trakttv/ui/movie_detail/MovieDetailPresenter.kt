@@ -3,6 +3,7 @@ package com.mikhailovskii.trakttv.ui.movie_detail
 import android.os.Bundle
 import com.mikhailovskii.trakttv.data.api.MovieAPIFactory
 import com.mikhailovskii.trakttv.data.entity.Movie
+import com.mikhailovskii.trakttv.data.entity.Optional
 import com.mikhailovskii.trakttv.db.room.MovieDatabase
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
@@ -14,7 +15,12 @@ import timber.log.Timber
 class MovieDetailPresenter : BasePresenter<MovieDetailContract.MovieDetailView>(), MovieDetailContract.MovieDetailPresenter {
 
     override fun loadMovieDetails(slugId: String?) {
-        mCompositeDisposable.add(MovieAPIFactory.instance.apiService.getExtendedInfo(slugId)
+        mCompositeDisposable.add(Observable.just(Optional(slugId))
+                .filter { !it.isEmpty }
+                .firstOrError()
+                .toObservable()
+                .map { it.get() }
+                .flatMap { MovieAPIFactory.getInstance().apiService.getExtendedInfo(it) }
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { mView!!.showLoadingIndicator(true) }
                 .filter { slugId != null }
@@ -27,8 +33,7 @@ class MovieDetailPresenter : BasePresenter<MovieDetailContract.MovieDetailView>(
                 }, {
                     mView!!.showEmptyState(true)
                     mView!!.onMovieDetailsFailed()
-                }
-                )
+                })
         )
     }
 

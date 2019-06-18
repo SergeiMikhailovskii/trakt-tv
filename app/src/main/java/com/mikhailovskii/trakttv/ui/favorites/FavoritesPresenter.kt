@@ -3,7 +3,6 @@ package com.mikhailovskii.trakttv.ui.favorites
 import android.os.Bundle
 
 import com.mikhailovskii.trakttv.data.entity.Movie
-import com.mikhailovskii.trakttv.db.room.MovieDao
 import com.mikhailovskii.trakttv.db.room.MovieDatabase
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity
@@ -19,11 +18,11 @@ class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), Fav
     override fun loadFavoriteMovies() {
         val movieDao = MovieDatabase.movieDao
 
-        mCompositeDisposable.add(movieDao.favorites
+        mCompositeDisposable.add(movieDao.getFavorites()
                 .subscribeOn(Schedulers.computation())
-                .doOnSubscribe({ disposable -> mView!!.showLoadingIndicator(true) })
+                .doOnSubscribe { mView!!.showLoadingIndicator(true) }
                 .toObservable()
-                .flatMapIterable({ listObservable -> listObservable })
+                .flatMapIterable { listObservable -> listObservable }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess { list ->
@@ -48,14 +47,17 @@ class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), Fav
 
         mCompositeDisposable.add(Observable.just(bundle)
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { disposable -> mView!!.showLoadingIndicator(true) }
+                .doOnSubscribe { mView!!.showLoadingIndicator(true) }
                 .map { _bundle ->
                     Movie(_bundle.getString(MovieDetailActivity.EXTRA_NAME),
                             _bundle.getInt(MovieDetailActivity.EXTRA_WATCHERS),
                             _bundle.getString(MovieListFragment.EXTRA_IMAGE),
                             _bundle.getString(MovieListFragment.EXTRA_SLUG))
                 }
-                .flatMap<Any> { movieEntity -> MovieDatabase.movieDao.deleteMovie(movieEntity.name).toObservable() }
+                .filter { it.name != null }
+                .firstOrError()
+                .toObservable()
+                .flatMap<Any> { movieEntity -> MovieDatabase.movieDao.deleteMovie(movieEntity.name!!).toObservable() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { mView!!.onMovieRemoved() }
                 .doOnError { error ->

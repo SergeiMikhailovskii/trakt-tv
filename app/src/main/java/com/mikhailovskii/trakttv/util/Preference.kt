@@ -10,33 +10,34 @@ import com.mikhailovskii.trakttv.data.entity.User
 
 class Preference @SuppressLint("CommitPrefEdits")
 private constructor(context: Context) {
-    private val mSharedPreferences: SharedPreferences
-    private val mEditor: SharedPreferences.Editor
 
-    var user: User?
-        get() = Gson().fromJson<User>(mSharedPreferences.getString(PREF_USER, null), User::class.java!!)
-        set(user) {
-            mEditor.putString(PREF_USER, Gson().toJson(user)).commit()
-        }
+    private val sharedPreferences: SharedPreferences
+    private val editor: SharedPreferences.Editor
 
     init {
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        mEditor = mSharedPreferences.edit()
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        editor = sharedPreferences.edit()
     }
+
+    var user: User?
+        get() = Gson().fromJson<User>(sharedPreferences.getString(PREF_USER, null), User::class.java!!)
+        set(user) {
+            editor.putString(PREF_USER, Gson().toJson(user)).commit()
+        }
 
     companion object {
 
         private val PREF_USER = "PREF_USER"
 
-        private var sInstance: Preference? = null
+        private var instance: Preference? = null
 
         @Synchronized
         fun getInstance(context: Context): Preference {
-            if (sInstance == null) {
-                sInstance = Preference(context)
+            if (instance == null) {
+                instance = Preference(context)
             }
 
-            return sInstance
+            return instance!!
         }
     }
 

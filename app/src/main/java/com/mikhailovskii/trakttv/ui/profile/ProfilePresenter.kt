@@ -9,7 +9,7 @@ class ProfilePresenter : BasePresenter<ProfileContract.ProfileView>(), ProfileCo
 
     override fun getUser() {
         val user = Preference.getInstance(TraktTvApp.appContext).user
-        mView!!.onUserDataLoaded(user)
+        mView!!.onUserDataLoaded(user!!)// todo
     }
 
     override fun logOut() {

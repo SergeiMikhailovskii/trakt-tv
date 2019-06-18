@@ -5,17 +5,16 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.util.concurrent.TimeUnit
 
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MovieAPIFactory private constructor() {
 
-    private val mRetrofit: Retrofit
+    private val retrofit: Retrofit
 
     val apiService: MovieAPI
-        get() = mRetrofit.create(MovieAPI::class.java!!)
+        get() = retrofit.create(MovieAPI::class.java)
 
     init {
         val httpClient = OkHttpClient.Builder()
@@ -39,7 +38,7 @@ class MovieAPIFactory private constructor() {
             chain.proceed(requestBuilder)
         }
 
-        mRetrofit = Retrofit.Builder()
+        retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(httpClient.build())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -61,13 +60,12 @@ class MovieAPIFactory private constructor() {
 
         private var mInstance: MovieAPIFactory? = null
 
-        val instance: MovieAPIFactory
-            get() {
-                if (mInstance == null) {
-                    mInstance = MovieAPIFactory()
-                }
-                return mInstance!!
+        fun getInstance(): MovieAPIFactory {
+            if (mInstance == null) {
+                mInstance = MovieAPIFactory()
             }
+            return mInstance!!
+        }
     }
 
 }
