@@ -21,41 +21,43 @@ import java.util.*
 
 class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAdapter.OnItemClickListener {
 
-    private val mPresenter = FavoritesPresenter()
-    private var mAdapter: MoviesAdapter? = null
+    private val presenter = FavoritesPresenter()
+    private var adapter: MoviesAdapter? = null
     private var root: View? = null
 
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
+            savedInstanceState: Bundle?): View? {
 
-                              savedInstanceState: Bundle?): View? {
         root = inflater.inflate(R.layout.fragment_favorites, container, false)
-        mPresenter.attachView(this)
+        presenter.attachView(this)
 
-        root!!.swipe_refresh.setOnRefreshListener { mPresenter.loadFavoriteMovies() }
+        root!!.swipe_refresh.setOnRefreshListener {
+            presenter.loadFavoriteMovies()
+        }
 
         root!!.movies_list.layoutManager = LinearLayoutManager(context)
         root!!.movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
-        mAdapter = MoviesAdapter(this)
-        root!!.movies_list.adapter = mAdapter
+        adapter = MoviesAdapter(this)
+        root!!.movies_list.adapter = adapter
 
         return root
     }
 
     override fun onResume() {
         super.onResume()
-        mPresenter.loadFavoriteMovies()
+        presenter.loadFavoriteMovies()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mPresenter.detachView()
+        presenter.detachView()
     }
 
     override fun onMoviesLoaded(list: List<Movie>) {
-        mAdapter?.setData(list)
+        adapter?.setData(list)
     }
 
     override fun onMoviesFailed() {
@@ -64,7 +66,7 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
 
     override fun onMovieRemoved() {
         toast(getString(R.string.movie_deleted))
-        mPresenter.loadFavoriteMovies()
+        presenter.loadFavoriteMovies()
     }
 
     override fun onMovieRemoveFailed() {
@@ -99,7 +101,7 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
                 MovieListFragment.EXTRA_SLUG to item.slugId,
                 MovieListFragment.EXTRA_IMAGE to item.iconUrl
         )
-        mPresenter.deleteMovie(bundle)
+        presenter.deleteMovie(bundle)
     }
 
     companion object {

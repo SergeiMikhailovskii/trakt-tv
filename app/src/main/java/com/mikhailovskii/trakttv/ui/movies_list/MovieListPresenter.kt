@@ -10,7 +10,8 @@ import io.reactivex.schedulers.Schedulers
 class MovieListPresenter : BasePresenter<MovieListContract.MoviesListView>(), MovieListContract.MoviesListPresenter {
 
     override fun loadMovieList() {
-        mCompositeDisposable.add(MovieAPIFactory.getInstance().apiService.getMovies()
+        mCompositeDisposable.add(
+                MovieAPIFactory.getInstance().apiService.getMovies()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { mView!!.showLoadingIndicator(true) }
                 .observeOn(AndroidSchedulers.mainThread())

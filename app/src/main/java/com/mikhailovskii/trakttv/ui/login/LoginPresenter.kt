@@ -1,7 +1,7 @@
 package com.mikhailovskii.trakttv.ui.login
 
 import android.os.Bundle
-
+import androidx.core.os.bundleOf
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.Profile
@@ -11,7 +11,6 @@ import com.mikhailovskii.trakttv.data.entity.User
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import com.mikhailovskii.trakttv.util.Preference
 import org.json.JSONException
-import org.json.JSONObject
 
 class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.LoginPresenter {
 
@@ -51,13 +50,13 @@ class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.L
                         id = response.jsonObject.getString(FB_ID_PERMISSION)
                     }
 
-                    val bundle = Bundle()
-                    bundle.putString(EXTRA_TOKEN, loginResult.accessToken.token)
-                    bundle.putString(EXTRA_EMAIL, email)
-                    bundle.putString(EXTRA_ID, id)
-                    bundle.putString(EXTRA_AVATAR, "https://graph.facebook.com/v2.2/$id/picture?height=120&type=normal")
-                    bundle.putString(EXTRA_LOGIN, Profile.getCurrentProfile().name)
-
+                    val bundle = bundleOf(
+                            EXTRA_TOKEN to loginResult.accessToken.token,
+                            EXTRA_EMAIL to email,
+                            EXTRA_ID to id,
+                            EXTRA_AVATAR to "https://graph.facebook.com/v2.2/$id/picture?height=120&type=normal",
+                            EXTRA_LOGIN to Profile.getCurrentProfile().name
+                    )
 
                     saveUserData(bundle)
 
@@ -69,8 +68,7 @@ class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.L
             response.rawResponse
         }
 
-        val parameters = Bundle()
-        parameters.putString("fields", FB_EMAIL_PERMISSION)
+        val parameters = bundleOf("fields" to FB_EMAIL_PERMISSION)
         request.parameters = parameters
         request.executeAsync()
     }

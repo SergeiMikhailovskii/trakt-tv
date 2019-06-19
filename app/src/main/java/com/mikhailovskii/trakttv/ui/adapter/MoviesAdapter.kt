@@ -22,7 +22,6 @@ class MoviesAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        // todo https://kotlinlang.org/docs/tutorials/android-plugin.html
         viewHolder.bindData(moviesList[position], onItemClickListener)
     }
 
@@ -41,9 +40,11 @@ class MoviesAdapter(
     }
 
     interface OnItemClickListener {
+
         fun onItemClicked(position: Int, item: Movie)
 
         fun onItemLongClick(position: Int, item: Movie)
+
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

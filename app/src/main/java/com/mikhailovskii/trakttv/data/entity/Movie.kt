@@ -85,6 +85,8 @@ class Movie {
         this.slugId = slugId
         this.watchers = watchers
         this.name = name
+        movieId = MovieId()
+        movieId?.slug = slugId
     }
 
 }

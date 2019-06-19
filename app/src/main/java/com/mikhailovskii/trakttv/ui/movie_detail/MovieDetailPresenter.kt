@@ -22,11 +22,17 @@ class MovieDetailPresenter : BasePresenter<MovieDetailContract.MovieDetailView>(
                 .map { it.get() }
                 .flatMap { MovieAPIFactory.getInstance().apiService.getExtendedInfo(it) }
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { mView!!.showLoadingIndicator(true) }
-                .filter { slugId != null }
+                .doOnSubscribe {
+                    mView!!.showLoadingIndicator(true)
+                }
+                .filter {
+                    slugId != null
+                }
                 .firstOrError()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate { mView!!.showLoadingIndicator(false) }
+                .doAfterTerminate {
+                    mView!!.showLoadingIndicator(false)
+                }
                 .subscribe({ result ->
                     mView!!.showEmptyState(false)
                     mView!!.onMovieDetailsLoaded(result)
@@ -44,20 +50,28 @@ class MovieDetailPresenter : BasePresenter<MovieDetailContract.MovieDetailView>(
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { mView!!.showLoadingIndicator(true) }
                 .map { _bundle ->
+                    //TODO
                     Movie(
-                            _bundle.getString(MovieDetailActivity.EXTRA_NAME),
+                            _bundle.getString(MovieDetailActivity.EXTRA_NAME)!!,
                             _bundle.getInt(MovieDetailActivity.EXTRA_WATCHERS),
-                            _bundle.getString(MovieListFragment.EXTRA_IMAGE),
-                            _bundle.getString(MovieListFragment.EXTRA_SLUG))
+                            _bundle.getString(MovieListFragment.EXTRA_IMAGE)!!,
+                            _bundle.getString(MovieListFragment.EXTRA_SLUG)!!
+                    )
                 }
-                .flatMap<Any> { movieEntity -> movieDao.insertMovie(movieEntity).toObservable() }
+                .flatMap<Any> { movieEntity ->
+                    movieDao.insertMovie(movieEntity).toObservable()
+                }
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { mView!!.onMoviesAdded() }
+                .doOnComplete {
+                    mView!!.onMoviesAdded()
+                }
                 .doOnError { error ->
                     Timber.e(error)
                     mView!!.onMovieDetailsFailed()
                 }
-                .doAfterTerminate { mView!!.showLoadingIndicator(false) }
+                .doAfterTerminate {
+                    mView!!.showLoadingIndicator(false)
+                }
                 .subscribe()
         )
 

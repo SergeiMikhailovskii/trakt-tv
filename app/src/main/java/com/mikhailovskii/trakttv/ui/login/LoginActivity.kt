@@ -17,13 +17,13 @@ import java.util.*
 
 class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
 
-    private var mCallbackManager: CallbackManager? = null
-    private val mPresenter = LoginPresenter()
+    private var callbackManager: CallbackManager? = null
+    private val presenter = LoginPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        mPresenter.attachView(this)
+        presenter.attachView(this)
 
         // Handle login button
         login.setOnClickListener {
@@ -41,18 +41,18 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
                     bundle.putString(LoginPresenter.EXTRA_LOGIN, tv_login.text!!.toString())
                     bundle.putString(LoginPresenter.EXTRA_PASSWORD, et_password.text!!.toString())
 
-                    mPresenter.saveUserData(bundle)
+                    presenter.saveUserData(bundle)
                 }
             }
 
         }
 
         // Facebook logic
-        mCallbackManager = CallbackManager.Factory.create()
+        callbackManager = CallbackManager.Factory.create()
         facebook_login.setPermissions(FB_EMAIL_PERMISSION)
-        facebook_login.registerCallback(mCallbackManager, object : FacebookCallback<LoginResult> {
+        facebook_login.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
-                mPresenter.proceedWithFbLogin(loginResult)
+                presenter.proceedWithFbLogin(loginResult)
             }
 
             override fun onCancel() {
@@ -67,11 +67,11 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
 
     override fun onDestroy() {
         super.onDestroy()
-        mPresenter.detachView()
+        presenter.detachView()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        mCallbackManager!!.onActivityResult(requestCode, resultCode, data)
+        callbackManager!!.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
     }
 

@@ -9,10 +9,10 @@ import retrofit2.http.Path
 
 interface MovieAPI {
 
-    @GET("/getMovies/trending")
+    @GET("/movies/trending")
     fun getMovies(): Observable<List<MovieTrack>>
 
-    @GET("/getMovies/{slug}?extended=full")
+    @GET("/movies/{slug}?extended=full")
     fun getExtendedInfo(
             @Path("slug") slug: String
     ): Observable<Movie>

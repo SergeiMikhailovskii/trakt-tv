@@ -14,41 +14,41 @@ import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity
 import com.mikhailovskii.trakttv.util.toast
-import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import java.util.*
 
 class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAdapter.OnItemClickListener {
 
-    private val mPresenter = MovieListPresenter()
-    private var mAdapter: MoviesAdapter? = null
+    private val presenter = MovieListPresenter()
+    private var adapter: MoviesAdapter? = null
+    private var root: View? = null
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_list, container, false)
-        mPresenter.attachView(this)
+        root = inflater.inflate(R.layout.fragment_list, container, false)
+        presenter.attachView(this)
 
-        view.movies_list.layoutManager = LinearLayoutManager(context)
-        view.movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
+        root!!.movies_list.layoutManager = LinearLayoutManager(context)
+        root!!.movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
 
-        view.swipe_refresh.setOnRefreshListener {
-            mPresenter.loadMovieList()
-            swipe_refresh.isRefreshing = false
+        root!!.swipe_refresh.setOnRefreshListener {
+            presenter.loadMovieList()
+            root!!.swipe_refresh.isRefreshing = false
         }
 
-        mAdapter = MoviesAdapter(this)
-        view.movies_list.adapter = mAdapter
+        adapter = MoviesAdapter(this)
+        root!!.movies_list.adapter = adapter
 
-        mPresenter.loadMovieList()
+        presenter.loadMovieList()
 
-        return view
+        return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mPresenter.detachView()
+        presenter.detachView()
     }
 
     override fun onItemClicked(position: Int, item: Movie) {
@@ -64,7 +64,7 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
     }
 
     override fun onMovieListLoaded(movieList: List<Movie>) {
-        mAdapter!!.setData(movieList)
+        adapter!!.setData(movieList)
     }
 
     override fun onMovieListFailed() {
@@ -73,14 +73,14 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
 
     override fun showEmptyState(value: Boolean) {
         if (value) {
-            no_films.visibility = View.VISIBLE
+            root!!.no_films.visibility = View.VISIBLE
         } else {
-            no_films.visibility = View.GONE
+            root!!.no_films.visibility = View.GONE
         }
     }
 
     override fun showLoadingIndicator(value: Boolean) {
-        swipe_refresh.isRefreshing = value
+        root!!.swipe_refresh.isRefreshing = value
     }
 
     companion object {
