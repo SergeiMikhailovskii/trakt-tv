@@ -54,7 +54,7 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
     override fun onItemClicked(position: Int, item: Movie) {
         val intent = Intent(activity, MovieDetailActivity::class.java)
         intent.putExtra(EXTRA_IMAGE, item.iconUrl)
-        intent.putExtra(EXTRA_SLUG, item.slugId)
+        intent.putExtra(EXTRA_SLUG, item.movieId?.slug)
         intent.putExtra(MovieDetailActivity.PREV_ACTIVITY, FRAGMENT_NAME)
         startActivity(intent)
     }

@@ -50,8 +50,6 @@ class Movie {
 
     var iconUrl: String? = null
 
-    var slugId: String? = null
-
     var watchers: Int = 0
 
     //For movie list
@@ -60,7 +58,7 @@ class Movie {
         this.iconUrl = iconUrl
         this.name = name
         this.year = year
-        this.slugId = slugId
+        this.movieId?.slug = slugId
         this.watchers = watchers
     }
 
@@ -75,18 +73,16 @@ class Movie {
         this.runtime = runtime
         this.country = country
         this.overview = overview
-        this.slugId = slugId
+        this.movieId?.slug = slugId
         this.watchers = watchers
     }
 
     //For room
     constructor(name: String, watchers: Int, iconUrl: String, slugId: String) {
         this.iconUrl = iconUrl
-        this.slugId = slugId
+        this.movieId?.slug = slugId
         this.watchers = watchers
         this.name = name
-        movieId = MovieId()
-        movieId?.slug = slugId
     }
 
 }
