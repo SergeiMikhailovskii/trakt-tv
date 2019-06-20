@@ -89,19 +89,13 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
     override fun onItemClicked(position: Int, item: Movie) {
         val intent = Intent(activity, MovieDetailActivity::class.java)
         intent.putExtra(MovieListFragment.EXTRA_IMAGE, item.iconUrl)
-        intent.putExtra(MovieListFragment.EXTRA_SLUG, item.movieId?.slug)
+        intent.putExtra(MovieListFragment.EXTRA_SLUG, item.movieId.slug)
         intent.putExtra(MovieDetailActivity.PREV_ACTIVITY, FRAGMENT_NAME)
         startActivity(intent)
     }
 
     override fun onItemLongClick(position: Int, item: Movie) {
-        val bundle = bundleOf(
-                MovieDetailActivity.EXTRA_NAME to item.name,
-                MovieDetailActivity.EXTRA_WATCHERS to item.watchers,
-                MovieListFragment.EXTRA_SLUG to item.movieId?.slug,
-                MovieListFragment.EXTRA_IMAGE to item.iconUrl
-        )
-        presenter.deleteMovie(bundle)
+        presenter.deleteMovie(item.name!!)
     }
 
     companion object {

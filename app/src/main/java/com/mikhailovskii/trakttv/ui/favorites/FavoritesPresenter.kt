@@ -49,27 +49,17 @@ class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), Fav
 
     }
 
-    override fun deleteMovie(bundle: Bundle) {
+    override fun deleteMovie(name: String) {
 
-        mCompositeDisposable.add(Observable.just(bundle)
+        mCompositeDisposable.add(Observable.just(name)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe {
                     mView!!.showLoadingIndicator(true)
                 }
-                .map { _bundle ->
-                    //TODO
-                    Movie(_bundle.getString(MovieDetailActivity.EXTRA_NAME)!!,
-                            _bundle.getInt(MovieDetailActivity.EXTRA_WATCHERS),
-                            _bundle.getString(MovieListFragment.EXTRA_IMAGE)!!,
-                            _bundle.getString(MovieListFragment.EXTRA_SLUG)!!)
-                }
-                .filter {
-                    it.name != null
-                }
                 .firstOrError()
                 .toObservable()
                 .flatMap<Any> {
-                    movieEntity -> MovieDatabase.movieDao.deleteMovie(movieEntity.name!!).toObservable()
+                    MovieDatabase.movieDao.deleteMovie(name).toObservable()
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete {

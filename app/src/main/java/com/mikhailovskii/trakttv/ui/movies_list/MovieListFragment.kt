@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter
@@ -54,7 +55,7 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
     override fun onItemClicked(position: Int, item: Movie) {
         val intent = Intent(activity, MovieDetailActivity::class.java)
         intent.putExtra(EXTRA_IMAGE, item.iconUrl)
-        intent.putExtra(EXTRA_SLUG, item.movieId?.slug)
+        intent.putExtra(EXTRA_SLUG, item.movieId.slug)
         intent.putExtra(MovieDetailActivity.PREV_ACTIVITY, FRAGMENT_NAME)
         startActivity(intent)
     }

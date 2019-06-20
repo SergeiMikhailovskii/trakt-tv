@@ -20,7 +20,7 @@ abstract class MovieDatabase : RoomDatabase() {
 
     companion object {
 
-        const val DB_VERSION = 3
+        const val DB_VERSION = 4
         private const val DB_NAME = "trakttv.db"
 
         val movieDao: MovieDao

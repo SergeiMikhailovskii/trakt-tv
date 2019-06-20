@@ -18,7 +18,7 @@ class Movie {
     @SerializedName("ids")
     @Expose
     @TypeConverters(MovieIdConverter::class)
-    var movieId: MovieId? = null
+    var movieId: MovieId = MovieId()
 
     @SerializedName("title")
     @Expose
@@ -30,27 +30,34 @@ class Movie {
 
     @SerializedName("tagline")
     @Expose
+    @Ignore
     var tagline: String? = null
 
     @SerializedName("released")
     @Expose
+    @Ignore
     var released: String? = null
 
     @SerializedName("runtime")
     @Expose
+    @Ignore
     var runtime: Int = 0
 
     @SerializedName("country")
     @Expose
+    @Ignore
     var country: String? = null
 
     @SerializedName("overview")
     @Expose
+    @Ignore
     var overview: String? = null
 
     var iconUrl: String? = null
 
     var watchers: Int = 0
+
+    constructor()
 
     //For movie list
     @Ignore
@@ -58,7 +65,7 @@ class Movie {
         this.iconUrl = iconUrl
         this.name = name
         this.year = year
-        this.movieId?.slug = slugId
+        this.movieId.slug = slugId
         this.watchers = watchers
     }
 
@@ -73,14 +80,14 @@ class Movie {
         this.runtime = runtime
         this.country = country
         this.overview = overview
-        this.movieId?.slug = slugId
+        this.movieId.slug = slugId
         this.watchers = watchers
     }
 
     //For room
     constructor(name: String, watchers: Int, iconUrl: String, slugId: String) {
         this.iconUrl = iconUrl
-        this.movieId?.slug = slugId
+        this.movieId.slug = slugId
         this.watchers = watchers
         this.name = name
     }
