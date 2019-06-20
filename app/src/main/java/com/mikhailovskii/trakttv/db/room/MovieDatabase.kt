@@ -11,7 +11,8 @@ import com.mikhailovskii.trakttv.db.room.MovieDatabase.Companion.DB_VERSION
 
 @Database(
         entities = [Movie::class],
-        version = DB_VERSION
+        version = DB_VERSION,
+        exportSchema = false
 )
 abstract class MovieDatabase : RoomDatabase() {
 
