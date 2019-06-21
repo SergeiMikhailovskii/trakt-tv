@@ -4,16 +4,16 @@ import io.reactivex.disposables.CompositeDisposable
 
 open class BasePresenter<View> : MvpPresenter<View> {
 
-    var mView: View? = null
-    var mCompositeDisposable = CompositeDisposable()
+    var view: View? = null
+    var compositeDisposable = CompositeDisposable()
 
     override fun attachView(view: View) {
-        mView = view
+        this.view = view
     }
 
     override fun detachView() {
-        mCompositeDisposable.clear()
-        mView = null
+        compositeDisposable.clear()
+        view = null
     }
 
 }

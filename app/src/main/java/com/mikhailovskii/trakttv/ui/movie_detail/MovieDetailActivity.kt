@@ -8,8 +8,8 @@ import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.ui.favorites.FavoritesFragment
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
+import com.mikhailovskii.trakttv.util.Constants
 import kotlinx.android.synthetic.main.activity_movie_detail.*
-import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.toast
 
 class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetailView {
@@ -17,7 +17,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
     private val presenter = MovieDetailPresenter()
 
     private var slugId: String? = null
-    private var url: String? = null
+    private var movie: Movie? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,14 +27,19 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
         setToolbar()
 
         slugId = intent.getStringExtra(MovieListFragment.EXTRA_SLUG)
-        url = intent.getStringExtra(MovieListFragment.EXTRA_IMAGE)
-
-        if (intent.getStringExtra(PREV_ACTIVITY) == FavoritesFragment.FRAGMENT_NAME) {
-            favorite.hide()
-        }
 
         swipe_refresh.setOnRefreshListener {
             presenter.loadMovieDetails(slugId)
+        }
+
+        btn_favorite.setOnClickListener {
+            movie?.let {
+                if (it.isFavorite){
+                    // delete from fav
+                }else {
+                    presenter.addMovieToFavorites(it)
+                }
+            }
         }
 
         presenter.loadMovieDetails(slugId)
@@ -58,15 +63,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
     }
 
     override fun onMovieDetailsLoaded(movie: Movie) {
-        favorite.setOnClickListener {
-            val bundle = bundleOf(
-                    EXTRA_NAME to movie.name,
-                    EXTRA_WATCHERS to movie.watchers,
-                    MovieListFragment.EXTRA_SLUG to slugId,
-                    MovieListFragment.EXTRA_IMAGE to url
-            )
-            presenter.addMovieToFavorites(bundle)
-        }
+        this.movie = movie
 
         toolbar_title.text = movie.name
         tv_description.text = movie.overview
@@ -77,12 +74,12 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
         tv_tagline.text = getString(R.string.tagline, movie.tagline)
 
         Glide.with(this)
-                .load(url)
+                .load(movie.iconUrl ?: Constants.IMG_URL)
                 .into(movie_image)
     }
 
     override fun onMovieDetailsFailed() {
-        toast(getString(R.string.adding_failed))
+        toast(getString(R.string.loading_failed))
     }
 
     override fun onMoviesAdded() {
@@ -90,26 +87,16 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
     }
 
     override fun onMoviesAddingFailed() {
-
+        toast(getString(R.string.adding_failed))
     }
 
     private fun setToolbar() {
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        if (supportActionBar != null) {
-            supportActionBar!!.setDisplayShowTitleEnabled(false)
-        }
-
-        back.setOnClickListener {
+        btn_back.setOnClickListener {
             onBackPressed()
         }
-    }
-
-    companion object {
-
-        const val EXTRA_NAME = "EXTRA_NAME"
-        const val EXTRA_WATCHERS = "EXTRA_WATCHERS"
-        const val PREV_ACTIVITY = "PREV_ACTIVITY"
     }
 
 }

@@ -28,7 +28,7 @@ class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.L
             Preference.getInstance(TraktTvApp.appContext).user = user
         }
 
-        mView!!.onLoggedIn()
+        view!!.onLoggedIn()
     }
 
     override fun proceedWithFbLogin(loginResult: LoginResult) {

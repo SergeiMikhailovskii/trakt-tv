@@ -1,7 +1,6 @@
 package com.mikhailovskii.trakttv.ui.profile
 
 import com.mikhailovskii.trakttv.TraktTvApp
-import com.mikhailovskii.trakttv.data.entity.User
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import com.mikhailovskii.trakttv.util.Preference
 
@@ -9,12 +8,17 @@ class ProfilePresenter : BasePresenter<ProfileContract.ProfileView>(), ProfileCo
 
     override fun getUser() {
         val user = Preference.getInstance(TraktTvApp.appContext).user
-        mView!!.onUserDataLoaded(user!!)// todo
+
+        user?.let {
+            view?.onUserDataLoaded(it)
+        } ?: run {
+            view?.onUserDataLoadedFailed()
+        }
     }
 
     override fun logOut() {
         Preference.getInstance(TraktTvApp.appContext).user = null
-        mView!!.onLogOutSuccess()
+        view?.onLogOutSuccess()
     }
 
 }

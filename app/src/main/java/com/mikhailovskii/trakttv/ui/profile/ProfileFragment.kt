@@ -13,33 +13,36 @@ import com.bumptech.glide.request.RequestOptions
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.User
 import com.mikhailovskii.trakttv.ui.login.LoginActivity
-import kotlinx.android.synthetic.main.fragment_profile.view.*
+import com.mikhailovskii.trakttv.util.toast
+import kotlinx.android.synthetic.main.fragment_profile.*
 import java.util.*
 
 class ProfileFragment : Fragment(), ProfileContract.ProfileView {
-    private var root:View? = null
 
-    private val mPresenter = ProfilePresenter()
+    private val presenter = ProfilePresenter()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_profile, container, false)
+    }
 
-        root = inflater.inflate(R.layout.fragment_profile, container, false)
-        mPresenter.attachView(this)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.attachView(this)
 
-        //Handle logout button
-        root!!.log_out.setOnClickListener {
-            mPresenter.logOut()
+        btn_log_out.setOnClickListener {
+            presenter.logOut()
         }
 
-        mPresenter.getUser()
-
-        return root
+        presenter.getUser()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mPresenter.detachView()
+        presenter.detachView()
     }
 
     override fun onLogOutSuccess() {
@@ -52,11 +55,15 @@ class ProfileFragment : Fragment(), ProfileContract.ProfileView {
                 .load(user.avatar)
                 .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_error_profile)
-                .into(root!!.avatar)
+                .into(iv_avatar)
 
-        root!!.tv_email.text = user.email
-        root!!.tv_id.text = user.id
-        root!!.tv_login.text = user.username
+        tv_email.text = user.email
+        tv_id.text = user.id
+        tv_login.text = user.username
+    }
+
+    override fun onUserDataLoadedFailed() {
+        toast(getString(R.string.loading_failed))
     }
 
     override fun showEmptyState(value: Boolean) {

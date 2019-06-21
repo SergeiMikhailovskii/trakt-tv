@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -91,8 +90,7 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
     override fun onItemClicked(position: Int, item: Movie) {
         val intent = Intent(activity, MovieDetailActivity::class.java)
         intent.putExtra(MovieListFragment.EXTRA_IMAGE, item.iconUrl)
-        intent.putExtra(MovieListFragment.EXTRA_SLUG, item.movieId.slug)
-        intent.putExtra(MovieDetailActivity.PREV_ACTIVITY, FRAGMENT_NAME)
+        intent.putExtra(MovieListFragment.EXTRA_SLUG, item.movieId?.slug)
         startActivity(intent)
     }
 

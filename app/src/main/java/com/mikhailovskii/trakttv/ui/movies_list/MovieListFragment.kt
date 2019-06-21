@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter
@@ -24,23 +23,23 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
     private var adapter: MoviesAdapter? = null
     private var root: View? = null
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         root = inflater.inflate(R.layout.fragment_list, container, false)
         presenter.attachView(this)
 
         root!!.movies_list.layoutManager = LinearLayoutManager(context)
         root!!.movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
-
-        root!!.swipe_refresh.setOnRefreshListener {
-            presenter.loadMovieList()
-            root!!.swipe_refresh.isRefreshing = false
-        }
-
         adapter = MoviesAdapter(this)
         root!!.movies_list.adapter = adapter
+
+        root!!.swipe_refresh.setOnRefreshListener {
+            root!!.swipe_refresh.isRefreshing = false
+            presenter.loadMovieList()
+        }
 
         presenter.loadMovieList()
 
@@ -54,9 +53,8 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
 
     override fun onItemClicked(position: Int, item: Movie) {
         val intent = Intent(activity, MovieDetailActivity::class.java)
-        intent.putExtra(EXTRA_IMAGE, item.iconUrl)
-        intent.putExtra(EXTRA_SLUG, item.movieId.slug)
-        intent.putExtra(MovieDetailActivity.PREV_ACTIVITY, FRAGMENT_NAME)
+        intent.putExtra(EXTRA_IMAGE, item.iconUrl) // todo remove iconUrl use Constants
+        intent.putExtra(EXTRA_SLUG, item.movieId?.slug)
         startActivity(intent)
     }
 
@@ -65,7 +63,7 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
     }
 
     override fun onMovieListLoaded(movieList: List<Movie>) {
-        adapter!!.setData(movieList)
+        adapter?.setData(movieList)
     }
 
     override fun onMovieListFailed() {
@@ -73,11 +71,7 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
     }
 
     override fun showEmptyState(value: Boolean) {
-        if (value) {
-            root!!.no_films.visibility = View.VISIBLE
-        } else {
-            root!!.no_films.visibility = View.GONE
-        }
+        root!!.no_films.visibility = if (value) View.VISIBLE else View.GONE
     }
 
     override fun showLoadingIndicator(value: Boolean) {
@@ -85,7 +79,6 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
     }
 
     companion object {
-
         const val FRAGMENT_NAME = "List"
         const val EXTRA_IMAGE = "EXTRA_IMAGE"
         const val EXTRA_SLUG = "EXTRA_SLUG"

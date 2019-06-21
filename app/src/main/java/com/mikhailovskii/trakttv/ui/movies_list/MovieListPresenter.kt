@@ -4,47 +4,44 @@ import com.mikhailovskii.trakttv.data.api.MovieAPIFactory
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.data.entity.MovieTrack
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
+import com.mikhailovskii.trakttv.util.Constants.IMG_URL
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
 class MovieListPresenter : BasePresenter<MovieListContract.MoviesListView>(), MovieListContract.MoviesListPresenter {
 
     override fun loadMovieList() {
-        mCompositeDisposable.add(
-                MovieAPIFactory.getInstance().apiService.getMovies()
+        compositeDisposable.add(MovieAPIFactory.getInstance().apiService.getMovies()
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { mView!!.showLoadingIndicator(true) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate { mView!!.showLoadingIndicator(false) }
+                .doOnSubscribe { view?.showLoadingIndicator(true) }
                 .flatMapIterable { movieTracks -> movieTracks }
                 .map { getMovie(it) }
                 .toList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate { view?.showLoadingIndicator(false) }
                 .subscribe({ list ->
                     if (list.isNotEmpty()) {
-                        mView!!.showEmptyState(false)
-                        mView!!.onMovieListLoaded(list)
+                        view?.showEmptyState(false)
+                        view?.onMovieListLoaded(list)
                     } else {
-                        mView!!.showEmptyState(true)
+                        view?.showEmptyState(true)
                     }
                 }, {
-                    mView!!.onMovieListFailed()
+                    Timber.e(it, "Failed to load movies")
+                    view?.onMovieListFailed()
                 }))
 
     }
 
     private fun getMovie(movieTrack: MovieTrack): Movie {
-        return Movie(IMG_URL,
-                movieTrack.movie?.name!!,
-                movieTrack.movie?.year!!,
-                movieTrack.movie?.movieId?.slug!!,
-                movieTrack.watchersNumber
+        return Movie(
+                iconUrl = IMG_URL,
+                name = movieTrack.movie?.name!!,
+                year = movieTrack.movie?.year!!,
+                movieId = movieTrack.movie?.movieId!!,
+                watchers = movieTrack.watchersNumber
         )
-    }
-
-    companion object {
-
-        private const val IMG_URL = "https://cdn4.iconfinder.com/data/icons/photo-video-outline/100/objects-17-512.png"
-
     }
 
 }
