@@ -4,6 +4,9 @@ import android.app.Application
 import android.content.Context
 
 import com.facebook.stetho.Stetho
+import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.ndk.CrashlyticsNdk
+import io.fabric.sdk.android.Fabric
 
 class TraktTvApp : Application() {
 
@@ -14,6 +17,11 @@ class TraktTvApp : Application() {
         instance = this
 
         initStetho()
+        initFabric()
+    }
+
+    private fun initFabric() {
+        Fabric.with(this, Crashlytics(), CrashlyticsNdk())
     }
 
     private fun initStetho() {

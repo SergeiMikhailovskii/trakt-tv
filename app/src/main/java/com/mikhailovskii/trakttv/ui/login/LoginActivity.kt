@@ -44,7 +44,6 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
                     presenter.saveUserData(bundle)
                 }
             }
-
         }
 
         // Facebook logic
