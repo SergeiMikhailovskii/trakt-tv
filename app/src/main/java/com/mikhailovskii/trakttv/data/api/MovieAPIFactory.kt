@@ -56,14 +56,12 @@ class MovieAPIFactory private constructor() {
 
         private const val BASE_URL = "https://api.trakt.tv"
 
-        private var mInstance: MovieAPIFactory? = null
+        private var instance: MovieAPIFactory? = null
 
         fun getInstance(): MovieAPIFactory {
-            if (mInstance == null) {
-                mInstance = MovieAPIFactory()
-            }
-            return mInstance!!
+            return instance?:MovieAPIFactory()
         }
+
     }
 
 }

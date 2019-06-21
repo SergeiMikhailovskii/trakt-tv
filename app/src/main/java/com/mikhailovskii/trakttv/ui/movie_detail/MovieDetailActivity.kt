@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.Movie
-import com.mikhailovskii.trakttv.ui.favorites.FavoritesFragment
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
 import com.mikhailovskii.trakttv.util.Constants
 import kotlinx.android.synthetic.main.activity_movie_detail.*
@@ -34,9 +33,9 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
 
         btn_favorite.setOnClickListener {
             movie?.let {
-                if (it.isFavorite){
-                    // delete from fav
-                }else {
+                if (it.isFavorite) {
+                    //todo copy code from another presenter!
+                } else {
                     presenter.addMovieToFavorites(it)
                 }
             }

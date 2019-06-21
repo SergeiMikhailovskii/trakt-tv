@@ -15,34 +15,35 @@ import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
 import com.mikhailovskii.trakttv.util.toast
+import kotlinx.android.synthetic.main.fragment_favorites.*
 import kotlinx.android.synthetic.main.fragment_favorites.view.*
+import kotlinx.android.synthetic.main.fragment_favorites.view.movies_list
 import java.util.*
 
 class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAdapter.OnItemClickListener {
 
     private val presenter = FavoritesPresenter()
     private var adapter: MoviesAdapter? = null
-    private var root: View? = null
-
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_favorites, container, false)
+    }
 
-        root = inflater.inflate(R.layout.fragment_favorites, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         presenter.attachView(this)
 
-        root!!.swipe_refresh.setOnRefreshListener {
+        swipe_refresh.setOnRefreshListener {
             presenter.loadFavoriteMovies()
         }
 
-        root!!.movies_list.layoutManager = LinearLayoutManager(context)
-        root!!.movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
+        movies_list.layoutManager = LinearLayoutManager(context)
+        movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
         adapter = MoviesAdapter(this)
-        root!!.movies_list.adapter = adapter
-
-        return root
+        movies_list.adapter = adapter
     }
 
     override fun onResume() {
@@ -75,16 +76,16 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
 
     override fun showEmptyState(value: Boolean) {
         if (value) {
-            root!!.no_films.visibility = View.VISIBLE
-            root!!.movies_list.visibility = View.GONE
+            no_films.visibility = View.VISIBLE
+            movies_list.visibility = View.GONE
         } else {
-            root!!.no_films.visibility = View.GONE
-            root!!.movies_list.visibility = View.VISIBLE
+            no_films.visibility = View.GONE
+            movies_list.visibility = View.VISIBLE
         }
     }
 
     override fun showLoadingIndicator(value: Boolean) {
-        root!!.swipe_refresh.isRefreshing = value
+        swipe_refresh.isRefreshing = value
     }
 
     override fun onItemClicked(position: Int, item: Movie) {
@@ -96,12 +97,6 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
 
     override fun onItemLongClick(position: Int, item: Movie) {
         presenter.deleteMovie(item.name!!)
-    }
-
-    companion object {
-
-        const val FRAGMENT_NAME = "Favorites"
-
     }
 
 }

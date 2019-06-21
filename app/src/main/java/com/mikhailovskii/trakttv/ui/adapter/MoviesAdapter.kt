@@ -14,7 +14,7 @@ class MoviesAdapter(
         private val onItemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
-    private val moviesList = ArrayList<Movie>()
+    private val movieList = ArrayList<Movie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.movie_element, parent, false)
@@ -22,7 +22,7 @@ class MoviesAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bindData(moviesList[position], onItemClickListener)
+        viewHolder.bindData(movieList[position], onItemClickListener)
     }
 
     override fun getItemId(position: Int): Long {
@@ -30,12 +30,12 @@ class MoviesAdapter(
     }
 
     override fun getItemCount(): Int {
-        return moviesList.size
+        return movieList.size
     }
 
     fun setData(movies: List<Movie>) {
-        moviesList.clear()
-        moviesList.addAll(movies)
+        movieList.clear()
+        movieList.addAll(movies)
         notifyDataSetChanged()
     }
 
