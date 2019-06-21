@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "71132893436",
+    "firebase_url": "https://trakttv-5dcf1.firebaseio.com",
+    "project_id": "trakttv-5dcf1",
+    "storage_bucket": "trakttv-5dcf1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:71132893436:android:5c37e1386ebfee83",
+        "android_client_info": {
+          "package_name": "com.mikhailovskii.trakttv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "71132893436-udsdrt8el9ncmnb461rrm26qov75spr9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiGTSm22s4U6M92W5wJavoa4O7kXHR5rs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "71132893436-udsdrt8el9ncmnb461rrm26qov75spr9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

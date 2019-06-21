@@ -55,6 +55,8 @@ class Movie {
 
     var iconUrl: String? = null
 
+    @SerializedName("watchers")
+    @Expose
     var watchers: Int = 0
 
     constructor()
