@@ -64,6 +64,10 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
     override fun onMovieDetailsLoaded(movie: Movie) {
         this.movie = movie
 
+        if (movie.isFavorite){
+            btn_favorite.setImageResource(R.drawable.ic_remove)
+        }
+
         toolbar_title.text = movie.name
         tv_description.text = movie.overview
         tv_year.text = getString(R.string.year, movie.year)
