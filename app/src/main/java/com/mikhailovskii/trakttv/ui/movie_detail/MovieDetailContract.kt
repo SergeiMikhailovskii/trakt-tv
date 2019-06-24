@@ -16,6 +16,10 @@ interface MovieDetailContract {
 
         fun onMoviesAddingFailed()
 
+        fun onMovieRemoved()
+
+        fun onMovieRemoveFailed()
+
     }
 
     interface MovieDetailPresenter : MvpPresenter<MovieDetailView> {
@@ -23,6 +27,8 @@ interface MovieDetailContract {
         fun loadMovieDetails(slugId: String?)
 
         fun addMovieToFavorites(movie: Movie)
+
+        fun removeMovieFromFavorites(name:String)
 
     }
 

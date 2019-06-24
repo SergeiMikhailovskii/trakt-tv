@@ -56,6 +56,31 @@ class MovieDetailPresenter : BasePresenter<MovieDetailContract.MovieDetailView>(
         )
     }
 
+    override fun removeMovieFromFavorites(name: String) {
+        compositeDisposable.add(Observable.just(name)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe {
+                    view?.showLoadingIndicator(true)
+                }
+                .firstOrError()
+                .toObservable()
+                .flatMap<Any> {
+                    MovieDatabase.movieDao.deleteMovie(name).toObservable()
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete {
+                    view?.onMovieRemoved()
+                }
+                .doOnError { error ->
+                    view?.onMovieRemoveFailed()
+                    Timber.e(error)
+                }
+                .doAfterTerminate { view?.showLoadingIndicator(false) }
+                .subscribe()
+        )
+
+    }
+
     private fun combineLocalDataWithServer(
             serverMovie: Movie,
             localMovie: Movie

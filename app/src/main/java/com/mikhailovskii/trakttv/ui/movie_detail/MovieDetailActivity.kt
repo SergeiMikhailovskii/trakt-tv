@@ -34,14 +34,17 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
         btn_favorite.setOnClickListener {
             movie?.let {
                 if (it.isFavorite) {
-                    //todo copy code from another presenter!
+                    presenter.removeMovieFromFavorites(it.name!!)
+                    btn_favorite.setImageResource(R.drawable.ic_favorite)
                 } else {
                     presenter.addMovieToFavorites(it)
+                    btn_favorite.setImageResource(R.drawable.ic_remove)
                 }
             }
         }
 
         presenter.loadMovieDetails(slugId)
+
     }
 
     override fun onDestroy() {
@@ -64,10 +67,6 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
     override fun onMovieDetailsLoaded(movie: Movie) {
         this.movie = movie
 
-        if (movie.isFavorite){
-            btn_favorite.setImageResource(R.drawable.ic_remove)
-        }
-
         toolbar_title.text = movie.name
         tv_description.text = movie.overview
         tv_year.text = getString(R.string.year, movie.year)
@@ -79,6 +78,12 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
         Glide.with(this)
                 .load(movie.iconUrl ?: Constants.IMG_URL)
                 .into(movie_image)
+
+        if (movie.isFavorite) {
+            btn_favorite.setImageResource(R.drawable.ic_remove)
+        } else {
+            btn_favorite.setImageResource(R.drawable.ic_favorite)
+        }
     }
 
     override fun onMovieDetailsFailed() {
@@ -91,6 +96,14 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
 
     override fun onMoviesAddingFailed() {
         toast(getString(R.string.adding_failed))
+    }
+
+    override fun onMovieRemoved() {
+        toast("Movie removed")
+    }
+
+    override fun onMovieRemoveFailed() {
+        toast("Movie remove failed")
     }
 
     private fun setToolbar() {
