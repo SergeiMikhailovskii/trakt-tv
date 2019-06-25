@@ -33,7 +33,6 @@ class MovieDetailPresenter : BasePresenter<MovieDetailContract.MovieDetailView>(
                     view?.showEmptyState(false)
                     view?.onMovieDetailsLoaded(result)
                 }, {
-                    view?.showEmptyState(true)
                     view?.onMovieDetailsFailed()
                 })
         )

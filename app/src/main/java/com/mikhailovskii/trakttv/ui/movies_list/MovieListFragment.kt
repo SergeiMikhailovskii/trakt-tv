@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikhailovskii.trakttv.R
+import com.mikhailovskii.trakttv.data.diffutil.MovieDiffUtilCallback
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity
@@ -65,7 +67,12 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
     }
 
     override fun onMovieListLoaded(movieList: List<Movie>) {
+        val movieDiffUtilCallback = MovieDiffUtilCallback(movieList, adapter?.movieList!!)
+        val movieDiffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(movieDiffUtilCallback)
         adapter?.setData(movieList)
+        adapter?.let {
+            movieDiffResult.dispatchUpdatesTo(it)
+        }
     }
 
     override fun onMovieListFailed() {
