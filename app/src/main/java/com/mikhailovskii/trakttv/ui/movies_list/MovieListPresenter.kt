@@ -36,7 +36,6 @@ class MovieListPresenter : BasePresenter<MovieListContract.MoviesListView>(), Mo
 
     private fun getMovie(movieTrack: MovieTrack): Movie {
         return Movie(
-                iconUrl = IMG_URL,
                 name = movieTrack.movie?.name!!,
                 year = movieTrack.movie?.year!!,
                 movieId = movieTrack.movie?.movieId!!,

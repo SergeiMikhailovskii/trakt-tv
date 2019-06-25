@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.Movie
+import com.mikhailovskii.trakttv.util.Constants
 import kotlinx.android.synthetic.main.movie_element.view.*
 import java.util.*
 
@@ -51,7 +52,7 @@ class MoviesAdapter(
 
         fun bindData(movie: Movie, onItemClickListener: OnItemClickListener) {
             Glide.with(itemView.context)
-                    .load(movie.iconUrl)
+                    .load(Constants.IMG_URL)
                     .into(itemView.icon_image)
 
             itemView.tv_moviename.text = movie.name

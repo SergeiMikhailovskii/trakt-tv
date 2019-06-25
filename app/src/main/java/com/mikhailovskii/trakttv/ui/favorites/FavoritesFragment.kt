@@ -18,8 +18,6 @@ import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
 import com.mikhailovskii.trakttv.util.toast
 import kotlinx.android.synthetic.main.fragment_favorites.*
-import kotlinx.android.synthetic.main.fragment_favorites.view.*
-import kotlinx.android.synthetic.main.fragment_favorites.view.movies_list
 import java.util.*
 
 class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAdapter.OnItemClickListener {
