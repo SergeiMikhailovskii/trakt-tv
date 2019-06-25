@@ -25,7 +25,7 @@ class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.L
         val token = bundle.getString(EXTRA_TOKEN)
         val avatar = bundle.getString(EXTRA_AVATAR)
 
-        if (password != null && login != null) {
+        if (login != null) {
             val user = User(email, password, token, login, id, avatar)
             Preference.getInstance(TraktTvApp.appContext).user = user
 
