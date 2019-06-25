@@ -89,6 +89,7 @@ class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.L
 
         private const val FB_EMAIL_PERMISSION = "email"
         private const val FB_ID_PERMISSION = "id"
+
     }
 
 }

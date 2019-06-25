@@ -88,8 +88,10 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
     }
 
     companion object {
+
         const val EXTRA_IMAGE = "EXTRA_IMAGE"
         const val EXTRA_SLUG = "EXTRA_SLUG"
+
     }
 
 }
