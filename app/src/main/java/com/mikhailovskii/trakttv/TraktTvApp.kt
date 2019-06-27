@@ -8,7 +8,6 @@ import com.facebook.stetho.Stetho
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import io.fabric.sdk.android.Fabric
-import timber.log.Timber
 
 class TraktTvApp : Application() {
 
@@ -25,12 +24,10 @@ class TraktTvApp : Application() {
                 .addOnCompleteListener(OnCompleteListener { task ->
 
                     if (!task.isSuccessful) {
-                        Timber.w(task.exception, "getInstanceId failed")
                         return@OnCompleteListener
                     }
 
                     val token = task.result?.token
-                    Timber.i(token)
                 }
                 )
     }

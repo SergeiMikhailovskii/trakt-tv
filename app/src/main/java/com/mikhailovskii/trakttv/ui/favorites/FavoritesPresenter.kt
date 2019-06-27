@@ -6,7 +6,6 @@ import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 
 class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), FavoritesContract.FavoritesPresenter {
 
@@ -32,9 +31,8 @@ class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), Fav
                         view!!.onMoviesLoaded(list)
                     }
                 }
-                .doOnError { error ->
+                .doOnError {
                     view!!.onMoviesFailed()
-                    Timber.e(error)
                 }
                 .doAfterTerminate {
                     view!!.showLoadingIndicator(false)
@@ -60,9 +58,8 @@ class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), Fav
                 .doOnComplete {
                     view!!.onMovieRemoved()
                 }
-                .doOnError { error ->
+                .doOnError {
                     view!!.onMovieRemoveFailed()
-                    Timber.e(error)
                 }
                 .doAfterTerminate { view!!.showLoadingIndicator(false) }
                 .subscribe()

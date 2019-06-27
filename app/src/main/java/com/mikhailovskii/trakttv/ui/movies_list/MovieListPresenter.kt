@@ -4,10 +4,8 @@ import com.mikhailovskii.trakttv.data.api.MovieAPIFactory
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.data.entity.MovieTrack
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
-import com.mikhailovskii.trakttv.util.Constants.IMG_URL
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 
 class MovieListPresenter : BasePresenter<MovieListContract.MoviesListView>(), MovieListContract.MoviesListPresenter {
 
@@ -28,7 +26,6 @@ class MovieListPresenter : BasePresenter<MovieListContract.MoviesListView>(), Mo
                         view?.showEmptyState(true)
                     }
                 }, {
-                    Timber.e(it, "Failed to load movies")
                     view?.onMovieListFailed()
                 }))
 

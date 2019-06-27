@@ -8,7 +8,6 @@ import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 
 class MovieDetailPresenter : BasePresenter<MovieDetailContract.MovieDetailView>(), MovieDetailContract.MovieDetailPresenter {
 
@@ -49,7 +48,6 @@ class MovieDetailPresenter : BasePresenter<MovieDetailContract.MovieDetailView>(
                 .subscribe({
                     view?.onMoviesAdded()
                 }, {
-                    Timber.e(it)
                     view?.onMoviesAddingFailed()
                 })
         )
@@ -72,7 +70,6 @@ class MovieDetailPresenter : BasePresenter<MovieDetailContract.MovieDetailView>(
                 }
                 .doOnError { error ->
                     view?.onMovieRemoveFailed()
-                    Timber.e(error)
                 }
                 .doAfterTerminate { view?.showLoadingIndicator(false) }
                 .subscribe()
