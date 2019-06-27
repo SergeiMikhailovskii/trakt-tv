@@ -80,7 +80,7 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
     }
 
     override fun showEmptyState(value: Boolean) {
-        no_films.visibility = if (value) View.VISIBLE else View.GONE
+        tv_no_films.visibility = if (value) View.VISIBLE else View.GONE
     }
 
     override fun showLoadingIndicator(value: Boolean) {

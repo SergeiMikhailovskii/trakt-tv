@@ -67,7 +67,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
     override fun onMovieDetailsLoaded(movie: Movie) {
         this.movie = movie
 
-        toolbar_title.text = movie.name
+        tv_toolbar_title.text = movie.name
         tv_description.text = movie.overview
         tv_year.text = getString(R.string.year, movie.year)
         tv_country.text = getString(R.string.country, movie.country)
@@ -77,7 +77,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
 
         Glide.with(this)
                 .load(movie.iconUrl ?: Constants.IMG_URL)
-                .into(movie_image)
+                .into(iv_movie)
 
         if (movie.isFavorite) {
             btn_favorite.setImageResource(R.drawable.ic_remove)

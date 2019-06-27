@@ -53,7 +53,7 @@ class MoviesAdapter(
         fun bindData(movie: Movie, onItemClickListener: OnItemClickListener) {
             Glide.with(itemView.context)
                     .load(Constants.IMG_URL)
-                    .into(itemView.icon_image)
+                    .into(itemView.iv_icon)
 
             itemView.tv_moviename.text = movie.name
             itemView.tv_year.text = itemView.context.resources.getString(R.string.year, movie.year)

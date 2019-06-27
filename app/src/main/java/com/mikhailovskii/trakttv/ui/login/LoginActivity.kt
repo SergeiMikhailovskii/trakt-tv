@@ -26,10 +26,10 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
         presenter.attachView(this)
 
         // Handle login button
-        login.setOnClickListener {
+        btn_login.setOnClickListener {
             login_layout.error = null
             password_layout.error = null
-            val login = Objects.requireNonNull<Editable>(tv_login.text).toString()
+            val login = Objects.requireNonNull<Editable>(et_login.text).toString()
             val password = Objects.requireNonNull<Editable>(et_password.text).toString()
 
             when {
@@ -38,7 +38,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
                 else -> {
                     val bundle = Bundle()
 
-                    bundle.putString(LoginPresenter.EXTRA_LOGIN, tv_login.text!!.toString())
+                    bundle.putString(LoginPresenter.EXTRA_LOGIN, et_login.text!!.toString())
                     bundle.putString(LoginPresenter.EXTRA_PASSWORD, et_password.text!!.toString())
 
                     presenter.saveUserData(bundle)
@@ -48,8 +48,8 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
 
         // Facebook logic
         callbackManager = CallbackManager.Factory.create()
-        facebook_login.setPermissions(FB_EMAIL_PERMISSION)
-        facebook_login.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+        btn_facebook_login.setPermissions(FB_EMAIL_PERMISSION)
+        btn_facebook_login.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 presenter.proceedWithFbLogin(loginResult)
             }

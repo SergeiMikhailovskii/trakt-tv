@@ -82,10 +82,10 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
 
     override fun showEmptyState(value: Boolean) {
         if (value) {
-            no_films.visibility = View.VISIBLE
+            tv_no_films.visibility = View.VISIBLE
             movies_list.visibility = View.GONE
         } else {
-            no_films.visibility = View.GONE
+            tv_no_films.visibility = View.GONE
             movies_list.visibility = View.VISIBLE
         }
     }
