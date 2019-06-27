@@ -2,11 +2,9 @@ package com.mikhailovskii.trakttv
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
-
-import com.facebook.stetho.Stetho
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.ndk.CrashlyticsNdk
+import com.facebook.stetho.Stetho
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import io.fabric.sdk.android.Fabric
@@ -33,7 +31,8 @@ class TraktTvApp : Application() {
 
                     val token = task.result?.token
                     Timber.i(token)
-                })
+                }
+                )
     }
 
     private fun initFabric() {
