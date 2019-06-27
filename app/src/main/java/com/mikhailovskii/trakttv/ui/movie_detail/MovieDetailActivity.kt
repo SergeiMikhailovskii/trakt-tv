@@ -76,7 +76,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
         tv_tagline.text = getString(R.string.tagline, movie.tagline)
 
         Glide.with(this)
-                .load(movie.iconUrl ?: Constants.IMG_URL)
+                .load("http://img.omdbapi.com/?apikey=956febbc&i=${movie.movieId?.imdb!!}")
                 .into(iv_movie)
 
         if (movie.isFavorite) {

@@ -8,6 +8,10 @@ data class MovieId(
 
         @SerializedName("slug")
         @Expose
-        var slug: String? = null
+        var slug: String? = null,
+
+        @SerializedName("imdb")
+        @Expose
+        var imdb: String? = null
 
 )
