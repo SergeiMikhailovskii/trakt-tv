@@ -49,6 +49,6 @@ data class Movie(
 
         @SerializedName("watchers")
         @Expose
-        var watchers: Int? = null
+        var watchers: Int = 0
 
 )

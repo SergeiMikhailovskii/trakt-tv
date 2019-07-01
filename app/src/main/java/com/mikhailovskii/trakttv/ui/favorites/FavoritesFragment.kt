@@ -71,7 +71,7 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
     }
 
     override fun onMovieRemoved() {
-        toast(getString(R.string.movie_deleted))
+        toast(getString(R.string.movie_removed))
         presenter.loadFavoriteMovies()
     }
 

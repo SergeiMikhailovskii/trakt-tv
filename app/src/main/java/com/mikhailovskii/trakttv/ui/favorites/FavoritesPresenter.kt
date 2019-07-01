@@ -15,7 +15,7 @@ class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), Fav
         compositeDisposable.add(movieDao.getFavorites()
                 .subscribeOn(Schedulers.computation())
                 .doOnSubscribe {
-                    view!!.showLoadingIndicator(true)
+                    view?.showLoadingIndicator(true)
                 }
                 .toObservable()
                 .flatMapIterable {
@@ -25,17 +25,17 @@ class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), Fav
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess { list ->
                     if (list.isEmpty()) {
-                        view!!.showEmptyState(true)
+                        view?.showEmptyState(true)
                     } else {
-                        view!!.showEmptyState(false)
-                        view!!.onMoviesLoaded(list)
+                        view?.showEmptyState(false)
+                        view?.onMoviesLoaded(list)
                     }
                 }
                 .doOnError {
-                    view!!.onMoviesFailed()
+                    view?.onMoviesFailed()
                 }
                 .doAfterTerminate {
-                    view!!.showLoadingIndicator(false)
+                    view?.showLoadingIndicator(false)
                 }
                 .subscribe()
         )
@@ -47,7 +47,7 @@ class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), Fav
         compositeDisposable.add(Observable.just(name)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe {
-                    view!!.showLoadingIndicator(true)
+                    view?.showLoadingIndicator(true)
                 }
                 .firstOrError()
                 .toObservable()
@@ -56,12 +56,12 @@ class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), Fav
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete {
-                    view!!.onMovieRemoved()
+                    view?.onMovieRemoved()
                 }
                 .doOnError {
-                    view!!.onMovieRemoveFailed()
+                    view?.onMovieRemoveFailed()
                 }
-                .doAfterTerminate { view!!.showLoadingIndicator(false) }
+                .doAfterTerminate { view?.showLoadingIndicator(false) }
                 .subscribe()
         )
 

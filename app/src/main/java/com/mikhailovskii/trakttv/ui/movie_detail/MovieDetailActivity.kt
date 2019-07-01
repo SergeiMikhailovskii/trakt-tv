@@ -99,11 +99,11 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
     }
 
     override fun onMovieRemoved() {
-        toast("Movie removed")
+        toast(getString(R.string.movie_removed))
     }
 
     override fun onMovieRemoveFailed() {
-        toast("Movie remove failed")
+        toast(getString(R.string.movie_remove_failed))
     }
 
     private fun setToolbar() {

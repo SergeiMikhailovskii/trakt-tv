@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.Movie
-import com.mikhailovskii.trakttv.util.Constants
 import kotlinx.android.synthetic.main.movie_element.view.*
 import java.util.*
 
@@ -58,8 +57,12 @@ class MoviesAdapter(
 
             itemView.tv_moviename.text = movie.name
             itemView.tv_year.text = itemView.context.resources.getString(R.string.year, movie.year)
-            itemView.tv_watchers.text = itemView.context.resources.getString(R.string.watchers, movie.watchers)
 
+            if (movie.isFavorite) {
+                itemView.tv_watchers.text = itemView.context.resources.getString(R.string.country, movie.country)
+            } else {
+                itemView.tv_watchers.text = itemView.context.resources.getString(R.string.watchers, movie.watchers)
+            }
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     onItemClickListener.onItemClicked(adapterPosition, movie)

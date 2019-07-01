@@ -42,8 +42,9 @@
     <string name="film_added">Film added!</string>
 
     <!--Favorites-->
-    <string name="movie_deleted">Movie deleted</string>
+    <string name="movie_removed">Movie removed</string>
     <string name="movie_remove_failed">Movie Remove failed</string>
+
 
 
 </resources>

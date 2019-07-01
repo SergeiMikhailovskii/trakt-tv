@@ -7,9 +7,6 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 class FirebaseNotificationService : FirebaseMessagingService() {
-    override fun onNewToken(p0: String?) {
-        super.onNewToken(p0)
-    }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
         val notificationBuilder:NotificationCompat.Builder = NotificationCompat.Builder(this, "channel_id")

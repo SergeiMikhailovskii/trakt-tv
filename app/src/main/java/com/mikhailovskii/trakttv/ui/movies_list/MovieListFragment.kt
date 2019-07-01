@@ -33,7 +33,9 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View,
+                               savedInstanceState: Bundle?
+    ) {
         super.onViewCreated(view, savedInstanceState)
         presenter.attachView(this)
 
@@ -55,14 +57,20 @@ class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAd
         presenter.detachView()
     }
 
-    override fun onItemClicked(position: Int, item: Movie) {
+    override fun onItemClicked(
+            position: Int,
+            item: Movie
+    ) {
         val intent = Intent(activity, MovieDetailActivity::class.java)
         intent.putExtra(EXTRA_IMAGE, Constants.IMG_URL)
         intent.putExtra(EXTRA_SLUG, item.movieId?.slug)
         startActivity(intent)
     }
 
-    override fun onItemLongClick(position: Int, item: Movie) {
+    override fun onItemLongClick(
+            position: Int,
+            item: Movie
+    ) {
 
     }
 
