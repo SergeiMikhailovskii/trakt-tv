@@ -12,6 +12,8 @@ interface ProfileContract {
 
         fun onUserDataLoaded(user: User)
 
+        fun onUserDataLoadedFailed()
+
     }
 
     interface ProfilePresenter : MvpPresenter<ProfileView> {

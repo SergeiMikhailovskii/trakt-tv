@@ -6,6 +6,8 @@ import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.Profile
 import com.facebook.login.LoginResult
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.mikhailovskii.trakttv.TraktTvApp
 import com.mikhailovskii.trakttv.data.entity.User
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
@@ -23,12 +25,15 @@ class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.L
         val token = bundle.getString(EXTRA_TOKEN)
         val avatar = bundle.getString(EXTRA_AVATAR)
 
-        if (password != null && login != null) {
+        if (login != null) {
             val user = User(email, password, token, login, id, avatar)
             Preference.getInstance(TraktTvApp.appContext).user = user
+
+            val databaseReference:DatabaseReference = FirebaseDatabase.getInstance().reference
+            databaseReference.child("users").child(login).setValue(user)
         }
 
-        mView!!.onLoggedIn()
+        view?.onLoggedIn()
     }
 
     override fun proceedWithFbLogin(loginResult: LoginResult) {
@@ -84,6 +89,7 @@ class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.L
 
         private const val FB_EMAIL_PERMISSION = "email"
         private const val FB_ID_PERMISSION = "id"
+
     }
 
 }

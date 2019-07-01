@@ -8,7 +8,7 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/avatar"
+        android:id="@+id/iv_avatar"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginTop="@dimen/base_margin"
@@ -28,7 +28,7 @@
         android:layout_marginEnd="@dimen/base_margin"
         android:text="@string/login"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@id/avatar" />
+        app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
 
     <TextView
         android:id="@+id/tv_id"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_id" />
 
     <Button
-        android:id="@+id/log_out"
+        android:id="@+id/btn_log_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base_margin"

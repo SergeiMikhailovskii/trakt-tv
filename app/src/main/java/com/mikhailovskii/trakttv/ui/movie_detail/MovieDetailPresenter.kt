@@ -1,80 +1,89 @@
 package com.mikhailovskii.trakttv.ui.movie_detail
 
-import android.os.Bundle
 import com.mikhailovskii.trakttv.data.api.MovieAPIFactory
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.data.entity.Optional
 import com.mikhailovskii.trakttv.db.room.MovieDatabase
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
-import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 
 class MovieDetailPresenter : BasePresenter<MovieDetailContract.MovieDetailView>(), MovieDetailContract.MovieDetailPresenter {
 
     override fun loadMovieDetails(slugId: String?) {
-        mCompositeDisposable.add(Observable.just(Optional(slugId))
+        compositeDisposable.add(Observable.just(Optional(slugId))
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe { view?.showLoadingIndicator(true) }
                 .filter { !it.isEmpty }
                 .firstOrError()
                 .toObservable()
                 .map { it.get() }
                 .flatMap { MovieAPIFactory.getInstance().apiService.getExtendedInfo(it) }
-                .subscribeOn(Schedulers.io())
-                .doOnSubscribe {
-                    mView!!.showLoadingIndicator(true)
+                .flatMap { serverMovie ->
+                    MovieDatabase.movieDao.getMovie(serverMovie.name!!)
+                            .toObservable()
+                            .map { localMovie -> combineLocalDataWithServer(serverMovie, localMovie) }
+                            .onErrorReturn { serverMovie }
                 }
-                .filter {
-                    slugId != null
-                }
-                .firstOrError()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate {
-                    mView!!.showLoadingIndicator(false)
-                }
+                .doAfterTerminate { view?.showLoadingIndicator(false) }
                 .subscribe({ result ->
-                    mView!!.showEmptyState(false)
-                    mView!!.onMovieDetailsLoaded(result)
+                    view?.showEmptyState(false)
+                    view?.onMovieDetailsLoaded(result)
                 }, {
-                    mView!!.showEmptyState(true)
-                    mView!!.onMovieDetailsFailed()
+                    view?.onMovieDetailsFailed()
                 })
         )
     }
 
-    override fun addMovieToFavorites(bundle: Bundle) {
-        val movieDao = MovieDatabase.movieDao
-
-        mCompositeDisposable.add(Observable.just(bundle)
+    override fun addMovieToFavorites(movie: Movie) {
+        compositeDisposable.add(Observable.just(movie)
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe { mView!!.showLoadingIndicator(true) }
-                .map { _bundle ->
-                    //TODO
-                    Movie(
-                            _bundle.getString(MovieDetailActivity.EXTRA_NAME)!!,
-                            _bundle.getInt(MovieDetailActivity.EXTRA_WATCHERS),
-                            _bundle.getString(MovieListFragment.EXTRA_IMAGE)!!,
-                            _bundle.getString(MovieListFragment.EXTRA_SLUG)!!
-                    )
+                .flatMap {
+                    it.isFavorite = true
+                    Observable.fromCallable { MovieDatabase.movieDao.insertMovie(it) }
                 }
-                .flatMap<Any> { movieEntity ->
-                    movieDao.insertMovie(movieEntity).toObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    view?.onMoviesAdded()
+                }, {
+                    view?.onMoviesAddingFailed()
+                })
+        )
+    }
+
+    override fun removeMovieFromFavorites(name: String) {
+        compositeDisposable.add(Observable.just(name)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe {
+                    view?.showLoadingIndicator(true)
+                }
+                .firstOrError()
+                .toObservable()
+                .flatMap<Any> {
+                    MovieDatabase.movieDao.deleteMovie(name).toObservable()
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete {
-                    mView!!.onMoviesAdded()
+                    view?.onMovieRemoved()
                 }
                 .doOnError { error ->
-                    Timber.e(error)
-                    mView!!.onMovieDetailsFailed()
+                    view?.onMovieRemoveFailed()
                 }
-                .doAfterTerminate {
-                    mView!!.showLoadingIndicator(false)
-                }
+                .doAfterTerminate { view?.showLoadingIndicator(false) }
                 .subscribe()
         )
 
+    }
+
+    private fun combineLocalDataWithServer(
+            serverMovie: Movie,
+            localMovie: Movie
+    ): Movie {
+        serverMovie.isFavorite = localMovie.isFavorite
+
+        return serverMovie
     }
 
 }

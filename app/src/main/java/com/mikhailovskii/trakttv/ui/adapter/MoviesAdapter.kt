@@ -14,7 +14,7 @@ class MoviesAdapter(
         private val onItemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
-    private val moviesList = ArrayList<Movie>()
+    val movieList = ArrayList<Movie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.movie_element, parent, false)
@@ -22,7 +22,7 @@ class MoviesAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bindData(moviesList[position], onItemClickListener)
+        viewHolder.bindData(movieList[position], onItemClickListener)
     }
 
     override fun getItemId(position: Int): Long {
@@ -30,12 +30,12 @@ class MoviesAdapter(
     }
 
     override fun getItemCount(): Int {
-        return moviesList.size
+        return movieList.size
     }
 
     fun setData(movies: List<Movie>) {
-        moviesList.clear()
-        moviesList.addAll(movies)
+        movieList.clear()
+        movieList.addAll(movies)
         notifyDataSetChanged()
     }
 
@@ -50,14 +50,19 @@ class MoviesAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bindData(movie: Movie, onItemClickListener: OnItemClickListener) {
+            val url = "http://img.omdbapi.com/?apikey=956febbc&i=${movie.movieId?.imdb!!}"
             Glide.with(itemView.context)
-                    .load(movie.iconUrl)
-                    .into(itemView.icon_image)
+                    .load(url)
+                    .into(itemView.iv_icon)
 
             itemView.tv_moviename.text = movie.name
             itemView.tv_year.text = itemView.context.resources.getString(R.string.year, movie.year)
-            itemView.tv_watchers.text = itemView.context.resources.getString(R.string.watchers, movie.watchers)
 
+            if (movie.isFavorite) {
+                itemView.tv_watchers.text = itemView.context.resources.getString(R.string.country, movie.country)
+            } else {
+                itemView.tv_watchers.text = itemView.context.resources.getString(R.string.watchers, movie.watchers)
+            }
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     onItemClickListener.onItemClicked(adapterPosition, movie)

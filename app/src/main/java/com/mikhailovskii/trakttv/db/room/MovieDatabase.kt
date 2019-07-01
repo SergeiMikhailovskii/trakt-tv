@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 import com.mikhailovskii.trakttv.TraktTvApp
 import com.mikhailovskii.trakttv.data.entity.Movie
@@ -14,13 +15,14 @@ import com.mikhailovskii.trakttv.db.room.MovieDatabase.Companion.DB_VERSION
         version = DB_VERSION,
         exportSchema = false
 )
+@TypeConverters(RoomTypeConverter::class)
 abstract class MovieDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
 
     companion object {
 
-        const val DB_VERSION = 4
+        const val DB_VERSION = 6
         private const val DB_NAME = "trakttv.db"
 
         val movieDao: MovieDao
@@ -37,7 +39,7 @@ abstract class MovieDatabase : RoomDatabase() {
                 }
 
         private fun buildDatabase(context: Context) =
-                Room.databaseBuilder<MovieDatabase>(
+                Room.databaseBuilder(
                         context.applicationContext,
                         MovieDatabase::class.java,
                         DB_NAME)

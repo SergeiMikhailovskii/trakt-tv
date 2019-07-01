@@ -17,9 +17,12 @@ interface MovieDao {
     fun getFavorites(): Single<List<Movie>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovie(movie: Movie): Completable
+    fun insertMovie(movie: Movie)
 
     @Query("DELETE FROM Movie WHERE name = :name")
     fun deleteMovie(name: String): Completable
+
+    @Query("SELECT * FROM Movie WHERE name = :name")
+    fun getMovie(name: String): Single<Movie>
 
 }
