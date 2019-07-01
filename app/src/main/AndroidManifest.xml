@@ -18,7 +18,7 @@
         tools:targetApi="m">
 
         <service
-            android:name=".data.service.FirebaseNotificationService"
+            android:name=".service.FirebaseNotificationService"
             tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

@@ -1,5 +1,6 @@
 package com.mikhailovskii.trakttv
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import com.crashlytics.android.Crashlytics
@@ -7,9 +8,18 @@ import com.crashlytics.android.ndk.CrashlyticsNdk
 import com.facebook.stetho.Stetho
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
+import com.mikhailovskii.trakttv.di.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.HasActivityInjector
 import io.fabric.sdk.android.Fabric
+import javax.inject.Inject
 
-class TraktTvApp : Application() {
+class TraktTvApp : Application(), HasActivityInjector {
+
+    @Inject
+    lateinit var androidInjector: AndroidInjector<Activity>
+
+    override fun activityInjector(): AndroidInjector<Activity>? = androidInjector
 
     override fun onCreate() {
         super.onCreate()
@@ -19,6 +29,12 @@ class TraktTvApp : Application() {
 
         initStetho()
         initFabric()
+
+        DaggerAppComponent
+                .builder()
+                .application(this)
+                .build()
+                .inject(this)
 
         FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener(OnCompleteListener { task ->

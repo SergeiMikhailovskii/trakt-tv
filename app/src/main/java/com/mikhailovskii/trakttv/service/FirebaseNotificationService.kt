@@ -1,4 +1,4 @@
-package com.mikhailovskii.trakttv.data.service
+package com.mikhailovskii.trakttv.service
 
 import android.app.NotificationManager
 import android.content.Context
