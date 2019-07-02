@@ -7,7 +7,6 @@ import com.bumptech.glide.Glide
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
-import com.mikhailovskii.trakttv.util.Constants
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 import org.jetbrains.anko.toast
 

@@ -1,31 +1,29 @@
 package com.mikhailovskii.trakttv.di
 
+import androidx.fragment.app.Fragment
 import com.mikhailovskii.trakttv.TraktTvApp
+import com.mikhailovskii.trakttv.di.mvp.FavoritesModule
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.support.AndroidSupportInjectionModule
-import javax.inject.Singleton
+import dagger.android.AndroidInjector
 
-@Singleton
 @Component(
-        modules = [
-            AndroidSupportInjectionModule::class,
-            AppModule::class
-        ]
+        modules = [FavoritesModule::class]
 )
-interface AppComponent {
+interface AppComponent: AndroidInjector<TraktTvApp>{
 
     @Component.Builder
     interface Builder {
 
         @BindsInstance
-
         fun application(application: TraktTvApp): Builder
 
-        fun build():AppComponent
+        fun build(): AppComponent
 
     }
 
-    fun inject(application: TraktTvApp)
+    override fun inject(application: TraktTvApp)
+
+    fun inject(fragment: Fragment)
 
 }

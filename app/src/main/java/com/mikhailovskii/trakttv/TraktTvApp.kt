@@ -1,6 +1,5 @@
 package com.mikhailovskii.trakttv
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
 import com.crashlytics.android.Crashlytics
@@ -8,33 +7,31 @@ import com.crashlytics.android.ndk.CrashlyticsNdk
 import com.facebook.stetho.Stetho
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
+import com.mikhailovskii.trakttv.di.AppComponent
 import com.mikhailovskii.trakttv.di.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.HasActivityInjector
 import io.fabric.sdk.android.Fabric
-import javax.inject.Inject
 
-class TraktTvApp : Application(), HasActivityInjector {
+class TraktTvApp : Application() {
 
+/*
     @Inject
-    lateinit var androidInjector: AndroidInjector<Activity>
+    lateinit var appContext:Context
+*/
 
-    override fun activityInjector(): AndroidInjector<Activity>? = androidInjector
 
     override fun onCreate() {
         super.onCreate()
 
         appContext = applicationContext
+
+
         instance = this
 
         initStetho()
         initFabric()
 
-        DaggerAppComponent
-                .builder()
-                .application(this)
-                .build()
-                .inject(this)
+        component = buildComponent()
+
 
         FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener(OnCompleteListener { task ->
@@ -44,8 +41,7 @@ class TraktTvApp : Application(), HasActivityInjector {
                     }
 
                     val token = task.result?.token
-                }
-                )
+                })
     }
 
     private fun initFabric() {
@@ -58,9 +54,22 @@ class TraktTvApp : Application(), HasActivityInjector {
         }
     }
 
+    protected fun buildComponent(): AppComponent {
+        return DaggerAppComponent.builder()
+                .application(this)
+                .build()
+    }
+
+
+
     companion object {
+
         lateinit var instance: TraktTvApp
         lateinit var appContext: Context
+
+        lateinit var component: AppComponent
+
+
     }
 
 }
