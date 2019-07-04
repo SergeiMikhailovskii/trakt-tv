@@ -1,6 +1,6 @@
 package com.mikhailovskii.trakttv.ui.favorites
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,18 +27,15 @@ import javax.inject.Inject
 @ActivityScoped
 class FavoritesFragment : DaggerFragment(), FavoritesContract.FavoritesView, MoviesAdapter.OnItemClickListener {
 
-    /*
-    private val presenter = FavoritesPresenter()
-*/
-    override fun onAttach(activity: Activity?) {
-        super.onAttach(activity)
-        AndroidSupportInjection.inject(this)
-    }
-
     @Inject
     lateinit var presenter: FavoritesContract.FavoritesPresenter
 
     private var adapter: MoviesAdapter? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -123,7 +120,7 @@ class FavoritesFragment : DaggerFragment(), FavoritesContract.FavoritesView, Mov
 
     companion object {
 
-        fun newInstance():FavoritesFragment = FavoritesFragment()
+        fun newInstance(): FavoritesFragment = FavoritesFragment()
 
     }
 
