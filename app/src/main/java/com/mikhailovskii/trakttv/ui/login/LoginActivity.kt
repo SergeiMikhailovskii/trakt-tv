@@ -25,43 +25,47 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
         setContentView(R.layout.activity_login)
         presenter.attachView(this)
 
-        // Handle login button
-        btn_login.setOnClickListener {
-            login_layout.error = null
-            password_layout.error = null
-            val login = Objects.requireNonNull<Editable>(et_login.text).toString()
-            val password = Objects.requireNonNull<Editable>(et_password.text).toString()
+        if (presenter.checkUserLoggedIn()) {
+            startActivity(Intent(this, MainActivity::class.java))
+        } else {
+            // Handle login button
+            btn_login.setOnClickListener {
+                login_layout.error = null
+                password_layout.error = null
+                val login = Objects.requireNonNull<Editable>(et_login.text).toString()
+                val password = Objects.requireNonNull<Editable>(et_password.text).toString()
 
-            when {
-                login == "" -> login_layout.error = getString(R.string.enter_login)
-                password == "" -> password_layout.error = getString(R.string.enter_password)
-                else -> {
-                    val bundle = Bundle()
+                when {
+                    login == "" -> login_layout.error = getString(R.string.enter_login)
+                    password == "" -> password_layout.error = getString(R.string.enter_password)
+                    else -> {
+                        val bundle = Bundle()
 
-                    bundle.putString(LoginPresenter.EXTRA_LOGIN, et_login.text!!.toString())
-                    bundle.putString(LoginPresenter.EXTRA_PASSWORD, et_password.text!!.toString())
+                        bundle.putString(LoginPresenter.EXTRA_LOGIN, et_login.text!!.toString())
+                        bundle.putString(LoginPresenter.EXTRA_PASSWORD, et_password.text!!.toString())
 
-                    presenter.saveUserData(bundle)
+                        presenter.saveUserData(bundle)
+                    }
                 }
             }
+
+            // Facebook logic
+            callbackManager = CallbackManager.Factory.create()
+            btn_facebook_login.setPermissions(FB_EMAIL_PERMISSION)
+            btn_facebook_login.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+                override fun onSuccess(loginResult: LoginResult) {
+                    presenter.proceedWithFbLogin(loginResult)
+                }
+
+                override fun onCancel() {
+                    toast(getString(R.string.login_fb_cancelled))
+                }
+
+                override fun onError(error: FacebookException) {
+                    toast(getString(R.string.failed_fb_login))
+                }
+            })
         }
-
-        // Facebook logic
-        callbackManager = CallbackManager.Factory.create()
-        btn_facebook_login.setPermissions(FB_EMAIL_PERMISSION)
-        btn_facebook_login.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult) {
-                presenter.proceedWithFbLogin(loginResult)
-            }
-
-            override fun onCancel() {
-                toast(getString(R.string.login_fb_cancelled))
-            }
-
-            override fun onError(error: FacebookException) {
-                toast(getString(R.string.failed_fb_login))
-            }
-        })
     }
 
     override fun onDestroy() {
@@ -84,11 +88,11 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
     }
 
     override fun showEmptyState(value: Boolean) {
-
+        //Not implemented here
     }
 
     override fun showLoadingIndicator(value: Boolean) {
-
+        //Not implemented here
     }
 
     companion object {
