@@ -1,14 +1,13 @@
 package com.mikhailovskii.trakttv.data.api
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import dagger.Module
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-@Module
+
 class MovieAPIFactory private constructor() {
 
     private val retrofit: Retrofit

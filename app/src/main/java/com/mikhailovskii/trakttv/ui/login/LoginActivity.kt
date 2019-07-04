@@ -3,6 +3,7 @@ package com.mikhailovskii.trakttv.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import androidx.fragment.app.Fragment
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -10,14 +11,22 @@ import com.facebook.login.LoginResult
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.ui.main.MainActivity
 import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
+import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.toast
 import java.util.*
 import javax.inject.Inject
 
 
-class LoginActivity : DaggerAppCompatActivity(), LoginContract.LoginView {
+class LoginActivity : DaggerAppCompatActivity(), LoginContract.LoginView, HasSupportFragmentInjector {
+
+    @Inject
+    lateinit var dispatchingInjector: DispatchingAndroidInjector<Fragment>
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingInjector
 
     private var callbackManager: CallbackManager? = null
     //private val presenter = LoginPresenter()
@@ -28,8 +37,8 @@ class LoginActivity : DaggerAppCompatActivity(), LoginContract.LoginView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        presenter.attachView(this)
         AndroidInjection.inject(this)
+        presenter.attachView(this)
 
         if (presenter.checkUserLoggedIn()) {
             startActivity(Intent(this, MainActivity::class.java))
