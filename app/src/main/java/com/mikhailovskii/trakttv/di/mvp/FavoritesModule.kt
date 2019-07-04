@@ -14,7 +14,7 @@ abstract class FavoritesModule {
 
     @FragmentScoped
     @ContributesAndroidInjector
-    abstract fun bindFavoritesFragment():FavoritesFragment
+    abstract fun bindFavoritesFragment(): FavoritesFragment
 
     @ActivityScoped
     @Binds

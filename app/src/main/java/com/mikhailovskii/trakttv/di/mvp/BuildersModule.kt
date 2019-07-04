@@ -12,8 +12,7 @@ abstract class BuildersModule {
     @ContributesAndroidInjector(
             modules = [FavoritesModule::class]
     )
-    abstract fun bindMainActivity():MainActivity
-
+    abstract fun bindMainActivity(): MainActivity
 
 
 }
