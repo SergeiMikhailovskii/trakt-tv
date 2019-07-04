@@ -10,7 +10,10 @@ abstract class BuildersModule {
 
     @ActivityScoped
     @ContributesAndroidInjector(
-            modules = [FavoritesModule::class]
+            modules = [
+                FavoritesModule::class,
+                LoginModule::class
+            ]
     )
     abstract fun bindMainActivity(): MainActivity
 

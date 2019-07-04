@@ -13,8 +13,9 @@ import com.mikhailovskii.trakttv.data.entity.User
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import com.mikhailovskii.trakttv.util.Preference
 import org.json.JSONException
+import javax.inject.Inject
 
-class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.LoginPresenter {
+class LoginPresenter @Inject constructor() : BasePresenter<LoginContract.LoginView>(), LoginContract.LoginPresenter {
     override fun checkUserLoggedIn(): Boolean {
         return Preference.getInstance(TraktTvApp.appContext).user != null
     }

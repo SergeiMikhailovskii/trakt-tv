@@ -3,27 +3,33 @@ package com.mikhailovskii.trakttv.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import androidx.appcompat.app.AppCompatActivity
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.ui.main.MainActivity
+import dagger.android.AndroidInjection
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.toast
 import java.util.*
+import javax.inject.Inject
 
 
-class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
+class LoginActivity : DaggerAppCompatActivity(), LoginContract.LoginView {
 
     private var callbackManager: CallbackManager? = null
-    private val presenter = LoginPresenter()
+    //private val presenter = LoginPresenter()
+
+    @Inject
+    lateinit var presenter: LoginContract.LoginPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         presenter.attachView(this)
+        AndroidInjection.inject(this)
 
         if (presenter.checkUserLoggedIn()) {
             startActivity(Intent(this, MainActivity::class.java))
@@ -98,6 +104,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
     companion object {
 
         private const val FB_EMAIL_PERMISSION = "email"
+
     }
 
 }
