@@ -1,12 +1,7 @@
 package com.mikhailovskii.trakttv.ui.favorites
 
-import androidx.fragment.app.Fragment
 import com.mikhailovskii.trakttv.db.room.MovieDatabase
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
-
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -24,8 +19,8 @@ class FavoritesPresenter @Inject constructor() : BasePresenter<FavoritesContract
                     view?.showLoadingIndicator(true)
                 }
                 .toObservable()
-                .flatMapIterable {
-                    listObservable -> listObservable
+                .flatMapIterable { listObservable ->
+                    listObservable
                 }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())

@@ -1,7 +1,9 @@
 package com.mikhailovskii.trakttv
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
+import androidx.fragment.app.Fragment
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.ndk.CrashlyticsNdk
 import com.facebook.stetho.Stetho
@@ -9,28 +11,40 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.mikhailovskii.trakttv.di.AppComponent
 import com.mikhailovskii.trakttv.di.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import dagger.android.support.HasSupportFragmentInjector
 import io.fabric.sdk.android.Fabric
+import javax.inject.Inject
 
-class TraktTvApp : Application() {
+class TraktTvApp : Application(), HasSupportFragmentInjector, HasActivityInjector {
 
-/*
+
+    lateinit var appComponent: AppComponent
+
     @Inject
-    lateinit var appContext:Context
-*/
+    lateinit var fragmentInjector:DispatchingAndroidInjector<Fragment>
 
+    @Inject
+    lateinit var activityInjector:DispatchingAndroidInjector<Activity>
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
+
+    override fun activityInjector(): AndroidInjector<Activity> = activityInjector
 
     override fun onCreate() {
         super.onCreate()
 
         appContext = applicationContext
 
-
         instance = this
+
+        appComponent = buildComponent()
+        appComponent.inject(this)
 
         initStetho()
         initFabric()
-
-        component = buildComponent()
 
 
         FirebaseInstanceId.getInstance().instanceId
@@ -40,7 +54,6 @@ class TraktTvApp : Application() {
                         return@OnCompleteListener
                     }
 
-                    val token = task.result?.token
                 })
     }
 
@@ -54,7 +67,7 @@ class TraktTvApp : Application() {
         }
     }
 
-    protected fun buildComponent(): AppComponent {
+    private fun buildComponent(): AppComponent {
         return DaggerAppComponent.builder()
                 .application(this)
                 .build()
@@ -66,9 +79,6 @@ class TraktTvApp : Application() {
 
         lateinit var instance: TraktTvApp
         lateinit var appContext: Context
-
-        lateinit var component: AppComponent
-
 
     }
 

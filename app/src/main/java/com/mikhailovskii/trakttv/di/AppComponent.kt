@@ -1,16 +1,19 @@
 package com.mikhailovskii.trakttv.di
 
-import androidx.fragment.app.Fragment
 import com.mikhailovskii.trakttv.TraktTvApp
-import com.mikhailovskii.trakttv.di.mvp.FavoritesModule
+import com.mikhailovskii.trakttv.di.mvp.BuildersModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
+import javax.inject.Singleton
 
+@Singleton
 @Component(
-        modules = [FavoritesModule::class]
+        modules = [AndroidSupportInjectionModule::class,
+            BuildersModule::class]
 )
-interface AppComponent: AndroidInjector<TraktTvApp>{
+interface AppComponent : AndroidInjector<TraktTvApp> {
 
     @Component.Builder
     interface Builder {
@@ -23,7 +26,5 @@ interface AppComponent: AndroidInjector<TraktTvApp>{
     }
 
     override fun inject(application: TraktTvApp)
-
-    fun inject(fragment: Fragment)
 
 }
