@@ -26,13 +26,10 @@ class LoginActivity : DaggerAppCompatActivity(), LoginContract.LoginView, HasSup
     @Inject
     lateinit var dispatchingInjector: DispatchingAndroidInjector<Fragment>
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingInjector
-
-    private var callbackManager: CallbackManager? = null
-    //private val presenter = LoginPresenter()
-
     @Inject
     lateinit var presenter: LoginContract.LoginPresenter
+
+    private var callbackManager: CallbackManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +84,8 @@ class LoginActivity : DaggerAppCompatActivity(), LoginContract.LoginView, HasSup
         super.onDestroy()
         presenter.detachView()
     }
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingInjector
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         callbackManager?.onActivityResult(requestCode, resultCode, data)

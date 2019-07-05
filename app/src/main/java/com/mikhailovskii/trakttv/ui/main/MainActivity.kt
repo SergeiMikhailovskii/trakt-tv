@@ -1,19 +1,14 @@
 package com.mikhailovskii.trakttv.ui.main
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.ui.favorites.FavoritesFragment
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
 import com.mikhailovskii.trakttv.ui.profile.ProfileFragment
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
-import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
 
 
 class MainActivity : DaggerAppCompatActivity() {

@@ -8,8 +8,9 @@ import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class MovieDetailPresenter : BasePresenter<MovieDetailContract.MovieDetailView>(), MovieDetailContract.MovieDetailPresenter {
+class MovieDetailPresenter @Inject constructor() : BasePresenter<MovieDetailContract.MovieDetailView>(), MovieDetailContract.MovieDetailPresenter {
 
     override fun loadMovieDetails(slugId: String?) {
         compositeDisposable.add(Observable.just(Optional(slugId))
@@ -68,7 +69,7 @@ class MovieDetailPresenter : BasePresenter<MovieDetailContract.MovieDetailView>(
                 .doOnComplete {
                     view?.onMovieRemoved()
                 }
-                .doOnError { error ->
+                .doOnError {
                     view?.onMovieRemoveFailed()
                 }
                 .doAfterTerminate { view?.showLoadingIndicator(false) }
