@@ -1,6 +1,5 @@
 package com.mikhailovskii.trakttv.ui.movies_list
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -27,8 +26,6 @@ import javax.inject.Inject
 
 @FragmentScoped
 class MovieListFragment : DaggerFragment(), MovieListContract.MovieListView, MoviesAdapter.OnItemClickListener {
-
-    //private val presenter = MovieListPresenter()
 
     @Inject
     lateinit var presenter: MovieListContract.MovieListPresenter
