@@ -26,8 +26,6 @@ class MovieDetailActivity : DaggerAppCompatActivity(), MovieDetailContract.Movie
     @Inject
     lateinit var presenter: MovieDetailContract.MovieDetailPresenter
 
-    //private val presenter = MovieDetailPresenter()
-
     private var slugId: String? = null
     private var movie: Movie? = null
 

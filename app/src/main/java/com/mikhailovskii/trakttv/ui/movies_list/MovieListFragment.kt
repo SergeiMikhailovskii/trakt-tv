@@ -1,11 +1,12 @@
 package com.mikhailovskii.trakttv.ui.movies_list
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -13,17 +14,31 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.diffutil.MovieDiffUtilCallback
 import com.mikhailovskii.trakttv.data.entity.Movie
+import com.mikhailovskii.trakttv.di.scope.FragmentScoped
 import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity
 import com.mikhailovskii.trakttv.util.Constants
 import com.mikhailovskii.trakttv.util.toast
+import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_list.*
 import java.util.*
+import javax.inject.Inject
 
-class MovieListFragment : Fragment(), MovieListContract.MoviesListView, MoviesAdapter.OnItemClickListener {
+@FragmentScoped
+class MovieListFragment : DaggerFragment(), MovieListContract.MovieListView, MoviesAdapter.OnItemClickListener {
 
-    private val presenter = MovieListPresenter()
+    //private val presenter = MovieListPresenter()
+
+    @Inject
+    lateinit var presenter: MovieListContract.MovieListPresenter
+
     private var adapter: MoviesAdapter? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,

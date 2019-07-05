@@ -6,8 +6,9 @@ import com.mikhailovskii.trakttv.data.entity.MovieTrack
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class MovieListPresenter : BasePresenter<MovieListContract.MoviesListView>(), MovieListContract.MoviesListPresenter {
+class MovieListPresenter @Inject constructor(): BasePresenter<MovieListContract.MovieListView>(), MovieListContract.MovieListPresenter {
 
     override fun loadMovieList() {
         compositeDisposable.add(MovieAPIFactory.getInstance().apiService.getMovies()
