@@ -7,19 +7,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.User
 import com.mikhailovskii.trakttv.ui.login.LoginActivity
 import com.mikhailovskii.trakttv.util.toast
+import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_profile.*
 import java.util.*
+import javax.inject.Inject
 
-class ProfileFragment : Fragment(), ProfileContract.ProfileView {
+class ProfileFragment : DaggerFragment(), ProfileContract.ProfileView {
 
-    private val presenter = ProfilePresenter()
+    @Inject
+    lateinit var presenter: ProfileContract.ProfilePresenter
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
