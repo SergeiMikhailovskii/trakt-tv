@@ -14,7 +14,8 @@ abstract class BuildersModule {
     @ContributesAndroidInjector(
             modules = [
                 LoginModule::class,
-                MovieListModule::class
+                MovieListModule::class,
+                FavoritesModule::class
             ]
     )
     abstract fun bindMainActivity(): MainActivity
