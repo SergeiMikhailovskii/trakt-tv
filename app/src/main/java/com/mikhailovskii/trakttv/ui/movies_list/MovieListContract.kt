@@ -6,7 +6,7 @@ import com.mikhailovskii.trakttv.ui.base.MvpView
 
 interface MovieListContract {
 
-    interface MoviesListView : MvpView {
+    interface MovieListView : MvpView {
 
         fun onMovieListLoaded(movieList: List<Movie>)
 
@@ -14,7 +14,7 @@ interface MovieListContract {
 
     }
 
-    interface MoviesListPresenter : MvpPresenter<MoviesListView> {
+    interface MovieListPresenter : MvpPresenter<MovieListView> {
 
         fun loadMovieList()
 

@@ -2,12 +2,13 @@ package com.mikhailovskii.trakttv.ui.favorites
 
 import com.mikhailovskii.trakttv.db.room.MovieDatabase
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
-
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), FavoritesContract.FavoritesPresenter {
+class FavoritesPresenter @Inject constructor() : BasePresenter<FavoritesContract.FavoritesView>(), FavoritesContract.FavoritesPresenter {
+
 
     override fun loadFavoriteMovies() {
         val movieDao = MovieDatabase.movieDao
@@ -18,8 +19,8 @@ class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), Fav
                     view?.showLoadingIndicator(true)
                 }
                 .toObservable()
-                .flatMapIterable {
-                    listObservable -> listObservable
+                .flatMapIterable { listObservable ->
+                    listObservable
                 }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())

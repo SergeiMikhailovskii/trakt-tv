@@ -13,8 +13,12 @@ import com.mikhailovskii.trakttv.data.entity.User
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import com.mikhailovskii.trakttv.util.Preference
 import org.json.JSONException
+import javax.inject.Inject
 
-class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.LoginPresenter {
+class LoginPresenter @Inject constructor() : BasePresenter<LoginContract.LoginView>(), LoginContract.LoginPresenter {
+    override fun checkUserLoggedIn(): Boolean {
+        return Preference.getInstance(TraktTvApp.appContext).user != null
+    }
 
     override fun saveUserData(bundle: Bundle) {
 
@@ -29,7 +33,7 @@ class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.L
             val user = User(email, password, token, login, id, avatar)
             Preference.getInstance(TraktTvApp.appContext).user = user
 
-            val databaseReference:DatabaseReference = FirebaseDatabase.getInstance().reference
+            val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
             databaseReference.child("users").child(login).setValue(user)
         }
 

@@ -22,6 +22,8 @@ interface LoginContract {
 
         fun proceedWithFbLogin(loginResult: LoginResult)
 
+        fun checkUserLoggedIn():Boolean
+
     }
 
 }

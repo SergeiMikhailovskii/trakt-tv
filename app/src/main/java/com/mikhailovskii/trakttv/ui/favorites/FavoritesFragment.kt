@@ -1,11 +1,11 @@
 package com.mikhailovskii.trakttv.ui.favorites
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -13,17 +13,29 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.diffutil.MovieDiffUtilCallback
 import com.mikhailovskii.trakttv.data.entity.Movie
+import com.mikhailovskii.trakttv.di.scope.ActivityScoped
 import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
 import com.mikhailovskii.trakttv.util.toast
+import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_favorites.*
 import java.util.*
+import javax.inject.Inject
 
-class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAdapter.OnItemClickListener {
+@ActivityScoped
+class FavoritesFragment : DaggerFragment(), FavoritesContract.FavoritesView, MoviesAdapter.OnItemClickListener {
 
-    private val presenter = FavoritesPresenter()
+    @Inject
+    lateinit var presenter: FavoritesContract.FavoritesPresenter
+
     private var adapter: MoviesAdapter? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -44,6 +56,7 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
         movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
         adapter = MoviesAdapter(this)
         movies_list.adapter = adapter
+
     }
 
     override fun onResume() {
@@ -103,6 +116,12 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
 
     override fun onItemLongClick(position: Int, item: Movie) {
         presenter.deleteMovie(item.name!!)
+    }
+
+    companion object {
+
+        fun newInstance(): FavoritesFragment = FavoritesFragment()
+
     }
 
 }
