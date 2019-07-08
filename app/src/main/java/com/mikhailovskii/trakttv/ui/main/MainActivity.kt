@@ -19,7 +19,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
         val startTransaction = supportFragmentManager.beginTransaction()
         val movieListFragment = MovieListFragment()
-        startTransaction.add(R.id.fragmentLayout, movieListFragment)
+        startTransaction.add(R.id.fragment_layout, movieListFragment)
         startTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         startTransaction.commit()
 
@@ -44,7 +44,7 @@ class MainActivity : DaggerAppCompatActivity() {
             }
 
             if (fragment != null) {
-                fragmentTransaction.replace(R.id.fragmentLayout, fragment)
+                fragmentTransaction.replace(R.id.fragment_layout, fragment)
                 fragmentTransaction.addToBackStack(null)
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 fragmentTransaction.commit()
