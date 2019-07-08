@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.diffutil.MovieDiffUtilCallback
 import com.mikhailovskii.trakttv.data.entity.Movie
@@ -51,7 +51,7 @@ class MovieListFragment : DaggerFragment(), MovieListContract.MovieListView, Mov
         super.onViewCreated(view, savedInstanceState)
         presenter.attachView(this)
 
-        movies_list.layoutManager = LinearLayoutManager(context)
+        movies_list.layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.rows))
         movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
         adapter = MoviesAdapter(this)
         movies_list.adapter = adapter
