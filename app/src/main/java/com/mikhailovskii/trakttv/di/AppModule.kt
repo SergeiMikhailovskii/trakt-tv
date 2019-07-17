@@ -1,6 +1,8 @@
 package com.mikhailovskii.trakttv.di
 
 import android.preference.PreferenceManager
+import com.mikhailovskii.trakttv.data.api.MovieAPIFactory
+import com.mikhailovskii.trakttv.db.room.MovieDatabase
 import com.mikhailovskii.trakttv.ui.favorites.FavoritesContract
 import com.mikhailovskii.trakttv.ui.favorites.FavoritesFragment
 import com.mikhailovskii.trakttv.ui.favorites.FavoritesPresenter
@@ -26,10 +28,18 @@ object AppModule {
         single { PreferenceManager.getDefaultSharedPreferences(androidContext()) }
     }
 
+    val apiModule = module {
+        single { MovieAPIFactory.getInstance().apiService }
+    }
+
+    val dbModule = module {
+        single { MovieDatabase.movieDao }
+    }
+
     val mvpModule = module {
 
         scope(named<FavoritesFragment>()) {
-            scoped { FavoritesPresenter() as FavoritesContract.FavoritesPresenter }
+            scoped { FavoritesPresenter(get()) as FavoritesContract.FavoritesPresenter }
         }
 
         scope(named<LoginActivity>()) {
@@ -37,11 +47,11 @@ object AppModule {
         }
 
         scope(named<MovieDetailActivity>()) {
-            scoped { MovieDetailPresenter() as MovieDetailContract.MovieDetailPresenter }
+            scoped { MovieDetailPresenter(get()) as MovieDetailContract.MovieDetailPresenter }
         }
 
         scope(named<MovieListFragment>()) {
-            scoped { MovieListPresenter() as MovieListContract.MovieListPresenter }
+            scoped { MovieListPresenter(get()) as MovieListContract.MovieListPresenter }
         }
 
         scope(named<ProfileFragment>()) {
