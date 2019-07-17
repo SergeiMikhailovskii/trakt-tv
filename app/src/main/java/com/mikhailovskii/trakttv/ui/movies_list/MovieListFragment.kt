@@ -94,7 +94,11 @@ class MovieListFragment : Fragment(), MovieListContract.MovieListView, MoviesAda
     }
 
     override fun showLoadingIndicator(value: Boolean) {
-        swipe_refresh.isRefreshing = value
+        if (value) {
+            movies_list.showShimmerAdapter()
+        } else {
+            movies_list.hideShimmerAdapter()
+        }
     }
 
     companion object {

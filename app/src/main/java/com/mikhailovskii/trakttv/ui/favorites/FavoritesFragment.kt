@@ -96,6 +96,11 @@ class FavoritesFragment : Fragment(), FavoritesContract.FavoritesView, MoviesAda
 
     override fun showLoadingIndicator(value: Boolean) {
         swipe_refresh.isRefreshing = value
+        if (value) {
+            movies_list.showShimmerAdapter()
+        } else {
+            movies_list.hideShimmerAdapter()
+        }
     }
 
     override fun onItemClicked(position: Int, item: Movie) {
