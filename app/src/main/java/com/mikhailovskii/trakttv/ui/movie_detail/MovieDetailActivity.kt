@@ -2,31 +2,19 @@ package com.mikhailovskii.trakttv.ui.movie_detail
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
 import com.mikhailovskii.trakttv.util.errorToast
 import com.mikhailovskii.trakttv.util.successToast
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.DaggerAppCompatActivity
-import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_movie_detail.*
-import org.jetbrains.anko.toast
-import javax.inject.Inject
+import org.koin.android.scope.currentScope
 
-class MovieDetailActivity : DaggerAppCompatActivity(), MovieDetailContract.MovieDetailView, HasSupportFragmentInjector {
+class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetailView {
 
-    @Inject
-    lateinit var dispatchingInjector: DispatchingAndroidInjector<Fragment>
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingInjector
-
-    @Inject
-    lateinit var presenter: MovieDetailContract.MovieDetailPresenter
+    private val presenter by currentScope.inject<MovieDetailContract.MovieDetailPresenter>()
 
     private var slugId: String? = null
     private var movie: Movie? = null
@@ -34,7 +22,6 @@ class MovieDetailActivity : DaggerAppCompatActivity(), MovieDetailContract.Movie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_detail)
-        AndroidInjection.inject(this)
         presenter.attachView(this)
 
         setToolbar()

@@ -1,37 +1,23 @@
 package com.mikhailovskii.trakttv
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
-import androidx.fragment.app.Fragment
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.ndk.CrashlyticsNdk
 import com.facebook.stetho.Stetho
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
-import com.mikhailovskii.trakttv.di.AppComponent
-import com.mikhailovskii.trakttv.di.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import dagger.android.support.HasSupportFragmentInjector
+import com.mikhailovskii.trakttv.di.AppModule.apiModule
+import com.mikhailovskii.trakttv.di.AppModule.appModule
+import com.mikhailovskii.trakttv.di.AppModule.dbModule
+import com.mikhailovskii.trakttv.di.AppModule.mvpModule
 import io.fabric.sdk.android.Fabric
-import javax.inject.Inject
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import timber.log.Timber
 
-class TraktTvApp : Application(), HasSupportFragmentInjector, HasActivityInjector {
-
-
-    lateinit var appComponent: AppComponent
-
-    @Inject
-    lateinit var fragmentInjector:DispatchingAndroidInjector<Fragment>
-
-    @Inject
-    lateinit var activityInjector:DispatchingAndroidInjector<Activity>
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
-
-    override fun activityInjector(): AndroidInjector<Activity> = activityInjector
+class TraktTvApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -40,12 +26,16 @@ class TraktTvApp : Application(), HasSupportFragmentInjector, HasActivityInjecto
 
         instance = this
 
-        appComponent = buildComponent()
-        appComponent.inject(this)
-
         initStetho()
         initFabric()
 
+        Timber.plant(Timber.DebugTree())
+
+        startKoin {
+            androidLogger()
+            androidContext(this@TraktTvApp)
+            modules(appModule, apiModule, dbModule, mvpModule)
+        }
 
         FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener(OnCompleteListener { task ->
@@ -66,13 +56,6 @@ class TraktTvApp : Application(), HasSupportFragmentInjector, HasActivityInjecto
             Stetho.initializeWithDefaults(this)
         }
     }
-
-    private fun buildComponent(): AppComponent {
-        return DaggerAppComponent.builder()
-                .application(this)
-                .build()
-    }
-
 
 
     companion object {

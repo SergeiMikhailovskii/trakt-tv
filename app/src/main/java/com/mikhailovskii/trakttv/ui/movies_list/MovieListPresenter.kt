@@ -1,17 +1,19 @@
 package com.mikhailovskii.trakttv.ui.movies_list
 
+import com.mikhailovskii.trakttv.data.api.MovieAPI
 import com.mikhailovskii.trakttv.data.api.MovieAPIFactory
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.data.entity.MovieTrack
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-class MovieListPresenter @Inject constructor(): BasePresenter<MovieListContract.MovieListView>(), MovieListContract.MovieListPresenter {
+class MovieListPresenter(
+        private val apiService:MovieAPI
+) : BasePresenter<MovieListContract.MovieListView>(), MovieListContract.MovieListPresenter {
 
     override fun loadMovieList() {
-        compositeDisposable.add(MovieAPIFactory.getInstance().apiService.getMovies()
+        compositeDisposable.add(apiService.getMovies()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { view?.showLoadingIndicator(true) }
                 .flatMapIterable { movieTracks -> movieTracks }

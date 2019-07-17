@@ -3,7 +3,7 @@ package com.mikhailovskii.trakttv.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -11,30 +11,20 @@ import com.facebook.login.LoginResult
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.ui.main.MainActivity
 import com.mikhailovskii.trakttv.util.errorToast
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.DaggerAppCompatActivity
-import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_login.*
+import org.koin.android.scope.currentScope
 import java.util.*
-import javax.inject.Inject
 
 
-class LoginActivity : DaggerAppCompatActivity(), LoginContract.LoginView, HasSupportFragmentInjector {
+class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
 
-    @Inject
-    lateinit var dispatchingInjector: DispatchingAndroidInjector<Fragment>
-
-    @Inject
-    lateinit var presenter: LoginContract.LoginPresenter
+    private val presenter by currentScope.inject<LoginContract.LoginPresenter>()
 
     private var callbackManager: CallbackManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        AndroidInjection.inject(this)
         presenter.attachView(this)
 
         if (presenter.checkUserLoggedIn()) {
@@ -84,8 +74,6 @@ class LoginActivity : DaggerAppCompatActivity(), LoginContract.LoginView, HasSup
         super.onDestroy()
         presenter.detachView()
     }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingInjector
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         callbackManager?.onActivityResult(requestCode, resultCode, data)
