@@ -107,12 +107,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
 
     //Fabric
-    implementation ('com.crashlytics.sdk.android:crashlytics:2.10.1@aar'){
-        transitive = true
-    }
-    implementation ('com.crashlytics.sdk.android:crashlytics-ndk:2.1.0@aar'){
-        transitive = true
-    }
+    implementation ('com.crashlytics.sdk.android:crashlytics:2.10.1@aar'){ transitive = true }
+    implementation ('com.crashlytics.sdk.android:crashlytics-ndk:2.1.0@aar'){ transitive = true }
 
     //Dagger 2
     implementation 'com.google.dagger:dagger:2.23.2'

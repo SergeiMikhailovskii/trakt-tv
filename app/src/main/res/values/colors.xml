@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#FF0000</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#CC00FF</color>
+    <color name="colorAccent">#FF0000</color>
     <color name="menu_text">#FFFFFF</color>
     <color name="menu_icon">#FFFFFF</color>
 </resources>
