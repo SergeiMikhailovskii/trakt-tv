@@ -17,7 +17,7 @@ import com.mikhailovskii.trakttv.di.scope.FragmentScoped
 import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity
 import com.mikhailovskii.trakttv.util.Constants
-import com.mikhailovskii.trakttv.util.toast
+import com.mikhailovskii.trakttv.util.errorToast
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -96,7 +96,7 @@ class MovieListFragment : DaggerFragment(), MovieListContract.MovieListView, Mov
     }
 
     override fun onMovieListFailed() {
-        toast(getString(R.string.loading_failed))
+        errorToast(getString(R.string.loading_failed))
     }
 
     override fun showEmptyState(value: Boolean) {

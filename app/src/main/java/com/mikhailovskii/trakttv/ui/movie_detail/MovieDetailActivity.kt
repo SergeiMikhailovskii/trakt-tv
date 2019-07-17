@@ -7,6 +7,8 @@ import com.bumptech.glide.Glide
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
+import com.mikhailovskii.trakttv.util.errorToast
+import com.mikhailovskii.trakttv.util.successToast
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -99,23 +101,23 @@ class MovieDetailActivity : DaggerAppCompatActivity(), MovieDetailContract.Movie
     }
 
     override fun onMovieDetailsFailed() {
-        toast(getString(R.string.loading_failed))
+        errorToast(getString(R.string.loading_failed))
     }
 
     override fun onMoviesAdded() {
-        toast(getString(R.string.film_added))
+        successToast(getString(R.string.film_added))
     }
 
     override fun onMoviesAddingFailed() {
-        toast(getString(R.string.adding_failed))
+        errorToast(getString(R.string.adding_failed))
     }
 
     override fun onMovieRemoved() {
-        toast(getString(R.string.movie_removed))
+        successToast(getString(R.string.movie_removed))
     }
 
     override fun onMovieRemoveFailed() {
-        toast(getString(R.string.movie_remove_failed))
+        errorToast(getString(R.string.movie_remove_failed))
     }
 
     private fun setToolbar() {

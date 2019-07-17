@@ -10,13 +10,13 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.ui.main.MainActivity
+import com.mikhailovskii.trakttv.util.errorToast
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_login.*
-import org.jetbrains.anko.toast
 import java.util.*
 import javax.inject.Inject
 
@@ -70,11 +70,11 @@ class LoginActivity : DaggerAppCompatActivity(), LoginContract.LoginView, HasSup
                 }
 
                 override fun onCancel() {
-                    toast(getString(R.string.login_fb_cancelled))
+                    errorToast(getString(R.string.login_fb_cancelled))
                 }
 
                 override fun onError(error: FacebookException) {
-                    toast(getString(R.string.failed_fb_login))
+                    errorToast(getString(R.string.failed_fb_login))
                 }
             })
         }
@@ -98,7 +98,7 @@ class LoginActivity : DaggerAppCompatActivity(), LoginContract.LoginView, HasSup
     }
 
     override fun onLoginFailed() {
-        toast(getString(R.string.login_failed))
+        errorToast(getString(R.string.login_failed))
     }
 
     override fun showEmptyState(value: Boolean) {
