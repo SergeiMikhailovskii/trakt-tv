@@ -22,10 +22,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.cooltechworks.views.shimmer.ShimmerRecyclerView
             android:id="@+id/movies_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:shimmer_demo_child_count="10"
+            app:shimmer_demo_grid_child_count="@integer/rows"
+            app:shimmer_demo_layout_manager_type="grid"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

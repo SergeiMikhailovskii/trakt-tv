@@ -128,4 +128,7 @@ dependencies {
     implementation "org.koin:koin-android:2.0.0-rc-2"
     implementation 'org.koin:koin-android-scope:2.0.0-rc-2'
 
+    //ShimmerRecyclerView
+    implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
+
 }
