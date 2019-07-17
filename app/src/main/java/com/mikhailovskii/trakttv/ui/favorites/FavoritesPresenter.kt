@@ -1,16 +1,17 @@
 package com.mikhailovskii.trakttv.ui.favorites
 
-import com.mikhailovskii.trakttv.db.room.MovieDatabase
+import com.mikhailovskii.trakttv.db.room.MovieDao
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), FavoritesContract.FavoritesPresenter {
+class FavoritesPresenter(
+        private val movieDao: MovieDao
+) : BasePresenter<FavoritesContract.FavoritesView>(), FavoritesContract.FavoritesPresenter {
 
 
     override fun loadFavoriteMovies() {
-        val movieDao = MovieDatabase.movieDao
 
         compositeDisposable.add(movieDao.getFavorites()
                 .subscribeOn(Schedulers.computation())
@@ -52,7 +53,7 @@ class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), Fav
                 .firstOrError()
                 .toObservable()
                 .flatMap<Any> {
-                    MovieDatabase.movieDao.deleteMovie(name).toObservable()
+                    movieDao.deleteMovie(name).toObservable()
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete {

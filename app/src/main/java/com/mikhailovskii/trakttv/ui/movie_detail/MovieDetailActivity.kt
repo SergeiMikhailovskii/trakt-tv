@@ -3,22 +3,14 @@ package com.mikhailovskii.trakttv.ui.movie_detail
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
 import com.mikhailovskii.trakttv.util.errorToast
 import com.mikhailovskii.trakttv.util.successToast
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.DaggerAppCompatActivity
-import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_movie_detail.*
-import org.jetbrains.anko.toast
 import org.koin.android.scope.currentScope
-import javax.inject.Inject
 
 class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetailView {
 

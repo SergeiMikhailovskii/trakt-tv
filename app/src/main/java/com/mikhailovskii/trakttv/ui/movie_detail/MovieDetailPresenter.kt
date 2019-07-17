@@ -1,6 +1,6 @@
 package com.mikhailovskii.trakttv.ui.movie_detail
 
-import com.mikhailovskii.trakttv.data.api.MovieAPIFactory
+import com.mikhailovskii.trakttv.data.api.MovieAPI
 import com.mikhailovskii.trakttv.data.entity.Movie
 import com.mikhailovskii.trakttv.data.entity.Optional
 import com.mikhailovskii.trakttv.db.room.MovieDatabase
@@ -8,9 +8,10 @@ import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-class MovieDetailPresenter: BasePresenter<MovieDetailContract.MovieDetailView>(), MovieDetailContract.MovieDetailPresenter {
+class MovieDetailPresenter(
+        private val apiService: MovieAPI
+) : BasePresenter<MovieDetailContract.MovieDetailView>(), MovieDetailContract.MovieDetailPresenter {
 
     override fun loadMovieDetails(slugId: String?) {
         compositeDisposable.add(Observable.just(Optional(slugId))
@@ -20,7 +21,7 @@ class MovieDetailPresenter: BasePresenter<MovieDetailContract.MovieDetailView>()
                 .firstOrError()
                 .toObservable()
                 .map { it.get() }
-                .flatMap { MovieAPIFactory.getInstance().apiService.getExtendedInfo(it) }
+                .flatMap { apiService.getExtendedInfo(it) }
                 .flatMap { serverMovie ->
                     MovieDatabase.movieDao.getMovie(serverMovie.name!!)
                             .toObservable()

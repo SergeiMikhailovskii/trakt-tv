@@ -7,7 +7,9 @@ import com.crashlytics.android.ndk.CrashlyticsNdk
 import com.facebook.stetho.Stetho
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
+import com.mikhailovskii.trakttv.di.AppModule.apiModule
 import com.mikhailovskii.trakttv.di.AppModule.appModule
+import com.mikhailovskii.trakttv.di.AppModule.dbModule
 import com.mikhailovskii.trakttv.di.AppModule.mvpModule
 import io.fabric.sdk.android.Fabric
 import org.koin.android.ext.koin.androidContext
@@ -32,7 +34,7 @@ class TraktTvApp : Application() {
         startKoin {
             androidLogger()
             androidContext(this@TraktTvApp)
-            modules(appModule, mvpModule)
+            modules(appModule, apiModule, dbModule, mvpModule)
         }
 
         FirebaseInstanceId.getInstance().instanceId
