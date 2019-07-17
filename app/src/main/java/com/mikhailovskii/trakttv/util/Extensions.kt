@@ -1,8 +1,13 @@
 package com.mikhailovskii.trakttv.util
 
-import android.widget.Toast
 import com.mikhailovskii.trakttv.TraktTvApp
+import es.dmoral.toasty.Toasty
 
-fun toast(msg: String) {
-    Toast.makeText(TraktTvApp.appContext, msg, Toast.LENGTH_SHORT).show()
+
+fun errorToast(msg: String) {
+    Toasty.error(TraktTvApp.appContext, msg, Toasty.LENGTH_SHORT).show()
+}
+
+fun successToast(msg: String) {
+    Toasty.success(TraktTvApp.appContext, msg, Toasty.LENGTH_SHORT).show()
 }

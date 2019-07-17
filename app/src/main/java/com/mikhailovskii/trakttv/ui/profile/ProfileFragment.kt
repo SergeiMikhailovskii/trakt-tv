@@ -12,7 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.mikhailovskii.trakttv.R
 import com.mikhailovskii.trakttv.data.entity.User
 import com.mikhailovskii.trakttv.ui.login.LoginActivity
-import com.mikhailovskii.trakttv.util.toast
+import com.mikhailovskii.trakttv.util.errorToast
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -71,7 +71,7 @@ class ProfileFragment : DaggerFragment(), ProfileContract.ProfileView {
     }
 
     override fun onUserDataLoadedFailed() {
-        toast(getString(R.string.loading_failed))
+        errorToast(getString(R.string.loading_failed))
     }
 
     override fun showEmptyState(value: Boolean) {

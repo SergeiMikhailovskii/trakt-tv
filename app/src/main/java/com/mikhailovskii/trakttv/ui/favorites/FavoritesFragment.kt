@@ -17,7 +17,8 @@ import com.mikhailovskii.trakttv.di.scope.ActivityScoped
 import com.mikhailovskii.trakttv.ui.adapter.MoviesAdapter
 import com.mikhailovskii.trakttv.ui.movie_detail.MovieDetailActivity
 import com.mikhailovskii.trakttv.ui.movies_list.MovieListFragment
-import com.mikhailovskii.trakttv.util.toast
+import com.mikhailovskii.trakttv.util.errorToast
+import com.mikhailovskii.trakttv.util.successToast
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_favorites.*
@@ -80,16 +81,16 @@ class FavoritesFragment : DaggerFragment(), FavoritesContract.FavoritesView, Mov
     }
 
     override fun onMoviesFailed() {
-        toast(getString(R.string.loading_failed))
+        errorToast(getString(R.string.loading_failed))
     }
 
     override fun onMovieRemoved() {
-        toast(getString(R.string.movie_removed))
+        successToast(getString(R.string.movie_removed))
         presenter.loadFavoriteMovies()
     }
 
     override fun onMovieRemoveFailed() {
-        toast(getString(R.string.movie_remove_failed))
+        errorToast(getString(R.string.movie_remove_failed))
 
     }
 
