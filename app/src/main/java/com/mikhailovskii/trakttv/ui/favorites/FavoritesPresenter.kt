@@ -5,9 +5,8 @@ import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-class FavoritesPresenter @Inject constructor() : BasePresenter<FavoritesContract.FavoritesView>(), FavoritesContract.FavoritesPresenter {
+class FavoritesPresenter : BasePresenter<FavoritesContract.FavoritesView>(), FavoritesContract.FavoritesPresenter {
 
 
     override fun loadFavoriteMovies() {

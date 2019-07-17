@@ -5,7 +5,7 @@ import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import com.mikhailovskii.trakttv.util.Preference
 import javax.inject.Inject
 
-class ProfilePresenter @Inject constructor() : BasePresenter<ProfileContract.ProfileView>(), ProfileContract.ProfilePresenter {
+class ProfilePresenter : BasePresenter<ProfileContract.ProfileView>(), ProfileContract.ProfilePresenter {
 
     override fun getUser() {
         val user = Preference.getInstance(TraktTvApp.appContext).user
