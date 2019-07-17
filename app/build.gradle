@@ -102,7 +102,7 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.1'
 
     //Firebase
-    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-core:17.0.1'
     implementation 'com.google.firebase:firebase-database:18.0.0'
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
 
@@ -120,5 +120,8 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.23.2'
     kapt 'com.google.dagger:dagger-android-processor:2.23.2'
     kapt 'com.google.dagger:dagger-compiler:2.23.2'
+
+    //Toastie
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
 
 }
