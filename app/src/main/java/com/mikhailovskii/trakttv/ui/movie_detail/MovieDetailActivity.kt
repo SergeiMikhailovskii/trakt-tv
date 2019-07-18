@@ -92,6 +92,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
     }
 
     override fun onMoviesAdded() {
+        movie?.isFavorite = true
         successToast(getString(R.string.film_added))
     }
 
@@ -100,6 +101,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
     }
 
     override fun onMovieRemoved() {
+        movie?.isFavorite = false
         successToast(getString(R.string.movie_removed))
     }
 
