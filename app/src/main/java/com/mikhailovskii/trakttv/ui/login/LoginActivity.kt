@@ -23,6 +23,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
     private var callbackManager: CallbackManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         presenter.attachView(this)

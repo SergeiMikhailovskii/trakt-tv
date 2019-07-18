@@ -29,7 +29,9 @@
             android:name=".ui.movie_detail.MovieDetailActivity"
             android:parentActivityName=".ui.main.MainActivity" />
 
-        <activity android:name=".ui.login.LoginActivity">
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
