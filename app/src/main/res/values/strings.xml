@@ -44,7 +44,7 @@
     <!--Favorites-->
     <string name="movie_removed">Movie removed</string>
     <string name="movie_remove_failed">Movie Remove failed</string>
-
+    <string name="or">or</string>
 
 
 </resources>
