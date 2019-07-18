@@ -15,6 +15,7 @@
     <string name="login_failed">Login failed!</string>
     <string name="enter_login">Enter login!</string>
     <string name="enter_password">Enter password!</string>
+    <string name="or">or login with</string>
 
     <!--Bottom Navigation-->
     <string name="movie">Movie</string>
@@ -44,7 +45,6 @@
     <!--Favorites-->
     <string name="movie_removed">Movie removed</string>
     <string name="movie_remove_failed">Movie Remove failed</string>
-    <string name="or">or</string>
 
 
 </resources>

@@ -52,6 +52,10 @@ class LoginActivity : AppCompatActivity(), LoginContract.LoginView {
                 }
             }
 
+            btn_fb.setOnClickListener{
+                btn_facebook_login.performClick()
+            }
+
             // Facebook logic
             callbackManager = CallbackManager.Factory.create()
             btn_facebook_login.setPermissions(FB_EMAIL_PERMISSION)

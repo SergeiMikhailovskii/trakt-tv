@@ -97,7 +97,8 @@
             android:layout_gravity="center"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/or" />
+            android:text="@string/or"
+            android:textColor="@color/colorPrimaryDark" />
 
         <View
             android:layout_width="100dp"
@@ -107,6 +108,20 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_fb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/log_in_with_facebook"
+        android:background="@drawable/facebook_button_shape"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/separator_line"/>
+
     <com.facebook.login.widget.LoginButton
         android:id="@+id/btn_facebook_login"
         android:layout_width="match_parent"
@@ -115,6 +130,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/log_in_with_facebook"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/separator_line" />
