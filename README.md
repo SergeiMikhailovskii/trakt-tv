@@ -4,4 +4,4 @@ App which uses API methods of Trakt TV to get list of trending movies and extend
 
 Programming languages: Java and Kotlin
 
-Used technologies: Retrofit, Glide, RX, Room.
+Used technologies: Retrofit, Glide, RX, Room, Dagger, Koin.
