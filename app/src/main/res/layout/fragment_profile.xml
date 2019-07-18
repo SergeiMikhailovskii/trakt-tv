@@ -6,6 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_background_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_log_out"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="@dimen/base_margin"
+            android:src="@drawable/logout"
+            app:layout_anchor="@+id/iv_background_avatar"
+            app:layout_anchorGravity="end|bottom" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_avatar"
@@ -28,7 +57,7 @@
         android:layout_marginEnd="@dimen/base_margin"
         android:text="@string/login"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
+        app:layout_constraintTop_toBottomOf="@id/coordinator_layout" />
 
     <TextView
         android:id="@+id/tv_id"
@@ -50,19 +79,10 @@
         android:layout_marginEnd="@dimen/base_margin"
         android:autoLink="email"
         android:clickable="true"
+        android:focusable="true"
         android:text="@string/email"
         android:textAlignment="center"
         app:layout_constraintTop_toBottomOf="@id/tv_id" />
 
-    <Button
-        android:id="@+id/btn_log_out"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/base_margin"
-        android:layout_marginBottom="@dimen/base_margin"
-        android:text="@string/log_out"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
