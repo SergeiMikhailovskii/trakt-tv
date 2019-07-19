@@ -30,15 +30,15 @@
     <!--List-->
     <string name="no_films">No films</string>
     <string name="loading_failed">Loading failed</string>
-
-    <!--Detail-->
     <string name="year">Year: %1$d</string>
     <string name="watchers">Watchers: %1$d</string>
+
+    <!--Detail-->
     <string name="no_information">No information</string>
     <string name="country">Country: %1$s</string>
-    <string name="released">Released: %1$s</string>
-    <string name="runtime">Runtime: %1$d</string>
-    <string name="tagline">Tagline: %1$s</string>
+    <string name="released">Released:\n %1$s</string>
+    <string name="runtime">Runtime:\n %1$d</string>
+    <string name="tagline">Tagline:\n %1$s</string>
     <string name="adding_failed">Adding failed</string>
     <string name="film_added">Film added!</string>
 

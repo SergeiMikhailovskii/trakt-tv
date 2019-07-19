@@ -47,9 +47,6 @@ class FavoritesPresenter(
 
         compositeDisposable.add(Observable.just(name)
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe {
-                    view?.showLoadingIndicator(true)
-                }
                 .firstOrError()
                 .toObservable()
                 .flatMap<Any> {
@@ -62,7 +59,6 @@ class FavoritesPresenter(
                 .doOnError {
                     view?.onMovieRemoveFailed()
                 }
-                .doAfterTerminate { view?.showLoadingIndicator(false) }
                 .subscribe()
         )
 
