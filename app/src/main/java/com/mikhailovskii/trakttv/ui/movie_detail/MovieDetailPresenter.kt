@@ -58,9 +58,6 @@ class MovieDetailPresenter(
     override fun removeMovieFromFavorites(name: String) {
         compositeDisposable.add(Observable.just(name)
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe {
-                    view?.showLoadingIndicator(true)
-                }
                 .firstOrError()
                 .toObservable()
                 .flatMap<Any> {
@@ -73,7 +70,6 @@ class MovieDetailPresenter(
                 .doOnError {
                     view?.onMovieRemoveFailed()
                 }
-                .doAfterTerminate { view?.showLoadingIndicator(false) }
                 .subscribe()
         )
 

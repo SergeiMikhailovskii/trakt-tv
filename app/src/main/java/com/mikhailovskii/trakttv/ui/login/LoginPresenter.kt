@@ -15,6 +15,7 @@ import com.mikhailovskii.trakttv.util.Preference
 import org.json.JSONException
 
 class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.LoginPresenter {
+
     override fun checkUserLoggedIn(): Boolean {
         return Preference.getInstance(TraktTvApp.appContext).user != null
     }
@@ -45,10 +46,12 @@ class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.L
         ) { _, response ->
             try {
 
-                if (response.jsonObject != null) {
+                if (response.jsonObject != null && Profile.getCurrentProfile() != null) {
                     val data = response.jsonObject
                     var email: String? = null
                     var id: String? = null
+                    val token: String? = loginResult.accessToken.token
+                    val name: String? = Profile.getCurrentProfile().name
 
                     if (data.has(FB_EMAIL_PERMISSION)) {
                         email = response.jsonObject.getString(FB_EMAIL_PERMISSION)
@@ -58,17 +61,25 @@ class LoginPresenter : BasePresenter<LoginContract.LoginView>(), LoginContract.L
                         id = response.jsonObject.getString(FB_ID_PERMISSION)
                     }
 
-                    val bundle = bundleOf(
-                            EXTRA_TOKEN to loginResult.accessToken.token,
-                            EXTRA_EMAIL to email,
-                            EXTRA_ID to id,
-                            EXTRA_AVATAR to "https://graph.facebook.com/v2.2/$id/picture?height=120&type=normal",
-                            EXTRA_LOGIN to Profile.getCurrentProfile().name
-                    )
+                    if (token != null) {
+                        val bundle = bundleOf(
+                                EXTRA_TOKEN to token,
+                                EXTRA_EMAIL to email,
+                                EXTRA_ID to id,
+                                EXTRA_AVATAR to "https://graph.facebook.com/v2.2/$id/picture?height=120&type=normal",
+                                EXTRA_LOGIN to name
+                        )
 
-                    saveUserData(bundle)
+                        saveUserData(bundle)
 
+                    } else {
+                        view?.onLoginFailed()
+                    }
+
+                } else {
+                    view?.onLoginFailed()
                 }
+
             } catch (e: JSONException) {
                 e.printStackTrace()
             }

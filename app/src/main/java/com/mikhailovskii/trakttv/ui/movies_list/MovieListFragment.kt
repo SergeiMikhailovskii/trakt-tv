@@ -43,6 +43,7 @@ class MovieListFragment : Fragment(), MovieListContract.MovieListView, MoviesAda
 
         movies_list.layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.rows))
         movies_list.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), DividerItemDecoration.VERTICAL))
+        movies_list.setDemoLayoutReference(R.layout.movie_placeholder)
         adapter = MoviesAdapter(this)
         movies_list.adapter = adapter
 

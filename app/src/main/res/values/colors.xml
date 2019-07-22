@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">#FF0000</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#FF0000</color>
+    <color name="colorAccent">#BF360C</color>
     <color name="menu_text">#FFFFFF</color>
     <color name="menu_icon">#FFFFFF</color>
+    <color name="movie_icon_border">#808080</color>
 </resources>
