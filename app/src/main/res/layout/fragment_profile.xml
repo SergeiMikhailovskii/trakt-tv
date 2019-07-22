@@ -9,13 +9,29 @@
     <ImageView
         android:id="@+id/iv_background_avatar"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:src="@drawable/profile_background"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginBottom="26dp"
+        android:adjustViewBounds="false"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_background_avatar"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@+id/iv_background_avatar"
+        app:layout_constraintStart_toStartOf="@+id/iv_background_avatar"
+        app:layout_constraintTop_toTopOf="@+id/iv_background_avatar"
+        app:layout_constraintVertical_bias="0.39"
+        tools:src="@tools:sample/avatars" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_log_out"
@@ -23,22 +39,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/base_margin"
         android:background="@color/colorPrimary"
-        android:elevation="32dp"
+        android:elevation="10dp"
         android:src="@drawable/logout"
-        app:layout_constraintBottom_toBottomOf="@id/iv_background_avatar"
+        android:tint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_background_avatar" />
-
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_avatar"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="@dimen/base_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintTop_toBottomOf="@id/guideline" />
 
     <LinearLayout
         android:id="@+id/textviews_layout"
@@ -137,6 +143,13 @@
 
 
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
