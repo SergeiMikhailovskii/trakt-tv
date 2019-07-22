@@ -10,9 +10,9 @@
         android:id="@+id/iv_background_avatar"
         android:layout_width="282dp"
         android:layout_height="match_parent"
+        android:background="@drawable/profile_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/profile_background"
         tools:ignore="ContentDescription" />
 
 
@@ -128,15 +128,17 @@
 
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_log_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base_margin"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="@dimen/base_margin"
+        android:src="@drawable/logout"
+        android:tint="@android:color/white"
         android:text="@string/log_out"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/iv_avatar" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
