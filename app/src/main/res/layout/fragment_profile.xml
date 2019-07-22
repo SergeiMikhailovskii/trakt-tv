@@ -61,6 +61,7 @@
             tools:ignore="UseCompoundDrawables">
 
             <ImageView
+                android:id="@+id/iv_login"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_person"
@@ -86,9 +87,11 @@
             tools:ignore="UseCompoundDrawables">
 
             <ImageView
+                android:id="@+id/iv_id"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_id"
+                android:visibility="gone"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -98,7 +101,6 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/base_margin"
                 android:layout_marginEnd="@dimen/base_margin"
-                android:text="@string/id"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16sp" />
 
@@ -112,9 +114,11 @@
             tools:ignore="UseCompoundDrawables">
 
             <ImageView
+                android:id="@+id/iv_email"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_email"
+                android:visibility="gone"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -127,7 +131,6 @@
                 android:autoLink="email"
                 android:clickable="true"
                 android:focusable="true"
-                android:text="@string/email"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16sp" />
 

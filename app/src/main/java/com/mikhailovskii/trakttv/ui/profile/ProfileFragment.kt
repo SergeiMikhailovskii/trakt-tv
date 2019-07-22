@@ -58,8 +58,15 @@ class ProfileFragment : Fragment(), ProfileContract.ProfileView {
                 .placeholder(R.drawable.ic_error_profile)
                 .into(iv_avatar)
 
-        tv_email.text = user.email
-        tv_id.text = user.id
+        if (user.email != null) {
+            iv_email.visibility = View.VISIBLE
+            tv_email.text = user.email
+        }
+
+        if (user.id != null) {
+            iv_id.visibility = View.VISIBLE
+            tv_id.text = user.id
+        }
         tv_login.text = user.username
     }
 
