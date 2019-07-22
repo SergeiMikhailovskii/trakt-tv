@@ -1,5 +1,6 @@
 package com.mikhailovskii.trakttv.ui.profile
 
+import com.facebook.login.LoginManager
 import com.mikhailovskii.trakttv.TraktTvApp
 import com.mikhailovskii.trakttv.ui.base.BasePresenter
 import com.mikhailovskii.trakttv.util.Preference
@@ -19,6 +20,7 @@ class ProfilePresenter : BasePresenter<ProfileContract.ProfileView>(), ProfileCo
 
     override fun logOut() {
         Preference.getInstance(TraktTvApp.appContext).user = null
+        LoginManager.getInstance().logOut()
         view?.onLogOutSuccess()
     }
 

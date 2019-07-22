@@ -68,6 +68,8 @@ class MovieDetailActivity : AppCompatActivity(), MovieDetailContract.MovieDetail
     override fun onMovieDetailsLoaded(movie: Movie) {
         this.movie = movie
 
+        textviews_layout.visibility = View.VISIBLE
+
         tv_toolbar_title.text = movie.name
         tv_description.text = movie.overview
         tv_year.text = getString(R.string.year, movie.year)

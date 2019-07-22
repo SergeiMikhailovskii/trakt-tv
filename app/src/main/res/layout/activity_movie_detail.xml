@@ -75,11 +75,13 @@
                     tools:ignore="ContentDescription" />
 
                 <LinearLayout
+                    android:id="@+id/textviews_layout"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:alpha="0.7"
                     android:background="@color/colorPrimary"
                     android:orientation="vertical"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/iv_movie"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
